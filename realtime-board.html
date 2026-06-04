@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K-Logistics — 실시간 물류 상황판</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;font-size:13px;line-height:1.5;color:#1a1a1a;background:#fff;-webkit-font-smoothing:antialiased}
+button{font-family:'Inter',sans-serif;cursor:pointer;border:none;background:none}
+:root{
+  --green:#3ecf8e;--green-dk:#2bb37a;--green-bg:#f0fdf9;--green-bd:#a7f3d0;
+  --border:#e5e7eb;--border2:#d1d5db;
+  --bg:#fff;--bg2:#f9fafb;--bg3:#f3f4f6;
+  --txt1:#1a1a1a;--txt2:#6b7280;--txt3:#9ca3af;
+  --sb-w:48px;--sb-open:220px;
+  --red:#ef4444;--red-bg:#fef2f2;--red-bd:#fca5a5;
+  --amber:#f59e0b;--amber-bg:#fffbeb;--amber-bd:#fde68a;
+  --blue:#3b82f6;--blue-bg:#eff6ff;--blue-bd:#bfdbfe;
+  --purple:#8b5cf6;--purple-bg:#f5f3ff;--purple-bd:#ddd6fe;
+  --mono:'JetBrains Mono',monospace;
+  --L1:#3ecf8e;--L2:#3b82f6;--L3:#8b5cf6;--L4:#f59e0b;--L5:#ef4444;
+}
+.app{display:flex;height:100vh;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;bottom:0;z-index:300;width:var(--sb-w);background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transition:width .18s ease}
+.sidebar:hover{width:var(--sb-open)}
+.sb-inner{width:var(--sb-open);flex:1;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+.sb-top{height:48px;flex-shrink:0;display:flex;align-items:center;padding:0 12px;gap:10px;border-bottom:1px solid var(--border)}
+.sb-logo{width:24px;height:24px;border-radius:5px;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-logo svg{width:13px;height:13px;stroke:#fff;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sb-logo-txt{font-size:13px;font-weight:600;opacity:0;transition:opacity .12s;white-space:nowrap}
+.sidebar:hover .sb-logo-txt{opacity:1}
+.sb-sec{padding:16px 0 4px 12px;font-size:11px;font-weight:600;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase;opacity:0;transition:opacity .12s;height:30px;display:flex;align-items:flex-end;white-space:nowrap}
+.sidebar:hover .sb-sec{opacity:1}
+.sb-item{display:flex;align-items:center;height:34px;padding:0 10px;margin:1px 6px;border-radius:6px;color:var(--txt2);cursor:pointer;white-space:nowrap;transition:background .12s,color .12s;font-size:13px;position:relative}
+.sb-item:hover{background:var(--bg3);color:var(--txt1)}
+.sb-item.active{background:var(--bg3);color:var(--txt1);font-weight:500}
+.sb-item.active::before{content:'';position:absolute;left:-6px;top:50%;transform:translateY(-50%);width:2px;height:16px;background:var(--green);border-radius:0 2px 2px 0}
+.sb-icon{width:16px;height:16px;flex:0 0 16px;display:flex;align-items:center;justify-content:center}
+.sb-icon svg{width:15px;height:15px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sb-lbl{opacity:0;transition:opacity .12s;margin-left:10px;white-space:nowrap;flex:1}
+.sidebar:hover .sb-lbl{opacity:1}
+.sb-pill{font-size:9px;font-weight:600;padding:1px 5px;border-radius:3px;opacity:0;transition:opacity .12s;margin-left:auto;border:1px solid}
+.sidebar:hover .sb-pill{opacity:1}
+.sb-foot{border-top:1px solid var(--border);padding:8px 6px;flex-shrink:0;width:var(--sb-open);margin-top:auto}
+.sb-user{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;cursor:pointer;transition:background .12s}
+.sb-user:hover{background:var(--bg3)}
+.sb-av{width:24px;height:24px;border-radius:50%;background:var(--green-bg);border:1px solid var(--green-bd);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#1d6f4e;flex-shrink:0}
+.sb-uname{font-size:12px;font-weight:500;opacity:0;transition:opacity .12s;white-space:nowrap}
+.sb-urole{font-size:10px;color:var(--txt3);opacity:0;transition:opacity .12s}
+.sidebar:hover .sb-uname,.sidebar:hover .sb-urole{opacity:1}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;margin-left:var(--sb-w)}
+.topbar{height:48px;flex-shrink:0;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:10px}
+.tb-title{font-size:14px;font-weight:600}
+.tb-sep{width:1px;height:16px;background:var(--border2)}
+.tb-sub{font-size:12px;color:var(--txt3)}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.badge-live{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:#1d6f4e;background:var(--green-bg);border:1px solid var(--green-bd);border-radius:4px;padding:2px 8px}
+.badge-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.clock{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--txt2);background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:3px 9px}
+.btn-sm{display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:5px;font-size:12px;font-weight:500;border:1px solid var(--border2);color:var(--txt2);background:var(--bg);cursor:pointer;transition:background .12s;white-space:nowrap}
+.btn-sm:hover{background:var(--bg3)}
+
+/* LAYER STRIP */
+.layer-strip{background:var(--bg);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;height:38px;flex-shrink:0}
+.l-tab{display:flex;align-items:center;gap:6px;padding:0 12px;height:100%;cursor:pointer;border-bottom:2px solid transparent;font-size:12px;font-weight:500;color:var(--txt3);transition:color .12s;white-space:nowrap}
+.l-tab:hover{color:var(--txt1)}
+.l-tab.active{color:var(--txt1);border-bottom-color:var(--green)}
+.l-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.l-ct{font-family:var(--mono);font-size:10px;padding:1px 5px;border-radius:3px;background:var(--bg3);border:1px solid var(--border)}
+.l-sep{width:1px;height:18px;background:var(--border);margin:0 4px}
+
+/* BODY */
+.body{flex:1;display:flex;overflow:hidden}
+.map-area{flex:1;position:relative;background:var(--bg3);overflow:hidden}
+#kakao-map{width:100%;height:100%}
+.map-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--txt3);font-size:12px}
+.map-loading{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* MAP OVERLAY */
+.map-overlay-tl{position:absolute;top:12px;left:12px;z-index:10;display:flex;flex-direction:column;gap:8px}
+.map-card{background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:6px;padding:10px 12px;backdrop-filter:blur(6px);min-width:160px}
+.mc-title{font-size:10px;font-weight:600;color:var(--txt3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.mc-stat{display:flex;justify-content:space-between;font-size:11px;padding:2px 0}
+.mc-lbl{color:var(--txt2)}
+.mc-val{font-weight:600;color:var(--txt1)}
+.mc-val.green{color:var(--green-dk)}
+.mc-val.amber{color:#92400e}
+.mc-val.red{color:var(--red)}
+
+/* LEGEND */
+.legend{background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:6px;padding:10px 12px;backdrop-filter:blur(6px)}
+.leg-row{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--txt2);margin-bottom:4px}
+.leg-row:last-child{margin-bottom:0}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* SIDE PANEL */
+.side-panel{width:280px;border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+.sp-head{padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.sp-body{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.sp-body::-webkit-scrollbar{width:3px}
+.sp-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+/* EVENT LIST */
+.ev-item{padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
+.ev-item:hover{background:var(--bg2)}
+.ev-item:last-child{border-bottom:none}
+.ev-row1{display:flex;align-items:center;gap:6px;margin-bottom:2px}
+.ev-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.ev-type{font-size:11px;font-weight:500;color:var(--txt1);flex:1}
+.ev-time{font-family:var(--mono);font-size:10px;color:var(--txt3)}
+.ev-desc{font-size:11px;color:var(--txt2);line-height:1.4;margin-left:12px}
+.ev-loc{font-size:10px;color:var(--txt3);margin-left:12px;margin-top:1px}
+
+/* QUEUE */
+.q-item{padding:8px 14px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
+.q-item:last-child{border-bottom:none}
+.q-level{font-family:var(--mono);font-size:9px;font-weight:600;padding:2px 5px;border-radius:3px;flex-shrink:0;margin-top:1px;border:1px solid}
+.q-body{flex:1}
+.q-route{font-size:11px;font-weight:500;color:var(--txt1)}
+.q-meta{font-size:10px;color:var(--txt3);margin-top:1px}
+
+/* TABS */
+.sp-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
+.sp-tab{flex:1;padding:7px 0;text-align:center;font-size:11px;font-weight:500;color:var(--txt3);cursor:pointer;border-bottom:2px solid transparent;transition:all .12s}
+.sp-tab.active{color:var(--txt1);border-bottom-color:var(--green)}
+.sp-tab:hover:not(.active){color:var(--txt2)}
+
+/* TOAST */
+.toast{position:fixed;bottom:16px;right:296px;z-index:999;background:var(--txt1);color:#fff;border-radius:6px;padding:7px 14px;font-size:12px;font-weight:500;opacity:0;transform:translateY(6px);transition:all .2s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+<div class="sb-inner">
+  <div class="sb-top">
+    <div class="sb-logo"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
+    <span class="sb-logo-txt">K-Logistics</span>
+  </div>
+  <div class="sb-sec">레이어</div>
+  <div class="sb-item active" onclick="setLayer('all',this)">
+    <span class="sb-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
+    <span class="sb-lbl">전체</span>
+    <span class="sb-pill" style="color:var(--green-dk);border-color:var(--green-bd);background:var(--green-bg)">892K</span>
+  </div>
+  <div class="sb-item" onclick="setLayer('truck',this)">
+    <span class="sb-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
+    <span class="sb-lbl">화물차</span>
+    <span class="sb-pill" style="color:var(--txt2);border-color:var(--border)">438K</span>
+  </div>
+  <div class="sb-item" onclick="setLayer('bike',this)">
+    <span class="sb-icon"><svg viewBox="0 0 24 24"><circle cx="5" cy="18" r="3"/><circle cx="19" cy="18" r="3"/><path d="M5 18L9 6M9 6h6l3 12M9 6l3 4"/></svg></span>
+    <span class="sb-lbl">이륜차</span>
+    <span class="sb-pill" style="color:var(--txt2);border-color:var(--border)">412K</span>
+  </div>
+  <div class="sb-item" onclick="setLayer('drone',this)">
+    <span class="sb-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"/><circle cx="12" cy="10" r="4"/><path d="M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+    <span class="sb-lbl">드론</span>
+    <span class="sb-pill" style="color:var(--purple);border-color:var(--purple-bd);background:var(--purple-bg)">42K</span>
+  </div>
+  <div class="sb-item" onclick="setLayer('cold',this)">
+    <span class="sb-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+    <span class="sb-lbl">냉장·냉동</span>
+    <span class="sb-pill" style="color:var(--blue);border-color:var(--blue-bd);background:var(--blue-bg)">18K</span>
+  </div>
+  <div class="sb-item" onclick="setLayer('hub',this)">
+    <span class="sb-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+    <span class="sb-lbl">허브·창고</span>
+    <span class="sb-pill" style="color:var(--amber);border-color:var(--amber-bd);background:var(--amber-bg)">3.8K</span>
+  </div>
+  <div class="sb-sec">이상 탐지</div>
+  <div class="sb-item" onclick="setLayer('alert',this)">
+    <span class="sb-icon"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+    <span class="sb-lbl">이상 감지</span>
+    <span class="sb-pill" style="color:var(--red);border-color:var(--red-bd);background:var(--red-bg)">341</span>
+  </div>
+  <div class="sb-foot">
+    <div class="sb-user">
+      <div class="sb-av" id="sb-av">?</div>
+      <div>
+        <div class="sb-uname" id="sb-uname">미인증</div>
+        <div class="sb-urole">관제 요원</div>
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <span class="tb-title">실시간 물류 상황판</span>
+    <span class="tb-sep"></span>
+    <span class="tb-sub">K-Logistics · Kakao Maps + OpenHash</span>
+    <div class="tb-right">
+      <span class="badge-live">LIVE</span>
+      <span class="clock" id="clock">--:--:--</span>
+      <button class="btn-sm" onclick="toggleMapType()">🛰 위성 전환</button>
+      <button class="btn-sm" onclick="location.href='national-dashboard.html'">📊 국가 대시보드 →</button>
+    </div>
+  </div>
+
+  <!-- LAYER TABS -->
+  <div class="layer-strip">
+    <div class="l-tab active" onclick="setOpenhashLevel('all',this)">
+      <div class="l-dot" style="background:var(--green)"></div>전체
+      <span class="l-ct">892K</span>
+    </div>
+    <div class="l-sep"></div>
+    <div class="l-tab" onclick="setOpenhashLevel('L1',this)">
+      <div class="l-dot" style="background:var(--L1)"></div>L1 읍면동
+      <span class="l-ct">248K</span>
+    </div>
+    <div class="l-tab" onclick="setOpenhashLevel('L2',this)">
+      <div class="l-dot" style="background:var(--L2)"></div>L2 시군구
+      <span class="l-ct">319K</span>
+    </div>
+    <div class="l-tab" onclick="setOpenhashLevel('L3',this)">
+      <div class="l-dot" style="background:var(--L3)"></div>L3 광역
+      <span class="l-ct">248K</span>
+    </div>
+    <div class="l-tab" onclick="setOpenhashLevel('L4',this)">
+      <div class="l-dot" style="background:var(--L4)"></div>L4 국가
+      <span class="l-ct">72K</span>
+    </div>
+    <div class="l-tab" onclick="setOpenhashLevel('L5',this)">
+      <div class="l-dot" style="background:var(--L5)"></div>L5 글로벌
+      <span class="l-ct">5K</span>
+    </div>
+    <div class="l-sep"></div>
+    <div class="l-tab" onclick="setOpenhashLevel('alert',this)" style="color:var(--red)">
+      <div class="l-dot" style="background:var(--red)"></div>이상 탐지
+      <span class="l-ct" style="color:var(--red);border-color:var(--red-bd)">341</span>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+    <!-- MAP -->
+    <div class="map-area">
+      <div id="kakao-map">
+        <div class="map-placeholder">
+          <div class="map-loading" id="map-spinner"></div>
+          <span id="map-status">Kakao Maps 로딩 중…</span>
+        </div>
+      </div>
+
+      <!-- 통계 오버레이 -->
+      <div class="map-overlay-tl">
+        <div class="map-card">
+          <div class="mc-title">실시간 운송</div>
+          <div class="mc-stat"><span class="mc-lbl">배송 중</span><span class="mc-val green" id="ov-transit">892,441</span></div>
+          <div class="mc-stat"><span class="mc-lbl">대기 중</span><span class="mc-val">12,441</span></div>
+          <div class="mc-stat"><span class="mc-lbl">지연 중</span><span class="mc-val amber">41,222</span></div>
+          <div class="mc-stat"><span class="mc-lbl">이상 감지</span><span class="mc-val red">341</span></div>
+        </div>
+        <div class="legend">
+          <div class="mc-title">범례</div>
+          <div class="leg-row"><div class="leg-dot" style="background:var(--green)"></div>화물차 정상</div>
+          <div class="leg-row"><div class="leg-dot" style="background:var(--blue)"></div>이륜차</div>
+          <div class="leg-row"><div class="leg-dot" style="background:var(--purple)"></div>드론</div>
+          <div class="leg-row"><div class="leg-dot" style="background:var(--amber)"></div>처리 지연</div>
+          <div class="leg-row"><div class="leg-dot" style="background:var(--red)"></div>이상 감지</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDE PANEL -->
+    <div class="side-panel">
+      <div class="sp-tabs">
+        <div class="sp-tab active" onclick="setSpTab('events',this)">실시간 이벤트</div>
+        <div class="sp-tab" onclick="setSpTab('queue',this)">수요 큐</div>
+        <div class="sp-tab" onclick="setSpTab('hubs',this)">허브 현황</div>
+      </div>
+
+      <!-- 실시간 이벤트 -->
+      <div class="sp-body" id="tab-events">
+        <div class="ev-item">
+          <div class="ev-row1"><div class="ev-dot" style="background:var(--amber)"></div><span class="ev-type">창고 포화 경고</span><span class="ev-time">방금</span></div>
+          <div class="ev-desc">광주 광산구 물류센터 가동률 92% 초과</div>
+          <div class="ev-loc">📍 광주 광산구 · AI 재배분 중</div>
+        </div>
+        <div class="ev-item">
+          <div class="ev-row1"><div class="ev-dot" style="background:var(--green)"></div><span class="ev-type">릴레이 인수인계 완료</span><span class="ev-time">2분 전</span></div>
+          <div class="ev-desc">천안삼거리휴게소 · 냉동 수산물 50kg 차량2 인수</div>
+          <div class="ev-loc">📍 충남 천안 · OpenHash 기록 완료</div>
+        </div>
+        <div class="ev-item">
+          <div class="ev-row1"><div class="ev-dot" style="background:var(--red)"></div><span class="ev-type">온도 이탈 감지</span><span class="ev-time">5분 전</span></div>
+          <div class="ev-desc">냉장 탑차 내부 온도 12℃ (요구: 0~5℃)</div>
+          <div class="ev-loc">📍 전북 전주 · 현장 점검 요청됨</div>
+        </div>
+        <div class="ev-item">
+          <div class="ev-row1"><div class="ev-dot" style="background:var(--blue)"></div><span class="ev-type">인천항 통관 완료</span><span class="ev-time">8분 전</span></div>
+          <div class="ev-desc">수입 컨테이너 2,341개 통관 완료 · K-Tax 연동</div>
+          <div class="ev-loc">📍 인천항 3부두</div>
+        </div>
+        <div class="ev-item">
+          <div class="ev-row1"><div class="ev-dot" style="background:var(--green)"></div><span class="ev-type">제주 농산물 출하</span><span class="ev-time">11분 전</span></div>
+          <div class="ev-desc">한림읍 감귤 3.8톤 제주항 선적 완료</div>
+          <div class="ev-loc">📍 제주 한림항 · PDV 기록 완료</div>
+        </div>
+        <div class="ev-item">
+          <div class="ev-row1"><div class="ev-dot" style="background:var(--amber)"></div><span class="ev-type">경로 이탈 감지</span><span class="ev-time">14분 전</span></div>
+          <div class="ev-desc">화물차 대전→서울 경로 이탈 · 운전자 알림 발송</div>
+          <div class="ev-loc">📍 경부고속도로 · 정상 복귀 확인 중</div>
+        </div>
+        <div class="ev-item">
+          <div class="ev-row1"><div class="ev-dot" style="background:var(--green)"></div><span class="ev-type">평택 허브 신기록</span><span class="ev-time">24분 전</span></div>
+          <div class="ev-desc">일 처리량 812,341건 — 역대 최고</div>
+          <div class="ev-loc">📍 경기 평택 메가 허브</div>
+        </div>
+      </div>
+
+      <!-- 수요 큐 -->
+      <div class="sp-body" id="tab-queue" style="display:none">
+        <div style="padding:8px 14px;font-size:10px;font-weight:600;color:var(--txt3);text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border)">
+          매칭 대기 — 14건
+        </div>
+        <div class="q-item">
+          <span class="q-level" style="color:var(--L2);border-color:#bfdbfe;background:var(--blue-bg)">L2</span>
+          <div class="q-body">
+            <div class="q-route">제주 한경면 → 제주도청</div>
+            <div class="q-meta">감귤 2박스 · 즉시 · 5 GDC 예상</div>
+          </div>
+        </div>
+        <div class="q-item">
+          <span class="q-level" style="color:var(--L4);border-color:var(--amber-bd);background:var(--amber-bg)">L4</span>
+          <div class="q-body">
+            <div class="q-route">부산 해운대 → 서울 강남</div>
+            <div class="q-meta">냉동 수산물 50kg · 릴레이 2대 · 52 GDC</div>
+          </div>
+        </div>
+        <div class="q-item">
+          <span class="q-level" style="color:var(--L3);border-color:var(--purple-bd);background:var(--purple-bg)">L3</span>
+          <div class="q-body">
+            <div class="q-route">인천 → 창원</div>
+            <div class="q-meta">전자부품 3박스 · 즉시 · 38 GDC</div>
+          </div>
+        </div>
+        <div class="q-item">
+          <span class="q-level" style="color:var(--L1);border-color:var(--green-bd);background:var(--green-bg)">L1</span>
+          <div class="q-body">
+            <div class="q-route">광주 광산구 내</div>
+            <div class="q-meta">소화물 · 오토바이 · 2 GDC</div>
+          </div>
+        </div>
+        <div class="q-item">
+          <span class="q-level" style="color:var(--L5);border-color:var(--red-bd);background:var(--red-bg)">L5</span>
+          <div class="q-body">
+            <div class="q-route">인천항 → 일본 오사카항</div>
+            <div class="q-meta">수출 컨테이너 · 해운 · K-Tax 연동</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 허브 현황 -->
+      <div class="sp-body" id="tab-hubs" style="display:none">
+        <div style="padding:8px 14px;font-size:10px;font-weight:600;color:var(--txt3);text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border)">
+          주요 허브 — 6개소
+        </div>
+        <div class="q-item">
+          <span class="q-level" style="color:var(--green-dk);border-color:var(--green-bd);background:var(--green-bg)">68%</span>
+          <div class="q-body"><div class="q-route">평택 메가 허브</div><div class="q-meta">820,000㎡ · 정상 · 일 812K건</div></div>
+        </div>
+        <div class="q-item">
+          <span class="q-level" style="color:#92400e;border-color:var(--amber-bd);background:var(--amber-bg)">81%</span>
+          <div class="q-body"><div class="q-route">인천 스마트 물류</div><div class="q-meta">450,000㎡ · 주의 · 항만 연동</div></div>
+        </div>
+        <div class="q-item">
+          <span class="q-level" style="color:var(--green-dk);border-color:var(--green-bd);background:var(--green-bg)">72%</span>
+          <div class="q-body"><div class="q-route">부산 신항 허브</div><div class="q-meta">380,000㎡ · 정상 · 수출입</div></div>
+        </div>
+        <div class="q-item">
+          <span class="q-level" style="color:#991b1b;border-color:var(--red-bd);background:var(--red-bg)">92%</span>
+          <div class="q-body"><div class="q-route">광주 서남권 허브</div><div class="q-meta">180,000㎡ · 포화 · 재배분 중</div></div>
+        </div>
+        <div class="q-item">
+          <span class="q-level" style="color:#92400e;border-color:var(--amber-bd);background:var(--amber-bg)">78%</span>
+          <div class="q-body"><div class="q-route">구미 제조 물류</div><div class="q-meta">160,000㎡ · 설비 오류 · 우회 중</div></div>
+        </div>
+        <div class="q-item">
+          <span class="q-level" style="color:var(--green-dk);border-color:var(--green-bd);background:var(--green-bg)">65%</span>
+          <div class="q-body"><div class="q-route">대구 내륙 허브</div><div class="q-meta">210,000㎡ · 정상 · 영남권</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PROXY = 'https://gopang-proxy.tensor-city.workers.dev';
+
+// 시계
+function tick() {
+  document.getElementById('clock').textContent =
+    new Date().toLocaleTimeString('ko-KR', { hour12: false });
+}
+tick(); setInterval(tick, 1000);
+
+// 탭
+function setLayer(layer, el) {
+  document.querySelectorAll('.sidebar .sb-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  showToast(`레이어: ${el.querySelector('.sb-lbl').textContent}`);
+}
+function setOpenhashLevel(lvl, el) {
+  document.querySelectorAll('.l-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+function setSpTab(tab, el) {
+  document.querySelectorAll('.sp-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  ['events','queue','hubs'].forEach(id => {
+    document.getElementById('tab-'+id).style.display = id === tab ? 'block' : 'none';
+  });
+}
+
+let _satellite = false;
+function toggleMapType() {
+  _satellite = !_satellite;
+  if (window._kakaoMap) {
+    _kakaoMap.setMapTypeId(
+      _satellite ? kakao.maps.MapTypeId.HYBRID : kakao.maps.MapTypeId.ROADMAP
+    );
+  }
+  showToast(_satellite ? '위성 지도로 전환됨' : '일반 지도로 전환됨');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// 실시간 카운터
+setInterval(() => {
+  const el = document.getElementById('ov-transit');
+  if (el) {
+    const v = 892441 + Math.floor(Math.random() * 400 - 200);
+    el.textContent = Math.max(0,v).toLocaleString('ko-KR');
+  }
+}, 8000);
+
+// Kakao Maps
+const HUB_MARKERS = [
+  { lat:37.0028, lng:127.0817, name:'평택 메가 허브',    status:'normal', util:'68%' },
+  { lat:37.4563, lng:126.7052, name:'인천 스마트 물류', status:'warn',   util:'81%' },
+  { lat:35.0955, lng:128.9702, name:'부산 신항 허브',   status:'normal', util:'72%' },
+  { lat:35.8714, lng:128.5020, name:'대구 내륙 허브',   status:'normal', util:'65%' },
+  { lat:35.1595, lng:126.8526, name:'광주 서남권 허브', status:'error',  util:'92%' },
+  { lat:36.1195, lng:128.3445, name:'구미 제조 물류',   status:'warn',   util:'78%' },
+  { lat:35.2280, lng:128.6811, name:'창원 물류센터',    status:'warn',   util:'76%' },
+  { lat:33.4996, lng:126.5312, name:'제주 물류센터',    status:'normal', util:'58%' },
+];
+const TRUCK_MARKERS = [
+  { lat:37.1200, lng:127.1800, type:'truck', label:'5톤·냉장' },
+  { lat:36.8000, lng:127.1000, type:'truck', label:'1톤·일반' },
+  { lat:35.5500, lng:128.5000, type:'truck', label:'5톤·화물' },
+  { lat:36.3500, lng:127.4000, type:'truck', label:'냉장 탑차' },
+  { lat:37.5665, lng:127.0300, type:'bike',  label:'오토바이' },
+  { lat:35.1800, lng:126.9000, type:'bike',  label:'오토바이' },
+  { lat:37.2000, lng:126.9000, type:'drone', label:'드론' },
+];
+const STATUS_COLOR = { normal:'#3ecf8e', warn:'#f59e0b', error:'#ef4444' };
+
+function makeSVG(color, shape='circle', size=28) {
+  let path = '';
+  if (shape === 'square')
+    path = `<rect x="4" y="4" width="20" height="20" rx="3" fill="${color}" opacity="0.9"/><rect x="9" y="9" width="10" height="10" fill="white" opacity="0.9"/>`;
+  else if (shape === 'triangle')
+    path = `<path d="M14 2L26 26H2L14 2z" fill="${color}" opacity="0.9"/>`;
+  else
+    path = `<circle cx="14" cy="14" r="12" fill="${color}" opacity="0.9"/><circle cx="14" cy="14" r="5" fill="white" opacity="0.9"/>`;
+  const svg = `<svg width="${size}" height="${size}" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">${path}</svg>`;
+  return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
+}
+
+window._kakaoMap = null;
+
+async function initKakao() {
+  try {
+    const res = await fetch(PROXY + '/kakao/appkey');
+    if (!res.ok) throw new Error('key fetch ' + res.status);
+    const { appkey } = await res.json();
+    await loadSDK(appkey);
+    buildMap();
+  } catch(e) {
+    console.error('[KakaoMap]', e.message);
+    document.getElementById('map-spinner').style.display = 'none';
+    document.getElementById('map-status').textContent = '지도 로드 실패 — Worker /kakao/appkey 확인 필요';
+  }
+}
+
+function loadSDK(key) {
+  return new Promise((res, rej) => {
+    if (window.kakao?.maps) { window.kakao.maps.load(res); return; }
+    const s = document.createElement('script');
+    s.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${key}&autoload=false`;
+    s.onload = () => kakao.maps.load(res);
+    s.onerror = () => rej(new Error('SDK 로드 실패'));
+    document.head.appendChild(s);
+  });
+}
+
+function buildMap() {
+  document.getElementById('map-spinner').style.display = 'none';
+  document.getElementById('map-status').style.display = 'none';
+
+  const container = document.getElementById('kakao-map');
+  container.style.cssText = 'width:100%;height:100%';
+
+  const map = new kakao.maps.Map(container, {
+    center: new kakao.maps.LatLng(36.5, 127.8), level: 8
+  });
+  map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
+  window._kakaoMap = map;
+
+  // 허브 마커
+  HUB_MARKERS.forEach(h => {
+    const color = STATUS_COLOR[h.status] || '#3ecf8e';
+    const img = new kakao.maps.MarkerImage(makeSVG(color,'square',30),
+      new kakao.maps.Size(30,30), { offset: new kakao.maps.Point(15,15) });
+    const m = new kakao.maps.Marker({ map, position: new kakao.maps.LatLng(h.lat,h.lng), image:img, title:h.name });
+    const iw = new kakao.maps.InfoWindow({
+      content:`<div style="padding:8px 12px;font-size:12px;font-family:'Inter',sans-serif">
+        <strong>${h.name}</strong><br>
+        <span style="color:#6b7280;font-size:11px">가동률 ${h.util} · ${{normal:'정상',warn:'주의',error:'포화'}[h.status]}</span>
+      </div>`, removable:true
+    });
+    kakao.maps.event.addListener(m, 'click', () => iw.open(map, m));
+  });
+
+  // 차량 마커 (샘플)
+  TRUCK_MARKERS.forEach(t => {
+    const color = t.type==='truck'?'#3ecf8e':t.type==='bike'?'#3b82f6':'#8b5cf6';
+    const img = new kakao.maps.MarkerImage(makeSVG(color,'circle',20),
+      new kakao.maps.Size(20,20), { offset: new kakao.maps.Point(10,10) });
+    new kakao.maps.Marker({ map, position: new kakao.maps.LatLng(t.lat,t.lng), image:img, title:t.label });
+  });
+}
+
+initKakao();
+
+// SSO
+window._onGopangAuth = function(user) {
+  if (!user) return;
+  const id = user.ipv6 ? user.ipv6.slice(-4).toUpperCase() : '?';
+  document.getElementById('sb-av').textContent = id;
+  document.getElementById('sb-uname').textContent = user.ipv6 ? user.ipv6.slice(-8) : '—';
+  try { sessionStorage.setItem('gopang_sso_token', JSON.stringify(user)); } catch(e) {}
+};
+</script>
+<script type="module" src="https://gopang.net/auth/subsystem-auth.js"></script>
+</body>
+</html>
