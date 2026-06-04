@@ -1276,10 +1276,10 @@ let _pendingMaps = [];
 // ── 1. Worker에서 키 fetch ──────────────────────────────────────
 async function fetchKakaoKey() {
   try {
-    const res = await fetch(PROXY + '/kakao-map-key');
+    const res = await fetch(PROXY + '/kakao/appkey');
     if (!res.ok) throw new Error('key fetch failed: ' + res.status);
-    const { key } = await res.json();
-    return key;
+    const { appkey } = await res.json();
+    return appkey;
   } catch (e) {
     console.error('[KakaoMap] 키 fetch 실패:', e.message);
     showMapError('map-hub');
