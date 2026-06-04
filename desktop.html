@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -1010,7 +1010,7 @@ async function sendLogisticsPDV(ipv6, user) {
         what: { summary: 'K-Logistics 데스크탑 접속' },
         how: { method: '고팡 SSO 자동 인증 (경로: ' + (user?.via || 'session') + ')' },
         why: { goal: 'K-Logistics 서비스 안내 페이지 열람' },
-      }}
+      } })
     });
     const data = await res.json();
     console.log('[LOGISTICS PDV]', data.pdv_entry, data.message);
@@ -1021,3 +1021,5 @@ async function sendLogisticsPDV(ipv6, user) {
 <script type="module" src="https://gopang.net/auth/subsystem-auth.js"></script>
 </body>
 </html>
+
+
