@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -377,7 +377,7 @@ td:first-child { font-weight: 600; color: var(--text); }
   position: relative; transition: all 0.15s;
 }
 .flow-node:hover { border-color: var(--brand); box-shadow: var(--shadow-md); transform: translateY(-2px); }
-.flow-node-icon { font-size: 24px; margin-bottom: 8px; }
+.flow-node-icon { width: 36px; height: 36px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; color: var(--text3); }
 .flow-node-title { font-size: 13px; font-weight: 600; color: var(--text); }
 .flow-node-sub { font-size: 11px; color: var(--text4); margin-top: 3px; }
 .flow-arrow {
@@ -400,7 +400,7 @@ td:first-child { font-weight: 600; color: var(--text); }
 }
 .case-card { background: white; padding: 28px 24px; transition: background 0.15s; }
 .case-card:hover { background: var(--bg-subtle); }
-.case-icon { font-size: 28px; margin-bottom: 12px; }
+.case-icon { width: 36px; height: 36px; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; color: var(--text3); }
 .case-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; letter-spacing: -0.3px; }
 .case-desc { font-size: 13px; color: var(--text2); line-height: 1.65; }
 .case-tag {
@@ -423,7 +423,7 @@ td:first-child { font-weight: 600; color: var(--text); }
   transition: background 0.15s;
 }
 .link-card:hover { background: var(--brand-bg); }
-.link-card-icon { font-size: 24px; margin-bottom: 12px; }
+.link-card-icon { width: 32px; height: 32px; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; color: var(--text3); }
 .link-card-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
 .link-card-sub { font-size: 12px; color: var(--text3); }
 .link-card-arrow { font-size: 16px; color: var(--brand); margin-top: 12px; }
@@ -522,29 +522,29 @@ footer {
 <nav id="sidenav" style="position:fixed;left:0;top:0;bottom:0;width:52px;z-index:200;background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;transition:width 0.22s cubic-bezier(0.4,0,0.2,1);overflow:hidden;" onmouseenter="this.style.width='200px'" onmouseleave="this.style.width='52px'">
   <a href="https://gopang.net" class="snav-logo">G</a>
   <a href="#top" class="snav-item active" onclick="scrollToSection('top')">
-    <div class="snav-icon">🏠</div><span class="snav-label">홈</span>
+    <div class="snav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="snav-label">홈</span>
   </a>
   <a href="#overview" class="snav-item" onclick="scrollToSection('overview')">
-    <div class="snav-icon">📋</div><span class="snav-label">개요</span>
+    <div class="snav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><span class="snav-label">개요</span>
   </a>
   <a href="#difference" class="snav-item" onclick="scrollToSection('difference')">
-    <div class="snav-icon">⚡</div><span class="snav-label">차별점</span>
+    <div class="snav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><span class="snav-label">차별점</span>
   </a>
   <a href="#flow" class="snav-item" onclick="scrollToSection('flow')">
-    <div class="snav-icon">🔄</div><span class="snav-label">동작 원리</span>
+    <div class="snav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div><span class="snav-label">동작 원리</span>
   </a>
   <a href="#metrics" class="snav-item" onclick="scrollToSection('metrics')">
-    <div class="snav-icon">📊</div><span class="snav-label">성능 지표</span>
+    <div class="snav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><span class="snav-label">성능 지표</span>
   </a>
   <a href="#usecases" class="snav-item" onclick="scrollToSection('usecases')">
-    <div class="snav-icon">🏭</div><span class="snav-label">활용 사례</span>
+    <div class="snav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div><span class="snav-label">활용 사례</span>
   </a>
   <div class="snav-sep"></div>
   <a href="https://logistics.gopang.net/dashboard.html" class="snav-item">
-    <div class="snav-icon">🗺️</div><span class="snav-label">대시보드</span>
+    <div class="snav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></div><span class="snav-label">대시보드</span>
   </a>
   <a href="https://logistics.gopang.net/webapp.html" class="snav-item">
-    <div class="snav-icon">📱</div><span class="snav-label">웹앱</span>
+    <div class="snav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div><span class="snav-label">웹앱</span>
   </a>
 </nav>
 
@@ -607,16 +607,16 @@ footer {
       오픈소스 · GitHub
     </a>
     <h1>K-<span class="brand">Logistics</span></h1>
-    <p class="hero-sub">AI 물류 시스템 · 고팡 하위 에이전트</p>
+
     <p class="hero-tagline">
       주문부터 반품까지 전 과정을 AI가 자동 처리합니다.<br>
       종래 물류 네트워크 대비 비용 <strong>34%↓</strong>，지연 <strong>0.8ms</strong>，정확도 <strong>99.97%</strong>.
     </p>
     <div class="hero-actions">
-      <button onclick="openWebApp()" class="btn-lg btn-green">📱 웹앱 열기</button>
-      <a href="https://logistics.gopang.net/dashboard.html" class="btn-lg btn-outline">🗺️ 대시보드 →</a>
-      <a href="https://logistics.gopang.net/whitepaper.html" target="_blank" class="btn-lg btn-outline">📄 기술 백서 →</a>
-      <a href="https://github.com/Openhash-Gopang/logistics" target="_blank" class="btn-lg btn-outline">GitHub</a>
+      <button onclick="openWebApp()" class="btn-lg btn-green"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg> 웹앱 열기</button>
+      <a href="https://logistics.gopang.net/dashboard.html" class="btn-lg btn-outline"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg> 대시보드 →</a>
+      <a href="https://logistics.gopang.net/whitepaper.html" target="_blank" class="btn-lg btn-outline"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 기술 백서 →</a>
+      <a href="https://github.com/Openhash-Gopang/logistics" target="_blank" class="btn-lg btn-outline"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg> GitHub</a>
     </div>
   </div>
 </section>
@@ -735,35 +735,35 @@ footer {
     <div class="flow-wrap reveal">
       <div class="flow-grid">
         <div class="flow-node">
-          <div class="flow-node-icon">🛒</div>
+          <div class="flow-node-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
           <div class="flow-node-title">주문 발생</div>
           <div class="flow-node-sub">소비자 / 기업</div>
           <span class="flow-tag">SSO 인증</span>
         </div>
         <div class="flow-arrow">→</div>
         <div class="flow-node">
-          <div class="flow-node-icon">🧠</div>
+          <div class="flow-node-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
           <div class="flow-node-title">AI 분석</div>
           <div class="flow-node-sub">재고·경로·비용</div>
           <span class="flow-tag">0.8ms</span>
         </div>
         <div class="flow-arrow">→</div>
         <div class="flow-node">
-          <div class="flow-node-icon">🏭</div>
+          <div class="flow-node-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
           <div class="flow-node-title">창고·차량 배분</div>
           <div class="flow-node-sub">최적 출고 지점</div>
           <span class="flow-tag">자동 배분</span>
         </div>
         <div class="flow-arrow">→</div>
         <div class="flow-node">
-          <div class="flow-node-icon">🚚</div>
+          <div class="flow-node-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
           <div class="flow-node-title">배송 실행</div>
           <div class="flow-node-sub">실시간 추적</div>
           <span class="flow-tag">GPS 연동</span>
         </div>
         <div class="flow-arrow">→</div>
         <div class="flow-node">
-          <div class="flow-node-icon">🔏</div>
+          <div class="flow-node-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
           <div class="flow-node-title">PDV 기록</div>
           <div class="flow-node-sub">OpenHash 증빙</div>
           <span class="flow-tag">불변 저장</span>
@@ -827,37 +827,37 @@ footer {
     </div>
     <div class="cases-grid">
       <div class="case-card reveal">
-        <div class="case-icon">🌾</div>
+        <div class="case-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg></div>
         <div class="case-title">농수산물 신선 물류</div>
         <div class="case-desc">수확 예측 AI가 출하 2주 전 냉동·냉장 창고를 예약하고, 도매시장과 소매점 배분을 자동 조율합니다. 폐기율 최대 62% 절감.</div>
         <span class="case-tag">1차 산업</span>
       </div>
       <div class="case-card reveal" style="transition-delay:.07s">
-        <div class="case-icon">🏗️</div>
+        <div class="case-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></div>
         <div class="case-title">제조업 부품 공급망</div>
         <div class="case-desc">생산 계획 연동으로 부품 재고를 JIT(Just-In-Time) 기반 자동 보충. 단납기 주문 돌발 시 대체 공급사 0.8ms 내 탐색.</div>
         <span class="case-tag">2차 산업</span>
       </div>
       <div class="case-card reveal" style="transition-delay:.14s">
-        <div class="case-icon">📦</div>
+        <div class="case-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
         <div class="case-title">이커머스 라스트마일</div>
         <div class="case-desc">주문 폭증 시 AI가 인근 마이크로 창고를 실시간 활성화, 동일 권역 내 평균 배송 시간 4시간 단축.</div>
         <span class="case-tag">3차 산업</span>
       </div>
       <div class="case-card reveal" style="transition-delay:.21s">
-        <div class="case-icon">🏥</div>
+        <div class="case-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
         <div class="case-title">의료·방역 긴급 물류</div>
         <div class="case-desc">K-911·K-Health 연동으로 재난·방역 상황 시 의약품·장비를 우선 경로로 30분 내 병원 도착. 국가 비축물자 실시간 현황 제공.</div>
         <span class="case-tag">공공 물류</span>
       </div>
       <div class="case-card reveal" style="transition-delay:.28s">
-        <div class="case-icon">🌊</div>
+        <div class="case-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
         <div class="case-title">수출입 관세 자동화</div>
         <div class="case-desc">K-Tax 연동으로 수출입 신고서 자동 작성·제출. HS코드 자동 분류, 관세 계산, FTA 혜택 자동 적용. 통관 대기 시간 82% 단축.</div>
         <span class="case-tag">무역 물류</span>
       </div>
       <div class="case-card reveal" style="transition-delay:.35s">
-        <div class="case-icon">📊</div>
+        <div class="case-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
         <div class="case-title">정책 결정자 물류 인텔리전스</div>
         <div class="case-desc">전국 읍·면·동 단위 물류 수요·공급 격차 실시간 시각화. 물류 인프라 투자 우선순위 AI 제안, 트렌드 예측 리포트 자동 생성.</div>
         <span class="case-tag">정책 지원</span>
@@ -875,25 +875,25 @@ footer {
     <h2 class="section-title reveal">바로가기 <strong>링크</strong></h2>
     <div class="links-grid">
       <a href="https://logistics.gopang.net/webapp.html" class="link-card reveal" onclick="event.preventDefault();openWebApp()">
-        <div class="link-card-icon">📱</div>
+        <div class="link-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
         <div class="link-card-title">웹앱 (모바일)</div>
         <div class="link-card-sub">AI 물류 채팅 인터페이스</div>
         <div class="link-card-arrow">→</div>
       </a>
       <a href="https://logistics.gopang.net/dashboard.html" class="link-card reveal" style="transition-delay:.07s">
-        <div class="link-card-icon">🗺️</div>
+        <div class="link-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></div>
         <div class="link-card-title">대시보드</div>
         <div class="link-card-sub">전국 물류 현황 관제</div>
         <div class="link-card-arrow">→</div>
       </a>
       <a href="https://logistics.gopang.net/whitepaper.html" target="_blank" class="link-card reveal" style="transition-delay:.14s">
-        <div class="link-card-icon">📄</div>
+        <div class="link-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
         <div class="link-card-title">기술 백서</div>
         <div class="link-card-sub">K-Logistics 아키텍처 상세</div>
         <div class="link-card-arrow">→</div>
       </a>
       <a href="https://github.com/Openhash-Gopang/logistics" target="_blank" class="link-card reveal" style="transition-delay:.21s">
-        <div class="link-card-icon">💻</div>
+        <div class="link-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></div>
         <div class="link-card-title">GitHub</div>
         <div class="link-card-sub">오픈소스 저장소</div>
         <div class="link-card-arrow">→</div>
@@ -1021,5 +1021,3 @@ async function sendLogisticsPDV(ipv6, user) {
 <script type="module" src="https://gopang.net/auth/subsystem-auth.js"></script>
 </body>
 </html>
-
-
