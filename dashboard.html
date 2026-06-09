@@ -3,1100 +3,660 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K-Logistics 상황실 · 전국 물류 관제</title>
+<title>K-Logistics — 물류 관제 대시보드</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;600;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-/* ── RESET ── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; overflow: hidden; -webkit-font-smoothing: antialiased; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;font-size:13px;line-height:1.5;color:#1a1a1a;background:#fff;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button{font-family:'Inter',sans-serif;cursor:pointer;border:none;background:none}
 
-:root {
-  --bg:       #ffffff;
-  --bg2:      #f9fafb;
-  --bg3:      #f3f4f6;
-  --bg4:      #e5e7eb;
-  --border:   #e5e7eb;
-  --border2:  #d1d5db;
-
-  --brand:    #3ecf8e;
-  --brand-dk: #2bb37a;
-  --brand-bg: rgba(62,207,142,0.08);
-  --brand-glow: rgba(62,207,142,0.2);
-
-  --blue:     #3b82f6;
-  --blue-dk:  #2563eb;
-  --blue-bg:  rgba(59,130,246,0.08);
-  --amber:    #f59e0b;
-  --amber-bg: rgba(245,158,11,0.08);
-  --red:      #ef4444;
-  --red-bg:   rgba(239,68,68,0.08);
-  --purple:   #8b5cf6;
-  --purple-bg:rgba(139,92,246,0.08);
-  --cyan:     #10b981;
-  --teal:     #059669;
-
-  --text:     #111827;
-  --text2:    #1f2937;
-  --text3:    #6b7280;
-  --text4:    #9ca3af;
-
-  --nav-w:    52px;
-  --header-h: 48px;
-  --radius:   6px;
+:root{
+  --green:#3ecf8e;
+  --green-dk:#2bb37a;
+  --green-bg:#f0fdf9;
+  --green-bd:#a7f3d0;
+  --border:#e5e7eb;
+  --border2:#d1d5db;
+  --bg:#ffffff;
+  --bg2:#f9fafb;
+  --bg3:#f3f4f6;
+  --txt1:#1a1a1a;
+  --txt2:#6b7280;
+  --txt3:#9ca3af;
+  --red:#ef4444;
+  --amber:#f59e0b;
+  --sb-w:48px;
+  --sb-open:220px;
+  --mono:'JetBrains Mono',monospace;
 }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Sora','Noto Sans KR',-apple-system,sans-serif;
-  font-size: 13px;
-  display: flex;
-  height: 100vh;
-}
+/* ══ LAYOUT ══ */
+.app{display:flex;height:100vh;overflow:hidden}
 
-/* ──────────── SIDEBAR ──────────── */
-#sidebar {
-  width: var(--nav-w);
-  height: 100vh;
-  background: var(--bg2);
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 14px 0 14px;
-  gap: 2px;
-  flex-shrink: 0;
-  transition: width 0.22s cubic-bezier(0.4,0,0.2,1);
-  overflow: hidden;
-  z-index: 100;
+/* ══ SIDEBAR ══ */
+.sidebar{
+  position:fixed;top:0;left:0;bottom:0;z-index:200;
+  width:var(--sb-w);background:var(--bg);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden;
+  transition:width .18s ease;
 }
-#sidebar:hover { width: 192px; }
-.sb-logo {
-  width: 32px; height: 32px;
-  background: var(--brand);
-  border-radius: 7px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'IBM Plex Mono',monospace;
-  font-size: 13px; font-weight: 700; color: #0d1117;
-  flex-shrink: 0; margin-bottom: 14px;
-  text-decoration: none;
+.sidebar:hover{width:var(--sb-open)}
+.sb-inner{width:var(--sb-open);flex:1;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+.sb-inner::-webkit-scrollbar{display:none}
+.sb-top{height:48px;flex-shrink:0;display:flex;align-items:center;padding:0 12px;gap:10px;border-bottom:1px solid var(--border)}
+.sb-logo{width:24px;height:24px;border-radius:5px;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-logo svg{width:13px;height:13px;stroke:#fff;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sb-logo-txt{font-size:13px;font-weight:600;color:var(--txt1);white-space:nowrap;opacity:0;transition:opacity .12s}
+.sidebar:hover .sb-logo-txt{opacity:1}
+.sb-sec{padding:16px 0 4px 12px;font-size:10px;font-weight:600;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase;opacity:0;transition:opacity .12s;height:28px;display:flex;align-items:flex-end;white-space:nowrap;flex-shrink:0}
+.sidebar:hover .sb-sec{opacity:1}
+.sb-item{
+  display:flex;align-items:center;height:34px;padding:0 10px;margin:1px 6px;
+  border-radius:6px;color:var(--txt2);cursor:pointer;white-space:nowrap;
+  transition:background .12s,color .12s;font-size:13px;position:relative;
 }
-.sb-item {
-  display: flex; align-items: center;
-  width: calc(100% - 12px);
-  min-height: 38px;
-  padding: 0 9px;
-  border-radius: var(--radius);
-  cursor: pointer; gap: 10px;
-  transition: background 0.15s;
-  white-space: nowrap; overflow: hidden;
-  border: none; background: transparent; color: var(--text2);
-  font-family: inherit;
+.sb-item:hover{background:var(--bg3);color:var(--txt1)}
+.sb-item.active{background:var(--bg3);color:var(--txt1);font-weight:500}
+.sb-item.active::before{content:'';position:absolute;left:-6px;top:50%;transform:translateY(-50%);width:2px;height:16px;background:var(--green);border-radius:0 2px 2px 0}
+.sb-icon{width:16px;height:16px;flex:0 0 16px;display:flex;align-items:center;justify-content:center}
+.sb-icon svg{width:15px;height:15px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sb-lbl{opacity:0;transition:opacity .12s;margin-left:10px;white-space:nowrap;flex:1}
+.sidebar:hover .sb-lbl{opacity:1}
+.sb-sep{width:calc(100% - 16px);height:1px;background:var(--border);margin:4px 8px;flex-shrink:0}
+.sb-dash-group{padding:6px;border-top:1px solid var(--border);margin-top:auto;flex-shrink:0;width:var(--sb-open)}
+.sb-dash-item{
+  display:flex;align-items:center;height:32px;padding:0 10px;margin:2px 0;
+  border-radius:6px;cursor:pointer;white-space:nowrap;font-size:12px;font-weight:500;
+  transition:background .12s;color:var(--txt2);
 }
-.sb-item:hover { background: var(--bg3); }
-.sb-item.active { background: var(--brand-bg); }
-.sb-item.active .sb-label { color: var(--brand); }
-.sb-icon {
-  width: 32px; height: 32px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px;
-}
-.sb-label {
-  font-size: 12px; font-weight: 500; color: var(--text2);
-  opacity: 0; transition: opacity 0.12s 0.06s; white-space: nowrap;
-}
-#sidebar:hover .sb-label { opacity: 1; }
-.sb-sep {
-  width: calc(100% - 16px); height: 1px;
-  background: var(--border); margin: 6px 8px; flex-shrink: 0;
-}
-.sb-section {
-  padding: 12px 0 2px 14px;
-  font-size: 10px; font-weight: 600; color: var(--text3);
-  letter-spacing: .08em; text-transform: uppercase;
-  white-space: nowrap; opacity: 0; transition: opacity .12s;
-  height: 26px; display: flex; align-items: flex-end; flex-shrink: 0;
-}
-#sidebar:hover .sb-section { opacity: 1; }
-.sb-dash-active { background: var(--brand-bg) !important; cursor: default; }
+.sb-dash-item:hover{background:var(--bg3)}
+.sb-dash-item.current{color:var(--green-dk);background:var(--green-bg);border:1px solid var(--green-bd);cursor:default}
+.sb-dash-item svg{width:13px;height:13px;stroke:currentColor;stroke-width:1.8;fill:none;flex-shrink:0}
+.sb-dash-lbl{opacity:0;transition:opacity .12s;margin-left:8px;flex:1}
+.sb-dash-ext{opacity:0;transition:opacity .12s;font-size:10px;color:var(--txt3)}
+.sidebar:hover .sb-dash-lbl,.sidebar:hover .sb-dash-ext{opacity:1}
+.sb-foot{border-top:1px solid var(--border);padding:8px 6px;flex-shrink:0;width:var(--sb-open)}
+.sb-user{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;cursor:pointer;transition:background .12s}
+.sb-user:hover{background:var(--bg3)}
+.sb-av{width:24px;height:24px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--txt2);flex-shrink:0}
+.sb-uname{font-size:12px;font-weight:500;color:var(--txt1);opacity:0;transition:opacity .12s;white-space:nowrap}
+.sb-urole{font-size:10px;color:var(--txt3);opacity:0;transition:opacity .12s}
+.sidebar:hover .sb-uname,.sidebar:hover .sb-urole{opacity:1}
 
-/* ──────────── MAIN ──────────── */
-#main {
-  flex: 1; height: 100vh;
-  display: flex; flex-direction: column;
-  overflow: hidden;
-}
+/* ══ MAIN ══ */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;margin-left:var(--sb-w)}
 
-/* ──────────── HEADER ──────────── */
-#header {
-  height: var(--header-h);
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center;
-  padding: 0 20px; gap: 16px; flex-shrink: 0;
-}
-.hdr-logo { display: flex; align-items: center; gap: 8px; }
-.hdr-logo-icon {
-  width: 24px; height: 24px; background: var(--brand); border-radius: 5px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700; color: #0d1117;
-}
-.hdr-sep { color: var(--border2); font-size: 16px; font-weight: 200; margin: 0 2px; }
-.hdr-title { font-size: 13px; font-weight: 500; color: var(--text); }
-.hdr-page-title {
-  font-size: 13px; font-weight: 600; color: var(--text2);
-  font-family: 'IBM Plex Mono',monospace;
-}
-.hdr-spacer { flex: 1; }
-.hdr-badge {
-  font-family: 'IBM Plex Mono',monospace; font-size: 10px;
-  padding: 2px 8px; border-radius: 99px; letter-spacing: 0.5px;
-}
-.hdr-badge-live { background: rgba(16,185,129,0.1); color: #059669; border: 1px solid rgba(16,185,129,0.3); }
-.hdr-clock {
-  font-family: 'IBM Plex Mono',monospace; font-size: 12px; color: var(--text3);
-}
-.hdr-btn {
-  display: flex; align-items: center; gap: 6px;
-  padding: 5px 12px; border-radius: var(--radius);
-  font-size: 12px; font-weight: 500; cursor: pointer;
-  border: 1px solid var(--border2); background: transparent;
-  color: var(--text2); transition: all 0.15s; font-family: inherit;
-}
-.hdr-btn:hover { background: var(--bg3); border-color: var(--brand); color: var(--brand); }
+/* ══ TOPBAR ══ */
+.topbar{height:48px;flex-shrink:0;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:10px}
+.tb-title{font-size:14px;font-weight:600;color:var(--txt1)}
+.tb-sep{width:1px;height:16px;background:var(--border2)}
+.tb-sub{font-size:12px;color:var(--txt3)}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.badge-live{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:var(--green-dk);background:var(--green-bg);border:1px solid var(--green-bd);border-radius:4px;padding:2px 8px}
+.badge-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.clock{font-family:var(--mono);font-size:12px;color:var(--txt2);background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:3px 9px}
+.btn-sm{display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:5px;font-size:12px;font-weight:500;border:1px solid var(--border2);color:var(--txt2);background:var(--bg);cursor:pointer;transition:background .12s}
+.btn-sm:hover{background:var(--bg3)}
+.btn-sm svg{width:12px;height:12px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
 
-/* ──────────── CONTENT ──────────── */
-#content {
-  flex: 1; overflow-y: auto; padding: 16px 20px;
-  scrollbar-width: thin; scrollbar-color: var(--bg4) transparent;
-}
-#content::-webkit-scrollbar { width: 4px; }
-#content::-webkit-scrollbar-track { background: transparent; }
-#content::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 2px; }
+/* ══ PAGE TABS ══ */
+.page-tabs{background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;height:38px;flex-shrink:0;gap:2px}
+.ptab{padding:0 14px;height:100%;display:flex;align-items:center;font-size:12px;font-weight:500;color:var(--txt3);cursor:pointer;border-bottom:2px solid transparent;transition:color .12s;white-space:nowrap}
+.ptab:hover{color:var(--txt1)}
+.ptab.active{color:var(--txt1);border-bottom-color:var(--green)}
 
-/* ──────────── PAGE (hidden/shown) ──────────── */
-.page { display: none; }
-.page.active { display: block; }
+/* ══ CONTENT ══ */
+.content{flex:1;overflow-y:auto;background:var(--bg2);scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 
-/* ──────────── STAT ROW ──────────── */
-.stat-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px; margin-bottom: 16px;
-}
-.stat-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 16px 18px;
-  position: relative; overflow: hidden;
-  transition: border-color 0.2s;
-}
-.stat-card:hover { border-color: var(--border2); }
-.stat-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  border-radius: var(--radius) var(--radius) 0 0;
-}
-.stat-card.green::before  { background: var(--brand); }
-.stat-card.blue::before   { background: var(--blue); }
-.stat-card.amber::before  { background: var(--amber); }
-.stat-card.red::before    { background: var(--red); }
-.stat-card.purple::before { background: var(--purple); }
-.stat-label { font-size: 11px; color: var(--text3); margin-bottom: 6px; letter-spacing: 0.3px; text-transform: uppercase; font-family: 'IBM Plex Mono',monospace; }
-.stat-val {
-  font-family: 'IBM Plex Mono',monospace;
-  font-size: 24px; font-weight: 300; line-height: 1;
-  letter-spacing: -1px;
-}
-.stat-val.green  { color: var(--brand); }
-.stat-val.blue   { color: var(--blue); }
-.stat-val.amber  { color: var(--amber); }
-.stat-val.red    { color: var(--red); }
-.stat-val.purple { color: var(--purple); }
-.stat-delta {
-  font-size: 11px; margin-top: 4px; font-family: 'IBM Plex Mono',monospace;
-}
-.stat-delta.up   { color: var(--brand); }
-.stat-delta.down { color: var(--red); }
-.stat-delta.neu  { color: var(--text4); }
+/* ══ PAGE ══ */
+.page{display:none;padding:16px}
+.page.active{display:block}
 
-/* ──────────── GRID 2-COL ──────────── */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-.grid-13 { display: grid; grid-template-columns: 1fr 3fr; gap: 12px; margin-bottom: 16px; }
-.grid-31 { display: grid; grid-template-columns: 3fr 1fr; gap: 12px; margin-bottom: 16px; }
+/* ══ KPI BAR ══ */
+.kpi-bar{background:var(--bg);border-bottom:1px solid var(--border);display:flex;flex-shrink:0}
+.kpi-cell{flex:1;padding:12px 16px;border-right:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.kpi-cell:last-child{border-right:none}
+.kpi-icon{width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--txt3)}
+.kpi-icon svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.kpi-lbl{font-size:11px;color:var(--txt3);margin-bottom:1px}
+.kpi-val{font-size:17px;font-weight:600;color:var(--txt1);line-height:1.1;font-family:var(--mono)}
+.kpi-delta{font-size:10px;margin-top:2px;color:var(--txt3)}
+.kpi-delta.up{color:var(--green-dk)}
+.kpi-delta.dn{color:var(--red)}
 
-/* ──────────── PANEL ──────────── */
-.panel {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--radius); overflow: hidden;
-}
-.panel-head {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 16px; border-bottom: 1px solid var(--border);
-}
-.panel-title {
-  font-size: 12px; font-weight: 600; color: var(--text2);
-  display: flex; align-items: center; gap: 8px;
-}
-.panel-body { padding: 14px 16px; }
-.panel-badge {
-  font-family: 'IBM Plex Mono',monospace; font-size: 10px;
-  padding: 2px 7px; border-radius: 99px; border: 1px solid;
-}
-.pb-green  { color: var(--brand); border-color: rgba(62,207,142,0.3); background: var(--brand-bg); }
-.pb-blue   { color: var(--blue); border-color: rgba(88,166,255,0.3); background: var(--blue-bg); }
-.pb-amber  { color: var(--amber); border-color: rgba(227,179,65,0.3); background: var(--amber-bg); }
-.pb-red    { color: var(--red); border-color: rgba(248,81,73,0.3); background: var(--red-bg); }
+/* ══ GRID ══ */
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.col-2{grid-column:span 2}
+.col-3{grid-column:span 3}
 
-/* ──────────── TABLE ──────────── */
-.tbl { width: 100%; border-collapse: collapse; }
-.tbl th {
-  padding: 8px 12px; text-align: left;
-  font-family: 'IBM Plex Mono',monospace; font-size: 10px; font-weight: 500;
-  color: var(--text3); letter-spacing: 0.8px; text-transform: uppercase;
-  border-bottom: 1px solid var(--border); white-space: nowrap;
-}
-.tbl td {
-  padding: 9px 12px; font-size: 12px; color: var(--text2);
-  border-bottom: 1px solid var(--border);
-}
-.tbl tr:last-child td { border-bottom: none; }
-.tbl tbody tr:hover { background: var(--bg3); }
-.td-mono { font-family: 'IBM Plex Mono',monospace; font-size: 12px; }
-.td-green { color: var(--brand); font-weight: 500; }
-.td-red   { color: var(--red); font-weight: 500; }
-.td-amber { color: var(--amber); font-weight: 500; }
-.td-blue  { color: var(--blue); font-weight: 500; }
-.chip {
-  display: inline-block; padding: 1px 8px; border-radius: 99px;
-  font-family: 'IBM Plex Mono',monospace; font-size: 10px; border: 1px solid;
-}
-.chip-run   { color: var(--brand); border-color: rgba(62,207,142,0.3); background: var(--brand-bg); }
-.chip-warn  { color: var(--amber); border-color: rgba(227,179,65,0.3); background: var(--amber-bg); }
-.chip-err   { color: var(--red);   border-color: rgba(248,81,73,0.3); background: var(--red-bg); }
-.chip-idle  { color: var(--text3); border-color: var(--border); background: var(--bg3); }
+/* ══ CARD ══ */
+.card{background:var(--bg);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.card-head{padding:12px 14px 0;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ch-lbl{font-size:11px;font-weight:600;color:var(--txt3);letter-spacing:.04em;text-transform:uppercase;flex:1}
+.ch-meta{font-size:11px;color:var(--txt3)}
+.ch-badge{font-size:10px;font-weight:500;padding:1px 6px;border-radius:3px;background:var(--green-bg);color:var(--green-dk);border:1px solid var(--green-bd)}
+.card-body{padding:0 14px 14px}
 
-/* ──────────── BAR CHART ──────────── */
-.bar-chart { display: flex; flex-direction: column; gap: 10px; }
-.bar-row { display: flex; align-items: center; gap: 10px; }
-.bar-label { font-size: 12px; color: var(--text2); width: 90px; flex-shrink: 0; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.bar-track { flex: 1; height: 8px; background: var(--bg3); border-radius: 4px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
-.bar-fill.green  { background: var(--brand); }
-.bar-fill.blue   { background: var(--blue); }
-.bar-fill.amber  { background: var(--amber); }
-.bar-fill.red    { background: var(--red); }
-.bar-fill.purple { background: var(--purple); }
-.bar-val { font-family: 'IBM Plex Mono',monospace; font-size: 11px; color: var(--text3); width: 60px; }
+/* ══ TABLE ══ */
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{padding:0 10px 7px 0;font-size:10px;font-weight:500;color:var(--txt3);text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;letter-spacing:.04em;text-transform:uppercase}
+.tbl th:last-child{text-align:right;padding-right:0}
+.tbl td{padding:7px 10px 7px 0;border-bottom:1px solid var(--border);color:var(--txt1);vertical-align:middle}
+.tbl td:last-child{text-align:right;padding-right:0}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--bg2)}
+.mono{font-family:var(--mono);font-size:11px;color:var(--txt3)}
 
-/* ──────────── SPARK LINE ── (SVG inline) ──────────── */
-.spark-row { display: flex; align-items: flex-end; gap: 3px; height: 36px; }
-.spark-bar {
-  flex: 1; border-radius: 2px 2px 0 0;
-  background: var(--brand); opacity: 0.5;
-  transition: opacity 0.15s;
-}
-.spark-bar:hover { opacity: 1; }
-.spark-bar.hi { opacity: 1; }
+/* ══ CHIP ══ */
+.chip{font-size:10px;font-weight:500;padding:1px 6px;border-radius:3px;border:1px solid;white-space:nowrap;font-family:var(--mono)}
+.chip-ok  {color:var(--green-dk);border-color:var(--green-bd);background:var(--green-bg)}
+.chip-warn{color:var(--amber);border-color:#fde68a;background:#fffbeb}
+.chip-err {color:var(--red);border-color:#fca5a5;background:#fef2f2}
+.chip-neu {color:var(--txt3);border-color:var(--border);background:var(--bg3)}
 
-/* ──────────── MAP PLACEHOLDER ──────────── */
-.map-ph {
-  background: var(--bg3);
-  border-radius: var(--radius);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; color: var(--text4);
-  position: relative; overflow: hidden;
-}
-.map-ph::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: repeating-linear-gradient(
-    45deg, transparent, transparent 20px,
-    rgba(62,207,142,0.03) 20px, rgba(62,207,142,0.03) 21px
-  );
-}
-.map-dots { position: absolute; width: 100%; height: 100%; }
-.dot-loc {
-  position: absolute; width: 8px; height: 8px;
-  border-radius: 50%; background: var(--brand);
-  box-shadow: 0 0 0 4px var(--brand-bg);
-  transform: translate(-50%,-50%);
-}
-.dot-loc.blue   { background: var(--blue); box-shadow: 0 0 0 4px var(--blue-bg); }
-.dot-loc.amber  { background: var(--amber); box-shadow: 0 0 0 4px var(--amber-bg); }
-.dot-loc.red    { background: var(--red); box-shadow: 0 0 0 4px var(--red-bg); }
-.dot-loc.pulse  { animation: dotpulse 2s ease-in-out infinite; }
-@keyframes dotpulse { 0%,100%{box-shadow:0 0 0 4px var(--brand-bg)} 50%{box-shadow:0 0 0 8px var(--brand-bg)} }
+/* ══ BAR ══ */
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.bar-lbl{font-size:11px;color:var(--txt2);width:80px;flex-shrink:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;border:1px solid var(--border)}
+.bar-fill{height:100%;border-radius:2px;background:var(--green)}
+.bar-fill.warn{background:var(--amber)}
+.bar-fill.err{background:var(--red)}
+.bar-val{font-size:11px;color:var(--txt3);font-family:var(--mono);min-width:48px;text-align:right}
 
-/* ──────────── TIMELINE ──────────── */
-.timeline { display: flex; flex-direction: column; gap: 0; }
-.tl-item {
-  display: flex; gap: 12px; padding: 10px 0;
-  border-bottom: 1px solid var(--border);
-}
-.tl-item:last-child { border-bottom: none; }
-.tl-dot-col { display: flex; flex-direction: column; align-items: center; gap: 0; flex-shrink: 0; padding-top: 3px; }
-.tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.tl-dot.green { background: var(--brand); }
-.tl-dot.amber { background: var(--amber); }
-.tl-dot.red   { background: var(--red); }
-.tl-dot.blue  { background: var(--blue); }
-.tl-body { flex: 1; }
-.tl-time { font-family: 'IBM Plex Mono',monospace; font-size: 10px; color: var(--text4); margin-bottom: 2px; }
-.tl-msg  { font-size: 12px; color: var(--text2); line-height: 1.5; }
-.tl-loc  { font-size: 11px; color: var(--text3); margin-top: 2px; }
+/* ══ STAT MINI ══ */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.stat-cell{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 12px}
+.sc-lbl{font-size:10px;color:var(--txt3);margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
+.sc-val{font-size:18px;font-weight:600;color:var(--txt1);line-height:1;font-family:var(--mono)}
+.sc-sub{font-size:10px;color:var(--txt3);margin-top:2px}
 
-/* ──────────── TREND LINE (SVG) ──────────── */
-.trend-svg { width: 100%; height: 80px; }
+/* ══ ALERT NOTICE ══ */
+.notice{padding:8px 12px;border-radius:5px;font-size:12px;display:flex;align-items:flex-start;gap:8px;margin-bottom:12px;border:1px solid}
+.notice.warn{color:var(--amber);border-color:#fde68a;background:#fffbeb}
+.notice.err {color:var(--red);border-color:#fca5a5;background:#fef2f2}
+.notice.ok  {color:var(--green-dk);border-color:var(--green-bd);background:var(--green-bg)}
 
-/* ──────────── HEATMAP ──────────── */
-.heatmap-grid {
-  display: grid;
-  grid-template-columns: repeat(17, 1fr);
-  gap: 3px;
-}
-.hm-cell {
-  aspect-ratio: 1;
-  border-radius: 2px;
-  background: var(--bg3);
-  cursor: default;
-  transition: transform 0.1s;
-  position: relative;
-}
-.hm-cell:hover { transform: scale(1.3); z-index: 10; }
-.hm-0 { background: var(--bg3); }
-.hm-1 { background: rgba(62,207,142,0.2); }
-.hm-2 { background: rgba(62,207,142,0.4); }
-.hm-3 { background: rgba(62,207,142,0.65); }
-.hm-4 { background: var(--brand); }
+/* ══ TIMELINE ══ */
+.tl-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.tl-item:last-child{border-bottom:none}
+.tl-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.tl-dot.ok  {background:var(--green)}
+.tl-dot.warn{background:var(--amber)}
+.tl-dot.err {background:var(--red)}
+.tl-time{font-family:var(--mono);font-size:10px;color:var(--txt3);margin-bottom:2px}
+.tl-msg{font-size:12px;color:var(--txt1);line-height:1.4}
+.tl-loc{font-size:10px;color:var(--txt3);margin-top:1px}
 
-/* ──────────── REGION TABLE ──────────── */
-.region-list { display: flex; flex-direction: column; gap: 6px; }
-.region-row {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px 10px; border-radius: var(--radius);
-  background: var(--bg3); cursor: default;
-  transition: background 0.15s;
-}
-.region-row:hover { background: var(--bg4); }
-.region-name { font-size: 12px; font-weight: 500; color: var(--text); width: 60px; flex-shrink: 0; }
-.region-bar-wrap { flex: 1; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
-.region-bar { height: 100%; border-radius: 3px; background: var(--brand); }
-.region-val { font-family: 'IBM Plex Mono',monospace; font-size: 11px; color: var(--text3); width: 60px; text-align: right; }
+/* ══ REGION ROW ══ */
+.region-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border)}
+.region-row:last-child{border-bottom:none}
+.rr-name{font-size:12px;font-weight:500;width:56px;flex-shrink:0}
+.rr-track{flex:1;height:3px;background:var(--bg3);border-radius:2px;overflow:hidden}
+.rr-fill{height:100%;border-radius:2px;background:var(--green)}
+.rr-val{font-size:11px;color:var(--txt3);font-family:var(--mono);min-width:56px;text-align:right}
 
-/* ──────────── PROGRESS RING ──────────── */
-.ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.ring-val  { font-family: 'IBM Plex Mono',monospace; font-size: 20px; font-weight: 300; color: var(--brand); text-align: center; }
-.ring-sub  { font-size: 11px; color: var(--text3); text-align: center; }
+/* ══ TREND SVG ══ */
+.trend-svg{width:100%;height:100px}
 
-/* ──────────── SCROLLBAR ──────────── */
-.scroll-y { overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--bg4) transparent; }
-.scroll-y::-webkit-scrollbar { width: 3px; }
-.scroll-y::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 2px; }
+/* ══ HEATMAP ══ */
+.hmap-grid{display:grid;grid-template-columns:repeat(17,1fr);gap:2px}
+.hmap-cell{aspect-ratio:1;border-radius:2px;background:var(--bg3)}
+.hm-1{background:#d1fae5}.hm-2{background:#6ee7b7}.hm-3{background:#34d399}.hm-4{background:var(--green)}
 
-/* ──────────── PAGE HEADER ──────────── */
-.pg-header { margin-bottom: 16px; display: flex; align-items: flex-start; justify-content: space-between; }
-.pg-title { font-size: 16px; font-weight: 600; color: var(--text); letter-spacing: -0.3px; }
-.pg-sub   { font-size: 12px; color: var(--text3); margin-top: 2px; }
-.pg-actions { display: flex; gap: 8px; }
-.pg-btn {
-  display: flex; align-items: center; gap: 6px;
-  padding: 5px 12px; border-radius: var(--radius);
-  font-size: 11px; font-weight: 500; cursor: pointer;
-  border: 1px solid var(--border2); background: transparent; color: var(--text2);
-  transition: all 0.15s; font-family: inherit;
-}
-.pg-btn:hover { background: var(--bg3); }
-.pg-btn.primary { background: var(--brand); color: #0d1117; border-color: transparent; }
-.pg-btn.primary:hover { background: var(--brand-dk); }
+/* ══ SCROLL ══ */
+.scroll{max-height:220px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.scroll::-webkit-scrollbar{width:3px}
+.scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 
-/* ──────────── NOTICE ──────────── */
-.notice {
-  padding: 8px 14px; border-radius: var(--radius);
-  font-size: 12px; display: flex; align-items: flex-start; gap: 8px;
-  margin-bottom: 12px;
-}
-.notice.warn   { background: var(--amber-bg); border: 1px solid rgba(227,179,65,0.3); color: var(--amber); }
-.notice.info   { background: var(--blue-bg);  border: 1px solid rgba(88,166,255,0.3);  color: var(--blue); }
-.notice.err    { background: var(--red-bg);   border: 1px solid rgba(248,81,73,0.3);   color: var(--red); }
-.notice.ok     { background: var(--brand-bg); border: 1px solid rgba(62,207,142,0.3);  color: var(--brand); }
+/* ══ MAP PH ══ */
+.map-ph{background:var(--bg3);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--txt3);position:relative;overflow:hidden}
 
-/* responsive */
-@media (max-width: 900px) {
-  .grid-2, .grid-3, .grid-13, .grid-31 { grid-template-columns: 1fr; }
-}
+/* ══ TOAST ══ */
+.toast{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--txt1);color:#fff;border-radius:6px;padding:8px 14px;font-size:12px;font-weight:500;opacity:0;transform:translateY(6px);transition:all .2s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
 </style>
 </head>
 <body>
+<div class="app">
 
-<!-- ──────────── SIDEBAR ──────────── -->
-<nav id="sidebar" onmouseenter="this.style.width='192px'" onmouseleave="this.style.width='52px'">
-  <a href="desktop.html" class="sb-logo">G</a>
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+<div class="sb-inner">
+  <div class="sb-top">
+    <div class="sb-logo"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
+    <span class="sb-logo-txt">K-Logistics</span>
+  </div>
 
-  <!-- ── 관제 섹션 ── -->
-  <div class="sb-section">관제</div>
-  <button class="sb-item active" onclick="showPage('p1',this)">
-    <div class="sb-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-    <span class="sb-label">실시간 현황</span>
-  </button>
-  <button class="sb-item" onclick="showPage('p2',this)">
-    <div class="sb-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-    <span class="sb-label">지역별 물류량</span>
-  </button>
-  <button class="sb-item" onclick="showPage('p3',this)">
-    <div class="sb-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
-    <span class="sb-label">품목·물자 현황</span>
-  </button>
-  <button class="sb-item" onclick="showPage('p4',this)">
-    <div class="sb-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-    <span class="sb-label">산업별 트렌드</span>
-  </button>
-  <button class="sb-item" onclick="showPage('p5',this)">
-    <div class="sb-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
-    <span class="sb-label">배송 현황</span>
-  </button>
-  <button class="sb-item" onclick="showPage('p6',this)">
-    <div class="sb-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-    <span class="sb-label">창고 네트워크</span>
-  </button>
-  <button class="sb-item" onclick="showPage('p7',this)">
-    <div class="sb-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
-    <span class="sb-label">이상 탐지</span>
-  </button>
+  <div class="sb-sec">관제</div>
+  <div class="sb-item active" onclick="showPage('p1',this)">
+    <span class="sb-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+    <span class="sb-lbl">실시간 현황</span>
+  </div>
+  <div class="sb-item" onclick="showPage('p2',this)">
+    <span class="sb-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+    <span class="sb-lbl">지역별 물류량</span>
+  </div>
+  <div class="sb-item" onclick="showPage('p3',this)">
+    <span class="sb-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></span>
+    <span class="sb-lbl">품목·물자 현황</span>
+  </div>
+  <div class="sb-item" onclick="showPage('p4',this)">
+    <span class="sb-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+    <span class="sb-lbl">산업별 트렌드</span>
+  </div>
+  <div class="sb-item" onclick="showPage('p5',this)">
+    <span class="sb-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
+    <span class="sb-lbl">배송 현황</span>
+  </div>
+  <div class="sb-item" onclick="showPage('p6',this)">
+    <span class="sb-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+    <span class="sb-lbl">창고 네트워크</span>
+  </div>
+  <div class="sb-item" onclick="showPage('p7',this)">
+    <span class="sb-icon"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+    <span class="sb-lbl">이상 탐지</span>
+  </div>
 
-  <!-- ── 대시보드 전환 ── -->
   <div class="sb-sep"></div>
-  <div class="sb-section">대시보드</div>
-  <button class="sb-item sb-dash-active" onclick="">
-    <div class="sb-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></div>
-    <span class="sb-label" style="color:var(--brand);font-weight:600">국가 대시보드 ●</span>
-  </button>
-  <button class="sb-item" onclick="location.href='realtime-board.html'">
-    <div class="sb-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-    <span class="sb-label">실시간 상황판</span>
-  </button>
-  <button class="sb-item" onclick="location.href='user-dashboard.html'">
-    <div class="sb-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-    <span class="sb-label">사용자 대시보드</span>
-  </button>
+  <div class="sb-sec">대시보드</div>
+  <div class="sb-dash-item current">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+    <span class="sb-dash-lbl">국가 대시보드 ●</span>
+  </div>
+  <div class="sb-dash-item" onclick="location.href='realtime-board.html'">
+    <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    <span class="sb-dash-lbl">실시간 상황판</span>
+    <span class="sb-dash-ext">↗</span>
+  </div>
+  <div class="sb-dash-item" onclick="location.href='user-dashboard.html'">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span class="sb-dash-lbl">사용자 대시보드</span>
+    <span class="sb-dash-ext">↗</span>
+  </div>
 
-  <!-- ── 바로가기 ── -->
   <div class="sb-sep"></div>
-  <button class="sb-item" onclick="location.href='desktop.html'">
-    <div class="sb-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-    <span class="sb-label">서비스 안내</span>
-  </button>
-  <button class="sb-item" onclick="window.open('webapp.html','_blank')">
-    <div class="sb-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
-    <span class="sb-label">웹앱</span>
-  </button>
-</nav>
+  <div class="sb-dash-item" onclick="location.href='desktop.html'">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    <span class="sb-dash-lbl">서비스 안내</span>
+    <span class="sb-dash-ext">↗</span>
+  </div>
+  <div class="sb-dash-item" onclick="window.open('webapp.html','_blank')">
+    <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+    <span class="sb-dash-lbl">웹앱</span>
+    <span class="sb-dash-ext">↗</span>
+  </div>
 
-<!-- ──────────── MAIN ──────────── -->
-<div id="main">
-
-  <!-- HEADER -->
-  <div id="header">
-    <div class="hdr-logo">
-      <div class="hdr-logo-icon">G</div>
+  <div class="sb-foot">
+    <div class="sb-user">
+      <div class="sb-av" id="sb-av">?</div>
+      <div>
+        <div class="sb-uname" id="sb-uname">미인증</div>
+        <div class="sb-urole" id="sb-urole">게스트</div>
+      </div>
     </div>
-    <span class="hdr-sep">/</span>
-    <span class="hdr-title">K-Logistics</span>
-    <span class="hdr-sep">/</span>
-    <span class="hdr-page-title" id="hdr-page-name">실시간 현황</span>
-    <div class="hdr-spacer"></div>
-    <span class="hdr-badge hdr-badge-live">● LIVE</span>
-    <span class="hdr-clock" id="clock">--:--:--</span>
-    <button class="hdr-btn" onclick="refreshAll()">↺ 갱신</button>
-    <button class="hdr-btn" onclick="window.open('https://logistics.gopang.net/desktop.html','_self')">← 안내 페이지</button>
+  </div>
+</div>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <span class="tb-title">K-Logistics</span>
+    <span class="tb-sep"></span>
+    <span class="tb-sub" id="tb-page">실시간 현황</span>
+    <div class="tb-right">
+      <span class="badge-live">LIVE</span>
+      <span class="clock" id="clock">--:--:--</span>
+      <button class="btn-sm" onclick="refreshAll()">
+        <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        갱신
+      </button>
+      <button class="btn-sm" onclick="location.href='desktop.html'">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        안내 페이지
+      </button>
+    </div>
+  </div>
+
+  <!-- KPI BAR -->
+  <div class="kpi-bar">
+    <div class="kpi-cell">
+      <div class="kpi-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div><div class="kpi-lbl">오늘 처리 건수</div><div class="kpi-val" id="k1">4,281,992</div><div class="kpi-delta up">↑ 전일 대비 +6.3%</div></div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+      <div><div class="kpi-lbl">현재 배송 중</div><div class="kpi-val" id="k2">892,441</div><div class="kpi-delta up">↑ 1시간 전 대비 +2.1%</div></div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <div><div class="kpi-lbl">창고 재고 활용률</div><div class="kpi-val">73.2%</div><div class="kpi-delta">→ 전주 대비 ±0.4%</div></div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div><div class="kpi-lbl">당일 배송 완료율</div><div class="kpi-val">94.7%</div><div class="kpi-delta up">↑ 전월 대비 +2.3%p</div></div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+      <div><div class="kpi-lbl">지연·이상 발생</div><div class="kpi-val" style="color:var(--red)">127</div><div class="kpi-delta dn">↑ 전일 대비 +18건</div></div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div><div class="kpi-lbl">OpenHash 증빙</div><div class="kpi-val">4.28M</div><div class="kpi-delta up">↑ 실시간 기록 중</div></div>
+    </div>
   </div>
 
   <!-- CONTENT -->
-  <div id="content">
+  <div class="content">
 
-    <!-- ── P1: 실시간 현황 ── -->
+    <!-- P1: 실시간 현황 -->
     <div class="page active" id="p1">
-      <div class="pg-header">
-        <div>
-          <div class="pg-title">실시간 물류 현황</div>
-          <div class="pg-sub">전국 물류 흐름 · 지금 이 순간 갱신됩니다</div>
-        </div>
-        <div class="pg-actions">
-          <button class="pg-btn">CSV 내보내기</button>
-          <button class="pg-btn primary">리포트 생성</button>
-        </div>
+      <div class="notice warn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
+        경북 구미 물류센터 처리 지연 감지 — 예상 복구 14:35 · AI 우회 경로 자동 적용 중
       </div>
-      <div class="notice warn">⚠ 경북 구미 물류센터 처리 지연 감지 — 예상 복구 14:35 (현재 우회 경로 자동 적용 중)</div>
-
-      <div class="stat-row">
-        <div class="stat-card green">
-          <div class="stat-label">오늘 처리 건수</div>
-          <div class="stat-val green" id="s1-orders">4,281,992</div>
-          <div class="stat-delta up">↑ 전일 대비 +6.3%</div>
-        </div>
-        <div class="stat-card blue">
-          <div class="stat-label">현재 배송 중</div>
-          <div class="stat-val blue" id="s1-transit">892,441</div>
-          <div class="stat-delta up">↑ 1시간 전 대비 +2.1%</div>
-        </div>
-        <div class="stat-card amber">
-          <div class="stat-label">창고 재고 활용률</div>
-          <div class="stat-val amber">73.2%</div>
-          <div class="stat-delta neu">→ 전주 대비 ±0.4%</div>
-        </div>
-        <div class="stat-card green">
-          <div class="stat-label">당일 배송 완료율</div>
-          <div class="stat-val green">94.7%</div>
-          <div class="stat-delta up">↑ 전월 대비 +2.3%p</div>
-        </div>
-        <div class="stat-card red">
-          <div class="stat-label">지연·이상 발생</div>
-          <div class="stat-val red">127</div>
-          <div class="stat-delta down">↓ 전일 대비 +18건 (구미 집중)</div>
-        </div>
-        <div class="stat-card purple">
-          <div class="stat-label">OpenHash 증빙</div>
-          <div class="stat-val purple">4.28M</div>
-          <div class="stat-delta up">↑ 실시간 기록 중</div>
-        </div>
-      </div>
-
       <div class="grid-2">
-        <!-- 지역별 실시간 처리량 -->
-        <div class="panel">
-          <div class="panel-head">
-            <span class="panel-title">📊 광역시도별 처리량 (오늘)</span>
-            <span class="panel-badge pb-green">실시간</span>
-          </div>
-          <div class="panel-body">
-            <div class="bar-chart">
-              <div class="bar-row"><span class="bar-label">경기도</span><div class="bar-track"><div class="bar-fill green" style="width:100%"></div></div><span class="bar-val">812,341</span></div>
-              <div class="bar-row"><span class="bar-label">서울</span><div class="bar-track"><div class="bar-fill green" style="width:86%"></div></div><span class="bar-val">698,221</span></div>
-              <div class="bar-row"><span class="bar-label">경남</span><div class="bar-track"><div class="bar-fill blue" style="width:54%"></div></div><span class="bar-val">437,112</span></div>
-              <div class="bar-row"><span class="bar-label">인천</span><div class="bar-track"><div class="bar-fill blue" style="width:48%"></div></div><span class="bar-val">392,008</span></div>
-              <div class="bar-row"><span class="bar-label">충남</span><div class="bar-track"><div class="bar-fill amber" style="width:38%"></div></div><span class="bar-val">311,450</span></div>
-              <div class="bar-row"><span class="bar-label">부산</span><div class="bar-track"><div class="bar-fill amber" style="width:35%"></div></div><span class="bar-val">284,792</span></div>
-              <div class="bar-row"><span class="bar-label">경북</span><div class="bar-track"><div class="bar-fill red" style="width:28%"></div></div><span class="bar-val">227,443</span></div>
-              <div class="bar-row"><span class="bar-label">기타</span><div class="bar-track"><div class="bar-fill amber" style="width:22%"></div></div><span class="bar-val">118,625</span></div>
-            </div>
+        <div class="card">
+          <div class="card-head"><span class="ch-lbl">광역시도별 처리량</span><span class="ch-meta">오늘</span></div>
+          <div class="card-body">
+            <div class="bar-row"><span class="bar-lbl">경기도</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">812,341</span></div>
+            <div class="bar-row"><span class="bar-lbl">서울</span><div class="bar-track"><div class="bar-fill" style="width:86%"></div></div><span class="bar-val">698,221</span></div>
+            <div class="bar-row"><span class="bar-lbl">경남</span><div class="bar-track"><div class="bar-fill" style="width:54%"></div></div><span class="bar-val">437,112</span></div>
+            <div class="bar-row"><span class="bar-lbl">인천</span><div class="bar-track"><div class="bar-fill" style="width:48%"></div></div><span class="bar-val">392,008</span></div>
+            <div class="bar-row"><span class="bar-lbl">충남</span><div class="bar-track"><div class="bar-fill" style="width:38%"></div></div><span class="bar-val">311,450</span></div>
+            <div class="bar-row"><span class="bar-lbl">부산</span><div class="bar-track"><div class="bar-fill" style="width:35%"></div></div><span class="bar-val">284,792</span></div>
+            <div class="bar-row"><span class="bar-lbl">경북</span><div class="bar-track"><div class="bar-fill warn" style="width:28%"></div></div><span class="bar-val" style="color:var(--amber)">227,443</span></div>
           </div>
         </div>
-
-        <!-- 최근 이벤트 타임라인 -->
-        <div class="panel">
-          <div class="panel-head">
-            <span class="panel-title">⏱ 최근 이벤트 (실시간)</span>
-            <span class="panel-badge pb-blue">AUTO</span>
-          </div>
-          <div class="panel-body scroll-y" style="max-height: 280px">
-            <div class="timeline">
-              <div class="tl-item">
-                <div class="tl-dot-col"><div class="tl-dot amber"></div></div>
-                <div class="tl-body">
-                  <div class="tl-time">방금 전</div>
-                  <div class="tl-msg">구미 물류센터 처리 지연 — AI 우회 경로 자동 적용</div>
-                  <div class="tl-loc">경북 구미시 산동면</div>
-                </div>
-              </div>
-              <div class="tl-item">
-                <div class="tl-dot-col"><div class="tl-dot green"></div></div>
-                <div class="tl-body">
-                  <div class="tl-time">3분 전</div>
-                  <div class="tl-msg">인천항 수출 컨테이너 2,341개 통관 완료</div>
-                  <div class="tl-loc">인천 남동구</div>
-                </div>
-              </div>
-              <div class="tl-item">
-                <div class="tl-dot-col"><div class="tl-dot green"></div></div>
-                <div class="tl-body">
-                  <div class="tl-time">7분 전</div>
-                  <div class="tl-msg">냉장 물류 배분 완료 — 제주 농산물 육지 출하 3.8톤</div>
-                  <div class="tl-loc">제주 한림읍</div>
-                </div>
-              </div>
-              <div class="tl-item">
-                <div class="tl-dot-col"><div class="tl-dot blue"></div></div>
-                <div class="tl-body">
-                  <div class="tl-time">12분 전</div>
-                  <div class="tl-msg">부산신항 수입 의약품 K-Health 연동 배분 완료</div>
-                  <div class="tl-loc">부산 강서구</div>
-                </div>
-              </div>
-              <div class="tl-item">
-                <div class="tl-dot-col"><div class="tl-dot red"></div></div>
-                <div class="tl-body">
-                  <div class="tl-time">18분 전</div>
-                  <div class="tl-msg">창원 제조단지 부품 재고 임계치 도달 — 긴급 발주 자동 집행</div>
-                  <div class="tl-loc">경남 창원시</div>
-                </div>
-              </div>
-              <div class="tl-item">
-                <div class="tl-dot-col"><div class="tl-dot green"></div></div>
-                <div class="tl-body">
-                  <div class="tl-time">24분 전</div>
-                  <div class="tl-msg">평택 허브 일일 처리량 신기록 — 812,000건</div>
-                  <div class="tl-loc">경기 평택시</div>
-                </div>
-              </div>
-              <div class="tl-item">
-                <div class="tl-dot-col"><div class="tl-dot amber"></div></div>
-                <div class="tl-body">
-                  <div class="tl-time">31분 전</div>
-                  <div class="tl-msg">광양항 철강재 출하 지연 — 기상 악화 (풍속 13m/s)</div>
-                  <div class="tl-loc">전남 광양시</div>
-                </div>
-              </div>
-            </div>
+        <div class="card">
+          <div class="card-head"><span class="ch-lbl">최근 이벤트</span><span class="ch-badge">실시간</span></div>
+          <div class="card-body scroll" style="padding-top:10px">
+            <div class="tl-item"><div class="tl-dot warn"></div><div><div class="tl-time">방금 전</div><div class="tl-msg">구미 물류센터 처리 지연 — AI 우회 경로 자동 적용</div><div class="tl-loc">경북 구미시 산동면</div></div></div>
+            <div class="tl-item"><div class="tl-dot ok"></div><div><div class="tl-time">3분 전</div><div class="tl-msg">인천항 수출 컨테이너 2,341개 통관 완료</div><div class="tl-loc">인천 남동구</div></div></div>
+            <div class="tl-item"><div class="tl-dot ok"></div><div><div class="tl-time">7분 전</div><div class="tl-msg">냉장 물류 배분 완료 — 제주 농산물 육지 출하 3.8톤</div><div class="tl-loc">제주 한림읍</div></div></div>
+            <div class="tl-item"><div class="tl-dot ok"></div><div><div class="tl-time">12분 전</div><div class="tl-msg">부산신항 수입 의약품 K-Health 연동 배분 완료</div><div class="tl-loc">부산 강서구</div></div></div>
+            <div class="tl-item"><div class="tl-dot err"></div><div><div class="tl-time">18분 전</div><div class="tl-msg">창원 제조단지 부품 재고 임계치 도달 — 긴급 발주 자동 집행</div><div class="tl-loc">경남 창원시</div></div></div>
+            <div class="tl-item"><div class="tl-dot ok"></div><div><div class="tl-time">24분 전</div><div class="tl-msg">평택 허브 일일 처리량 신기록 — 812,000건</div><div class="tl-loc">경기 평택시</div></div></div>
           </div>
         </div>
       </div>
-
-      <!-- 시간대별 처리량 -->
-      <div class="panel" style="margin-bottom:16px">
-        <div class="panel-head">
-          <span class="panel-title">📈 오늘 시간대별 처리량</span>
-          <span class="panel-badge pb-green">15분 단위</span>
-        </div>
-        <div class="panel-body">
-          <div class="spark-row" id="hourly-spark">
-          </div>
-          <div style="display:flex;justify-content:space-between;margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text4)">
-            <span>00:00</span><span>03:00</span><span>06:00</span><span>09:00</span><span>12:00</span><span>15:00</span><span>18:00</span><span>21:00</span><span>24:00</span>
-          </div>
+      <div class="card">
+        <div class="card-head"><span class="ch-lbl">시간대별 처리량</span><span class="ch-meta">15분 단위</span></div>
+        <div class="card-body">
+          <svg class="trend-svg" viewBox="0 0 800 80" style="height:80px">
+            <line x1="0" y1="20" x2="800" y2="20" stroke="#e5e7eb" stroke-width="0.5"/>
+            <line x1="0" y1="40" x2="800" y2="40" stroke="#e5e7eb" stroke-width="0.5"/>
+            <line x1="0" y1="60" x2="800" y2="60" stroke="#e5e7eb" stroke-width="0.5"/>
+            <polyline fill="none" stroke="#3ecf8e" stroke-width="2"
+              points="0,72 33,70 66,68 100,65 133,60 166,50 200,38 233,28 266,22 300,18 333,20 366,16 400,12 433,15 466,18 500,22 533,26 566,30 600,35 633,40 666,48 700,55 733,62 766,68 800,70"/>
+            <text x="0" y="79" fill="#9ca3af" font-size="8" font-family="JetBrains Mono">00:00</text>
+            <text x="163" y="79" fill="#9ca3af" font-size="8" font-family="JetBrains Mono">06:00</text>
+            <text x="330" y="79" fill="#9ca3af" font-size="8" font-family="JetBrains Mono">12:00</text>
+            <text x="496" y="79" fill="#9ca3af" font-size="8" font-family="JetBrains Mono">18:00</text>
+            <text x="763" y="79" fill="#9ca3af" font-size="8" font-family="JetBrains Mono">24:00</text>
+          </svg>
         </div>
       </div>
     </div>
 
-    <!-- ── P2: 지역별 물류량 ── -->
+    <!-- P2: 지역별 물류량 -->
     <div class="page" id="p2">
-      <div class="pg-header">
-        <div>
-          <div class="pg-title">지역별 물류량</div>
-          <div class="pg-sub">전국 17개 광역시도 · 229개 시군구 물류 데이터</div>
-        </div>
-        <div class="pg-actions">
-          <button class="pg-btn">읍면동 상세</button>
-          <button class="pg-btn primary">지역 비교 리포트</button>
-        </div>
-      </div>
-
-      <div class="stat-row">
-        <div class="stat-card green"><div class="stat-label">최고 처리 지역</div><div class="stat-val green" style="font-size:18px">경기 평택</div><div class="stat-delta up">일 812,341건</div></div>
-        <div class="stat-card amber"><div class="stat-label">물류 공백 지역</div><div class="stat-val amber">23개</div><div class="stat-delta down">↑ 전월 대비 +3개</div></div>
-        <div class="stat-card blue"><div class="stat-label">신규 창고 개설</div><div class="stat-val blue">8개소</div><div class="stat-delta up">↑ 이번 달</div></div>
-        <div class="stat-card red"><div class="stat-label">과부하 지역</div><div class="stat-val red">7개</div><div class="stat-delta down">AI 우회 중</div></div>
-      </div>
-
       <div class="grid-2">
-        <div class="panel">
-          <div class="panel-head"><span class="panel-title">🗺 전국 허브 분포도</span><span class="panel-badge pb-blue">Kakao Maps</span></div>
-          <div class="panel-body" style="padding:0">
-            <div id="map-hub" style="width:100%;height:300px;border-radius:0 0 6px 6px;background:var(--bg3);"></div>
-            <div style="padding:10px 14px;display:flex;gap:16px;flex-wrap:wrap;font-size:11px;color:var(--text3);border-top:1px solid var(--border)">
-              <span><span style="color:var(--brand)">●</span> 허브 정상</span>
-              <span><span style="color:var(--blue)">●</span> 허브 운영 중</span>
-              <span><span style="color:var(--amber)">●</span> 처리 지연</span>
-              <span><span style="color:var(--red)">●</span> 이상 감지</span>
-              <span style="margin-left:auto;color:var(--text4)">마커 클릭 시 상세 정보</span>
-            </div>
+        <div class="card">
+          <div class="card-head"><span class="ch-lbl">광역시도 물류량 순위</span><span class="ch-meta">오늘 기준</span></div>
+          <div class="card-body">
+            <div class="region-row"><span class="rr-name">경기도</span><div class="rr-track"><div class="rr-fill" style="width:100%"></div></div><span class="rr-val">812,341건</span></div>
+            <div class="region-row"><span class="rr-name">서울</span><div class="rr-track"><div class="rr-fill" style="width:86%"></div></div><span class="rr-val">698,221건</span></div>
+            <div class="region-row"><span class="rr-name">경남</span><div class="rr-track"><div class="rr-fill" style="width:54%"></div></div><span class="rr-val">437,112건</span></div>
+            <div class="region-row"><span class="rr-name">인천</span><div class="rr-track"><div class="rr-fill" style="width:48%"></div></div><span class="rr-val">392,008건</span></div>
+            <div class="region-row"><span class="rr-name">충남</span><div class="rr-track"><div class="rr-fill" style="width:38%"></div></div><span class="rr-val">311,450건</span></div>
+            <div class="region-row"><span class="rr-name">부산</span><div class="rr-track"><div class="rr-fill" style="width:35%"></div></div><span class="rr-val">284,792건</span></div>
+            <div class="region-row"><span class="rr-name">경북</span><div class="rr-track"><div class="rr-fill warn" style="width:28%"></div></div><span class="rr-val">227,443건</span></div>
+            <div class="region-row"><span class="rr-name">전남</span><div class="rr-track"><div class="rr-fill" style="width:22%"></div></div><span class="rr-val">178,900건</span></div>
+            <div class="region-row"><span class="rr-name">전북</span><div class="rr-track"><div class="rr-fill" style="width:18%"></div></div><span class="rr-val">149,220건</span></div>
+            <div class="region-row"><span class="rr-name">제주</span><div class="rr-track"><div class="rr-fill" style="width:8%"></div></div><span class="rr-val">65,445건</span></div>
           </div>
         </div>
-
-        <div class="panel">
-          <div class="panel-head"><span class="panel-title">📋 광역시도 물류량 순위</span><span class="panel-badge pb-green">오늘 기준</span></div>
-          <div class="panel-body">
-            <div class="region-list">
-              <div class="region-row"><span class="region-name">경기도</span><div class="region-bar-wrap"><div class="region-bar" style="width:100%"></div></div><span class="region-val">812,341건</span></div>
-              <div class="region-row"><span class="region-name">서울</span><div class="region-bar-wrap"><div class="region-bar" style="width:86%;background:var(--blue)"></div></div><span class="region-val">698,221건</span></div>
-              <div class="region-row"><span class="region-name">경남</span><div class="region-bar-wrap"><div class="region-bar" style="width:54%"></div></div><span class="region-val">437,112건</span></div>
-              <div class="region-row"><span class="region-name">인천</span><div class="region-bar-wrap"><div class="region-bar" style="width:48%;background:var(--blue)"></div></div><span class="region-val">392,008건</span></div>
-              <div class="region-row"><span class="region-name">충남</span><div class="region-bar-wrap"><div class="region-bar" style="width:38%;background:var(--amber)"></div></div><span class="region-val">311,450건</span></div>
-              <div class="region-row"><span class="region-name">부산</span><div class="region-bar-wrap"><div class="region-bar" style="width:35%;background:var(--amber)"></div></div><span class="region-val">284,792건</span></div>
-              <div class="region-row"><span class="region-name">경북</span><div class="region-bar-wrap"><div class="region-bar" style="width:28%;background:var(--red)"></div></div><span class="region-val">227,443건</span></div>
-              <div class="region-row"><span class="region-name">전남</span><div class="region-bar-wrap"><div class="region-bar" style="width:22%"></div></div><span class="region-val">178,900건</span></div>
-              <div class="region-row"><span class="region-name">전북</span><div class="region-bar-wrap"><div class="region-bar" style="width:18%"></div></div><span class="region-val">149,220건</span></div>
-              <div class="region-row"><span class="region-name">제주</span><div class="region-bar-wrap"><div class="region-bar" style="width:8%"></div></div><span class="region-val">65,445건</span></div>
-            </div>
+        <div class="card">
+          <div class="card-head"><span class="ch-lbl">물류 공백 지역</span><span class="ch-meta">AI 인프라 확충 권고</span></div>
+          <div class="card-body">
+            <table class="tbl">
+              <thead><tr><th>지역</th><th>배송 도달</th><th>인접 창고</th><th>AI 권고</th></tr></thead>
+              <tbody>
+                <tr><td>강원 정선군</td><td style="color:var(--amber)">6.2시간</td><td>원주 82km</td><td style="color:var(--txt2);font-size:11px">마이크로 허브 신설</td></tr>
+                <tr><td>전남 신안군</td><td style="color:var(--red)">8.4시간</td><td>목포 도선포함</td><td style="color:var(--txt2);font-size:11px">드론 배송 도입</td></tr>
+                <tr><td>경북 울릉군</td><td style="color:var(--red)">12시간+</td><td>포항 선박</td><td style="color:var(--txt2);font-size:11px">항공 물류 보조금</td></tr>
+                <tr><td>충북 단양군</td><td style="color:var(--amber)">4.8시간</td><td>충주 51km</td><td style="color:var(--txt2);font-size:11px">공유 창고 유치</td></tr>
+              </tbody>
+            </table>
           </div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-head"><span class="panel-title">📍 물류 공백 지역 (AI 인프라 확충 권고)</span><span class="panel-badge pb-amber">정책 제언</span></div>
-        <div class="panel-body">
-          <table class="tbl">
-            <thead><tr><th>지역</th><th>배송 도달 시간</th><th>인접 창고</th><th>인구</th><th>AI 권고</th></tr></thead>
-            <tbody>
-              <tr><td>강원 정선군</td><td class="td-amber td-mono">6.2시간</td><td>원주 (82km)</td><td>34,200명</td><td class="td-amber">마이크로 허브 신설 권고</td></tr>
-              <tr><td>전남 신안군</td><td class="td-red td-mono">8.4시간</td><td>목포 (도선 포함)</td><td>38,100명</td><td class="td-red">도서 전용 드론 배송 도입 권고</td></tr>
-              <tr><td>경북 울릉군</td><td class="td-red td-mono">12.0시간+</td><td>포항 (선박)</td><td>8,900명</td><td class="td-red">항공 물류 보조금 지원 권고</td></tr>
-              <tr><td>충북 단양군</td><td class="td-amber td-mono">4.8시간</td><td>충주 (51km)</td><td>27,300명</td><td class="td-amber">공유 창고 유치 지원 권고</td></tr>
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
 
-    <!-- ── P3: 품목·물자 현황 ── -->
+    <!-- P3: 품목·물자 현황 -->
     <div class="page" id="p3">
-      <div class="pg-header">
-        <div>
-          <div class="pg-title">품목·물자 현황</div>
-          <div class="pg-sub">전국 유통 물자 종류·수량 실시간 집계</div>
-        </div>
-        <div class="pg-actions">
-          <button class="pg-btn">HS코드 검색</button>
-          <button class="pg-btn primary">품목별 리포트</button>
-        </div>
-      </div>
-
-      <div class="stat-row">
-        <div class="stat-card green"><div class="stat-label">총 품목 종류</div><div class="stat-val green">12,847</div><div class="stat-delta up">↑ 이번 주 +231종</div></div>
-        <div class="stat-card blue"><div class="stat-label">식품·신선류</div><div class="stat-val blue">38.2%</div><div class="stat-delta up">↑ 비중 최고</div></div>
-        <div class="stat-card amber"><div class="stat-label">폐기 임박 재고</div><div class="stat-val amber">2,341톤</div><div class="stat-delta down">↑ 24시간 내 처리 필요</div></div>
-        <div class="stat-card purple"><div class="stat-label">위험물 운송 중</div><div class="stat-val purple">84건</div><div class="stat-delta neu">→ 허가 준수율 100%</div></div>
-      </div>
-
       <div class="grid-2">
-        <div class="panel">
-          <div class="panel-head"><span class="panel-title">📦 품목 대분류별 물량 비중</span><span class="panel-badge pb-green">오늘</span></div>
-          <div class="panel-body">
-            <div class="bar-chart">
-              <div class="bar-row"><span class="bar-label">식품·신선류</span><div class="bar-track"><div class="bar-fill green" style="width:100%"></div></div><span class="bar-val">38.2%</span></div>
-              <div class="bar-row"><span class="bar-label">전자·기계부품</span><div class="bar-track"><div class="bar-fill blue" style="width:62%"></div></div><span class="bar-val">23.7%</span></div>
-              <div class="bar-row"><span class="bar-label">생활·소비재</span><div class="bar-track"><div class="bar-fill amber" style="width:44%"></div></div><span class="bar-val">16.9%</span></div>
-              <div class="bar-row"><span class="bar-label">건자재·철강</span><div class="bar-track"><div class="bar-fill amber" style="width:28%"></div></div><span class="bar-val">10.8%</span></div>
-              <div class="bar-row"><span class="bar-label">의약·의료</span><div class="bar-track"><div class="bar-fill purple" style="width:18%"></div></div><span class="bar-val">6.9%</span></div>
-              <div class="bar-row"><span class="bar-label">기타</span><div class="bar-track"><div class="bar-fill amber" style="width:9%"></div></div><span class="bar-val">3.5%</span></div>
-            </div>
+        <div class="card">
+          <div class="card-head"><span class="ch-lbl">품목 대분류별 물량 비중</span><span class="ch-meta">오늘</span></div>
+          <div class="card-body">
+            <div class="bar-row"><span class="bar-lbl">식품·신선류</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">38.2%</span></div>
+            <div class="bar-row"><span class="bar-lbl">전자·기계부품</span><div class="bar-track"><div class="bar-fill" style="width:62%"></div></div><span class="bar-val">23.7%</span></div>
+            <div class="bar-row"><span class="bar-lbl">생활·소비재</span><div class="bar-track"><div class="bar-fill" style="width:44%"></div></div><span class="bar-val">16.9%</span></div>
+            <div class="bar-row"><span class="bar-lbl">건자재·철강</span><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div><span class="bar-val">10.8%</span></div>
+            <div class="bar-row"><span class="bar-lbl">의약·의료</span><div class="bar-track"><div class="bar-fill" style="width:18%"></div></div><span class="bar-val">6.9%</span></div>
+            <div class="bar-row"><span class="bar-lbl">기타</span><div class="bar-track"><div class="bar-fill" style="width:9%"></div></div><span class="bar-val">3.5%</span></div>
           </div>
         </div>
-
-        <div class="panel">
-          <div class="panel-head"><span class="panel-title">⚡ 긴급 처리 필요 품목</span><span class="panel-badge pb-amber">24h 내</span></div>
-          <div class="panel-body">
+        <div class="card">
+          <div class="card-head"><span class="ch-lbl">긴급 처리 필요 품목</span><span class="ch-meta">24h 내</span></div>
+          <div class="card-body">
             <table class="tbl">
-              <thead><tr><th>품목</th><th>수량</th><th>현 위치</th><th>처리 기한</th><th>상태</th></tr></thead>
+              <thead><tr><th>품목</th><th>수량</th><th>위치</th><th>기한</th><th>상태</th></tr></thead>
               <tbody>
-                <tr><td>제주 감귤 (신선)</td><td class="td-mono">48톤</td><td>제주 한림 창고</td><td class="td-amber">14시간 후</td><td><span class="chip chip-warn">출하 중</span></td></tr>
-                <tr><td>고흥 굴 (냉장)</td><td class="td-mono">12톤</td><td>전남 고흥 항구</td><td class="td-red">8시간 후</td><td><span class="chip chip-err">긴급</span></td></tr>
-                <tr><td>백신 원료 (냉동)</td><td class="td-mono">2,100바이알</td><td>인천 바이오단지</td><td class="td-green">36시간 후</td><td><span class="chip chip-run">정상</span></td></tr>
-                <tr><td>딸기 (상온 한계)</td><td class="td-mono">23톤</td><td>경남 진주 창고</td><td class="td-amber">18시간 후</td><td><span class="chip chip-warn">주의</span></td></tr>
+                <tr><td>제주 감귤 (신선)</td><td class="mono">48톤</td><td style="font-size:11px">한림 창고</td><td style="color:var(--amber);font-size:11px">14시간</td><td><span class="chip chip-warn">출하 중</span></td></tr>
+                <tr><td>고흥 굴 (냉장)</td><td class="mono">12톤</td><td style="font-size:11px">고흥 항구</td><td style="color:var(--red);font-size:11px">8시간</td><td><span class="chip chip-err">긴급</span></td></tr>
+                <tr><td>백신 원료 (냉동)</td><td class="mono">2,100바이알</td><td style="font-size:11px">인천 바이오단지</td><td style="color:var(--green-dk);font-size:11px">36시간</td><td><span class="chip chip-ok">정상</span></td></tr>
+                <tr><td>딸기 (상온 한계)</td><td class="mono">23톤</td><td style="font-size:11px">진주 창고</td><td style="color:var(--amber);font-size:11px">18시간</td><td><span class="chip chip-warn">주의</span></td></tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
-
-      <div class="panel">
-        <div class="panel-head"><span class="panel-title">🔬 주요 품목 재고 현황 (전국 집계)</span><span class="panel-badge pb-blue">실시간</span></div>
-        <div class="panel-body">
+      <div class="card">
+        <div class="card-head"><span class="ch-lbl">주요 품목 재고 현황</span><span class="ch-badge">전국 집계</span></div>
+        <div class="card-body">
           <table class="tbl">
-            <thead><tr><th>품목</th><th>총 재고</th><th>가용 재고</th><th>예측 소진일</th><th>조달 상태</th><th>비고</th></tr></thead>
+            <thead><tr><th>품목</th><th>총 재고</th><th>가용 재고</th><th>예측 소진</th><th>조달 상태</th><th>비고</th></tr></thead>
             <tbody>
-              <tr><td>쌀 (일반미)</td><td class="td-mono">824,200톤</td><td class="td-green td-mono">822,100톤</td><td>D+184</td><td><span class="chip chip-run">정상</span></td><td></td></tr>
-              <tr><td>반도체 웨이퍼 (8인치)</td><td class="td-mono">4,821,000장</td><td class="td-amber td-mono">1,230,400장</td><td>D+12</td><td><span class="chip chip-warn">주의</span></td><td>AI 긴급 발주 중</td></tr>
-              <tr><td>요소수</td><td class="td-mono">28,400킬로리터</td><td class="td-green td-mono">27,900킬로리터</td><td>D+90</td><td><span class="chip chip-run">정상</span></td><td></td></tr>
-              <tr><td>마스크 (KF94)</td><td class="td-mono">48,200,000장</td><td class="td-green td-mono">46,800,000장</td><td>D+220</td><td><span class="chip chip-run">정상</span></td><td></td></tr>
-              <tr><td>혈액 (O형)</td><td class="td-mono">12,400유닛</td><td class="td-red td-mono">4,100유닛</td><td>D+3</td><td><span class="chip chip-err">긴급</span></td><td>K-Health 연동 수혈 요청</td></tr>
+              <tr><td>쌀 (일반미)</td><td class="mono">824,200톤</td><td class="mono" style="color:var(--green-dk)">822,100톤</td><td>D+184</td><td><span class="chip chip-ok">정상</span></td><td></td></tr>
+              <tr><td>반도체 웨이퍼</td><td class="mono">4,821,000장</td><td class="mono" style="color:var(--amber)">1,230,400장</td><td>D+12</td><td><span class="chip chip-warn">주의</span></td><td style="font-size:11px;color:var(--txt3)">긴급 발주 중</td></tr>
+              <tr><td>요소수</td><td class="mono">28,400kL</td><td class="mono" style="color:var(--green-dk)">27,900kL</td><td>D+90</td><td><span class="chip chip-ok">정상</span></td><td></td></tr>
+              <tr><td>혈액 (O형)</td><td class="mono">12,400유닛</td><td class="mono" style="color:var(--red)">4,100유닛</td><td>D+3</td><td><span class="chip chip-err">긴급</span></td><td style="font-size:11px;color:var(--txt3)">K-Health 연동</td></tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- ── P4: 산업별 트렌드 ── -->
+    <!-- P4: 산업별 트렌드 -->
     <div class="page" id="p4">
-      <div class="pg-header">
-        <div>
-          <div class="pg-title">산업별 물류 수요 트렌드</div>
-          <div class="pg-sub">1·2·3차 산업 물류 수요 변화 추세</div>
-        </div>
-        <div class="pg-actions">
-          <button class="pg-btn">기간 설정</button>
-          <button class="pg-btn primary">정책 시뮬레이션</button>
-        </div>
-      </div>
-
-      <div class="stat-row">
-        <div class="stat-card green"><div class="stat-label">1차 산업 (농수산)</div><div class="stat-val green">+8.4%</div><div class="stat-delta up">↑ 전년 동월 대비</div></div>
-        <div class="stat-card blue"><div class="stat-label">2차 산업 (제조)</div><div class="stat-val blue">+3.1%</div><div class="stat-delta up">↑ 전년 동월 대비</div></div>
-        <div class="stat-card amber"><div class="stat-label">3차 산업 (유통)</div><div class="stat-val amber">+14.7%</div><div class="stat-delta up">↑ 이커머스 급성장</div></div>
-        <div class="stat-card purple"><div class="stat-label">공공·의료 물류</div><div class="stat-val purple">+5.2%</div><div class="stat-delta up">↑ 고령화 영향</div></div>
-      </div>
-
       <div class="grid-2">
-        <div class="panel">
-          <div class="panel-head"><span class="panel-title">📈 월별 산업군 트렌드 (최근 12개월)</span><span class="panel-badge pb-green">트렌드</span></div>
-          <div class="panel-body">
-            <svg class="trend-svg" viewBox="0 0 440 80" style="height:140px">
-              <!-- Grid lines -->
-              <line x1="0" y1="20" x2="440" y2="20" stroke="#30363d" stroke-width="0.5"/>
-              <line x1="0" y1="40" x2="440" y2="40" stroke="#30363d" stroke-width="0.5"/>
-              <line x1="0" y1="60" x2="440" y2="60" stroke="#30363d" stroke-width="0.5"/>
-              <!-- 1차 산업 (녹색) -->
-              <polyline fill="none" stroke="#3ecf8e" stroke-width="2"
-                points="0,62 40,58 80,55 120,52 160,50 200,48 240,42 280,38 320,35 360,30 400,27 440,22"/>
-              <!-- 2차 산업 (파랑) -->
-              <polyline fill="none" stroke="#58a6ff" stroke-width="2"
-                points="0,55 40,53 80,52 120,50 160,51 200,49 240,48 280,47 320,45 360,43 400,41 440,40"/>
-              <!-- 3차 산업 (앰버) -->
-              <polyline fill="none" stroke="#e3b341" stroke-width="2"
-                points="0,65 40,62 80,58 120,52 160,46 200,40 240,35 280,28 320,22 360,18 400,12 440,8"/>
-              <!-- 범례 -->
-              <circle cx="10" cy="75" r="4" fill="#3ecf8e"/>
-              <text x="18" y="78" fill="#8b949e" font-size="9" font-family="IBM Plex Mono">1차 산업</text>
-              <circle cx="70" cy="75" r="4" fill="#58a6ff"/>
-              <text x="78" y="78" fill="#8b949e" font-size="9" font-family="IBM Plex Mono">2차 산업</text>
-              <circle cx="130" cy="75" r="4" fill="#e3b341"/>
-              <text x="138" y="78" fill="#8b949e" font-size="9" font-family="IBM Plex Mono">3차 산업</text>
-            </svg>
-            <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text4);margin-top:4px">
-              <span>25.07</span><span>25.09</span><span>25.11</span><span>26.01</span><span>26.03</span><span>26.05</span>
-            </div>
+        <div class="card">
+          <div class="card-head"><span class="ch-lbl">산업군별 물류 수요 변화</span><span class="ch-meta">전년 대비</span></div>
+          <div class="card-body">
+            <div class="bar-row"><span class="bar-lbl">이커머스</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">+32.1%</span></div>
+            <div class="bar-row"><span class="bar-lbl">냉동·신선</span><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div><span class="bar-val">+25.6%</span></div>
+            <div class="bar-row"><span class="bar-lbl">의료·방역</span><div class="bar-track"><div class="bar-fill" style="width:52%"></div></div><span class="bar-val">+16.7%</span></div>
+            <div class="bar-row"><span class="bar-lbl">전기차 부품</span><div class="bar-track"><div class="bar-fill" style="width:48%"></div></div><span class="bar-val">+15.2%</span></div>
+            <div class="bar-row"><span class="bar-lbl">건설자재</span><div class="bar-track"><div class="bar-fill" style="width:26%"></div></div><span class="bar-val">+8.3%</span></div>
+            <div class="bar-row"><span class="bar-lbl">인쇄·출판</span><div class="bar-track"><div class="bar-fill err" style="width:16%"></div></div><span class="bar-val" style="color:var(--red)">-5.1%</span></div>
           </div>
         </div>
-
-        <div class="panel">
-          <div class="panel-head"><span class="panel-title">🏭 세부 산업별 수요 변화 (전년 대비)</span><span class="panel-badge pb-blue">YoY</span></div>
-          <div class="panel-body">
-            <div class="bar-chart">
-              <div class="bar-row"><span class="bar-label">이커머스</span><div class="bar-track"><div class="bar-fill amber" style="width:100%"></div></div><span class="bar-val">+32.1%</span></div>
-              <div class="bar-row"><span class="bar-label">냉동·신선</span><div class="bar-track"><div class="bar-fill green" style="width:80%"></div></div><span class="bar-val">+25.6%</span></div>
-              <div class="bar-row"><span class="bar-label">의료·방역</span><div class="bar-track"><div class="bar-fill purple" style="width:52%"></div></div><span class="bar-val">+16.7%</span></div>
-              <div class="bar-row"><span class="bar-label">전기차 부품</span><div class="bar-track"><div class="bar-fill blue" style="width:48%"></div></div><span class="bar-val">+15.2%</span></div>
-              <div class="bar-row"><span class="bar-label">건설자재</span><div class="bar-track"><div class="bar-fill blue" style="width:26%"></div></div><span class="bar-val">+8.3%</span></div>
-              <div class="bar-row"><span class="bar-label">인쇄·출판</span><div class="bar-track"><div class="bar-fill red" style="width:16%"></div></div><span class="bar-val">-5.1%</span></div>
-            </div>
+        <div class="card">
+          <div class="card-head"><span class="ch-lbl">AI 수요 예측 (향후 3개월)</span><span class="ch-meta">예측</span></div>
+          <div class="card-body">
+            <table class="tbl">
+              <thead><tr><th>산업</th><th>7월</th><th>8월</th><th>9월</th><th>신뢰도</th></tr></thead>
+              <tbody>
+                <tr><td>이커머스 (3차)</td><td style="color:var(--green-dk)">+18%</td><td style="color:var(--green-dk)">+22%</td><td style="color:var(--amber)">+8%</td><td class="mono" style="color:var(--green-dk)">94.2%</td></tr>
+                <tr><td>농수산 (1차)</td><td style="color:var(--green-dk)">+12%</td><td style="color:var(--amber)">+4%</td><td style="color:var(--green-dk)">+28%</td><td class="mono" style="color:var(--amber)">78.6%</td></tr>
+                <tr><td>반도체 부품 (2차)</td><td>±2%</td><td style="color:var(--green-dk)">+7%</td><td style="color:var(--green-dk)">+11%</td><td class="mono" style="color:var(--green-dk)">88.4%</td></tr>
+                <tr><td>의료·방역</td><td style="color:var(--green-dk)">+6%</td><td style="color:var(--green-dk)">+8%</td><td style="color:var(--green-dk)">+9%</td><td class="mono" style="color:var(--green-dk)">91.7%</td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
+      <div class="card">
+        <div class="card-head"><span class="ch-lbl">월별 1·2·3차 산업 트렌드 (최근 12개월)</span></div>
+        <div class="card-body">
+          <svg viewBox="0 0 800 100" style="width:100%;height:100px">
+            <line x1="0" y1="25" x2="800" y2="25" stroke="#e5e7eb" stroke-width="0.5"/>
+            <line x1="0" y1="50" x2="800" y2="50" stroke="#e5e7eb" stroke-width="0.5"/>
+            <line x1="0" y1="75" x2="800" y2="75" stroke="#e5e7eb" stroke-width="0.5"/>
+            <polyline fill="none" stroke="#3ecf8e" stroke-width="2" opacity="0.9"
+              points="0,80 73,76 145,72 218,68 291,63 364,57 436,50 509,43 582,37 655,30 727,24 800,18"/>
+            <polyline fill="none" stroke="#9ca3af" stroke-width="1.5" opacity="0.7"
+              points="0,72 73,70 145,69 218,67 291,68 364,66 436,65 509,64 582,62 655,60 727,58 800,55"/>
+            <polyline fill="none" stroke="#6b7280" stroke-width="1.5" opacity="0.5" stroke-dasharray="4,3"
+              points="0,85 73,82 145,78 218,72 291,66 364,60 436,53 509,46 582,40 655,35 727,29 800,22"/>
+            <text x="10" y="95" fill="#9ca3af" font-size="9" font-family="JetBrains Mono">25.07</text>
+            <text x="220" y="95" fill="#9ca3af" font-size="9" font-family="JetBrains Mono">25.11</text>
+            <text x="440" y="95" fill="#9ca3af" font-size="9" font-family="JetBrains Mono">26.03</text>
+            <text x="730" y="95" fill="#9ca3af" font-size="9" font-family="JetBrains Mono">26.07</text>
+          </svg>
+          <div style="display:flex;gap:16px;font-size:11px;color:var(--txt3);margin-top:6px">
+            <span><span style="display:inline-block;width:20px;height:2px;background:var(--green);vertical-align:middle;margin-right:4px"></span>3차 산업</span>
+            <span><span style="display:inline-block;width:20px;height:2px;background:#9ca3af;vertical-align:middle;margin-right:4px"></span>2차 산업</span>
+            <span><span style="display:inline-block;width:20px;height:2px;background:#6b7280;border-top:2px dashed #6b7280;vertical-align:middle;margin-right:4px"></span>1차 산업</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <div class="panel">
-        <div class="panel-head"><span class="panel-title">🔮 AI 수요 예측 (향후 3개월)</span><span class="panel-badge pb-amber">예측</span></div>
-        <div class="panel-body">
+    <!-- P5: 배송 현황 -->
+    <div class="page" id="p5">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><span class="ch-lbl">수단별 배송 현황</span><span class="ch-badge">실시간</span></div>
+          <div class="card-body">
+            <div class="bar-row"><span class="bar-lbl">5톤 트럭</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">248,441대</span></div>
+            <div class="bar-row"><span class="bar-lbl">1톤 트럭</span><div class="bar-track"><div class="bar-fill" style="width:76%"></div></div><span class="bar-val">189,332대</span></div>
+            <div class="bar-row"><span class="bar-lbl">오토바이</span><div class="bar-track"><div class="bar-fill" style="width:66%"></div></div><span class="bar-val">412,001대</span></div>
+            <div class="bar-row"><span class="bar-lbl">드론</span><div class="bar-track"><div class="bar-fill" style="width:17%"></div></div><span class="bar-val">42,667대</span></div>
+            <div class="bar-row"><span class="bar-lbl">선박 (연안)</span><div class="bar-track"><div class="bar-fill" style="width:0.5%"></div></div><span class="bar-val">221척</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="ch-lbl">SLA 준수율</span><span class="ch-meta">이번 달</span></div>
+          <div class="card-body">
+            <div class="bar-row"><span class="bar-lbl">당일 배송</span><div class="bar-track"><div class="bar-fill" style="width:94.7%"></div></div><span class="bar-val">94.7%</span></div>
+            <div class="bar-row"><span class="bar-lbl">익일 배송</span><div class="bar-track"><div class="bar-fill" style="width:99.1%"></div></div><span class="bar-val">99.1%</span></div>
+            <div class="bar-row"><span class="bar-lbl">2일 내</span><div class="bar-track"><div class="bar-fill" style="width:99.8%"></div></div><span class="bar-val">99.8%</span></div>
+            <div class="bar-row"><span class="bar-lbl">냉장 온도</span><div class="bar-track"><div class="bar-fill" style="width:98.4%"></div></div><span class="bar-val">98.4%</span></div>
+            <div class="bar-row"><span class="bar-lbl">파손율</span><div class="bar-track"><div class="bar-fill err" style="width:0.2%"></div></div><span class="bar-val" style="color:var(--red)">0.2%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="ch-lbl">주요 배송 이슈</span><span class="ch-badge">실시간</span></div>
+        <div class="card-body">
           <table class="tbl">
-            <thead><tr><th>산업</th><th>7월 예측</th><th>8월 예측</th><th>9월 예측</th><th>주요 변수</th><th>신뢰도</th></tr></thead>
+            <thead><tr><th>구분</th><th>건수</th><th>원인</th><th>조치</th></tr></thead>
             <tbody>
-              <tr><td>이커머스 (3차)</td><td class="td-green">+18%</td><td class="td-green">+22%</td><td class="td-amber">+8% (추석 전)</td><td>추석 명절 특수</td><td class="td-green td-mono">94.2%</td></tr>
-              <tr><td>농수산 (1차)</td><td class="td-green">+12%</td><td class="td-amber">+4%</td><td class="td-green">+28% (가을 수확)</td><td>기후 변수 있음</td><td class="td-amber td-mono">78.6%</td></tr>
-              <tr><td>반도체 부품 (2차)</td><td class="td-amber">±2%</td><td class="td-green">+7%</td><td class="td-green">+11%</td><td>신규 팹 가동</td><td class="td-green td-mono">88.4%</td></tr>
-              <tr><td>의료·방역 (공공)</td><td class="td-green">+6%</td><td class="td-green">+8%</td><td class="td-green">+9%</td><td>독감 시즌 진입</td><td class="td-green td-mono">91.7%</td></tr>
+              <tr><td>수취인 부재</td><td class="mono" style="color:var(--amber)">1,421건</td><td style="font-size:11px;color:var(--txt3)">부재 시 알림 미수신</td><td style="font-size:11px">재배송 자동 예약</td></tr>
+              <tr><td>주소 오류</td><td class="mono" style="color:var(--amber)">224건</td><td style="font-size:11px;color:var(--txt3)">구 주소 사용</td><td style="font-size:11px">AI 주소 교정 중</td></tr>
+              <tr><td>물류 센터 지연</td><td class="mono" style="color:var(--red)">127건</td><td style="font-size:11px;color:var(--txt3)">구미 설비 오류</td><td style="font-size:11px">우회 경로 적용</td></tr>
+              <tr><td>파손 의심</td><td class="mono" style="color:var(--red)">50건</td><td style="font-size:11px;color:var(--txt3)">충격 감지 센서</td><td style="font-size:11px">교체 발송 준비</td></tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- ── P5: 배송 현황 ── -->
-    <div class="page" id="p5">
-      <div class="pg-header">
-        <div>
-          <div class="pg-title">실시간 배송 현황</div>
-          <div class="pg-sub">전국 배송 차량·드론·선박 실시간 추적</div>
-        </div>
-        <div class="pg-actions">
-          <button class="pg-btn">송장 조회</button>
-          <button class="pg-btn primary">배송 리포트</button>
-        </div>
-      </div>
-
-      <div class="stat-row">
-        <div class="stat-card blue"><div class="stat-label">현재 배송 중</div><div class="stat-val blue">892,441</div><div class="stat-delta up">↑ 화물차 438K · 이륜 412K · 드론 42K</div></div>
-        <div class="stat-card green"><div class="stat-label">오늘 완료</div><div class="stat-val green">3,389,551</div><div class="stat-delta up">↑ 완료율 94.7%</div></div>
-        <div class="stat-card amber"><div class="stat-label">지연 중</div><div class="stat-val amber">41,222</div><div class="stat-delta down">↑ 평균 지연 22분</div></div>
-        <div class="stat-card red"><div class="stat-label">배송 실패</div><div class="stat-val red">1,822</div><div class="stat-delta down">↓ 수취인 부재 78%</div></div>
-      </div>
-
-      <div class="grid-2">
-        <div class="panel">
-          <div class="panel-head"><span class="panel-title">🚚 수단별 배송 현황</span><span class="panel-badge pb-blue">실시간</span></div>
-          <div class="panel-body">
-            <div class="bar-chart">
-              <div class="bar-row"><span class="bar-label">5톤 트럭</span><div class="bar-track"><div class="bar-fill blue" style="width:100%"></div></div><span class="bar-val">248,441대</span></div>
-              <div class="bar-row"><span class="bar-label">1톤 트럭</span><div class="bar-track"><div class="bar-fill blue" style="width:76%"></div></div><span class="bar-val">189,332대</span></div>
-              <div class="bar-row"><span class="bar-label">오토바이</span><div class="bar-track"><div class="bar-fill green" style="width:66%"></div></div><span class="bar-val">412,001대</span></div>
-              <div class="bar-row"><span class="bar-label">드론</span><div class="bar-track"><div class="bar-fill purple" style="width:17%"></div></div><span class="bar-val">42,667대</span></div>
-              <div class="bar-row"><span class="bar-label">선박 (연안)</span><div class="bar-track"><div class="bar-fill amber" style="width:0.3%"></div></div><span class="bar-val">221척</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head"><span class="panel-title">📦 주요 배송 이슈 (실시간)</span><span class="panel-badge pb-amber">주의</span></div>
-          <div class="panel-body">
-            <table class="tbl">
-              <thead><tr><th>구분</th><th>건수</th><th>원인</th><th>조치</th></tr></thead>
-              <tbody>
-                <tr><td>수취인 부재</td><td class="td-mono td-amber">1,421건</td><td>부재 시 알림 미수신</td><td>재배송 자동 예약</td></tr>
-                <tr><td>주소 오류</td><td class="td-mono td-amber">224건</td><td>구 주소 사용</td><td>AI 주소 교정 중</td></tr>
-                <tr><td>물류 센터 지연</td><td class="td-mono td-red">127건</td><td>구미 설비 오류</td><td>우회 경로 적용</td></tr>
-                <tr><td>파손 의심</td><td class="td-mono td-red">50건</td><td>충격 감지 센서</td><td>교체 발송 준비</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-head"><span class="panel-title">⏱ SLA 준수율 (서비스 수준 협약)</span><span class="panel-badge pb-green">이번 달</span></div>
-        <div class="panel-body">
-          <div class="bar-chart">
-            <div class="bar-row"><span class="bar-label">당일 배송</span><div class="bar-track"><div class="bar-fill green" style="width:94.7%"></div></div><span class="bar-val">94.7%</span></div>
-            <div class="bar-row"><span class="bar-label">익일 배송</span><div class="bar-track"><div class="bar-fill green" style="width:99.1%"></div></div><span class="bar-val">99.1%</span></div>
-            <div class="bar-row"><span class="bar-label">2일 내 배송</span><div class="bar-track"><div class="bar-fill green" style="width:99.8%"></div></div><span class="bar-val">99.8%</span></div>
-            <div class="bar-row"><span class="bar-label">냉장 온도 유지</span><div class="bar-track"><div class="bar-fill green" style="width:98.4%"></div></div><span class="bar-val">98.4%</span></div>
-            <div class="bar-row"><span class="bar-label">파손율</span><div class="bar-track"><div class="bar-fill green" style="width:0.2%"></div></div><span class="bar-val">0.2%</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── P6: 창고 네트워크 ── -->
+    <!-- P6: 창고 네트워크 -->
     <div class="page" id="p6">
-      <div class="pg-header">
-        <div>
-          <div class="pg-title">창고 네트워크</div>
-          <div class="pg-sub">전국 물류 창고 위치·용량·가동률 실시간 현황</div>
-        </div>
-        <div class="pg-actions">
-          <button class="pg-btn">창고 추가 신청</button>
-          <button class="pg-btn primary">인프라 투자 계획</button>
-        </div>
-      </div>
-
-      <div class="stat-row">
-        <div class="stat-card green"><div class="stat-label">전국 창고 수</div><div class="stat-val green">3,847</div><div class="stat-delta up">↑ 이번 달 +8개소 개설</div></div>
-        <div class="stat-card blue"><div class="stat-label">총 가용 면적</div><div class="stat-val blue">42.8M㎡</div><div class="stat-delta up">↑ 전년 대비 +6.2%</div></div>
-        <div class="stat-card amber"><div class="stat-label">평균 가동률</div><div class="stat-val amber">73.2%</div><div class="stat-delta neu">→ 최적 범위 (70~80%)</div></div>
-        <div class="stat-card red"><div class="stat-label">포화 창고 (>90%)</div><div class="stat-val red">127개</div><div class="stat-delta down">↑ AI 재배분 진행 중</div></div>
-      </div>
-
       <div class="grid-2">
-        <div class="panel">
-          <div class="panel-head"><span class="panel-title">🏭 주요 허브 창고 현황</span><span class="panel-badge pb-green">실시간</span></div>
-          <div class="panel-body">
+        <div class="card">
+          <div class="card-head"><span class="ch-lbl">주요 허브 창고 현황</span><span class="ch-badge">실시간</span></div>
+          <div class="card-body">
             <table class="tbl">
               <thead><tr><th>창고명</th><th>지역</th><th>면적</th><th>가동률</th><th>상태</th></tr></thead>
               <tbody>
-                <tr><td>평택 메가 허브</td><td>경기 평택</td><td class="td-mono">820,000㎡</td><td class="td-green td-mono">68%</td><td><span class="chip chip-run">정상</span></td></tr>
-                <tr><td>인천 스마트 물류</td><td>인천 남동</td><td class="td-mono">450,000㎡</td><td class="td-amber td-mono">81%</td><td><span class="chip chip-warn">주의</span></td></tr>
-                <tr><td>부산 신항 허브</td><td>부산 강서</td><td class="td-mono">380,000㎡</td><td class="td-green td-mono">72%</td><td><span class="chip chip-run">정상</span></td></tr>
-                <tr><td>대구 내륙 허브</td><td>대구 달성</td><td class="td-mono">210,000㎡</td><td class="td-green td-mono">65%</td><td><span class="chip chip-run">정상</span></td></tr>
-                <tr><td>광주 서남권 허브</td><td>광주 광산</td><td class="td-mono">180,000㎡</td><td class="td-red td-mono">92%</td><td><span class="chip chip-err">포화</span></td></tr>
-                <tr><td>구미 제조 물류</td><td>경북 구미</td><td class="td-mono">160,000㎡</td><td class="td-amber td-mono">78%</td><td><span class="chip chip-warn">지연</span></td></tr>
+                <tr><td>평택 메가 허브</td><td style="font-size:11px;color:var(--txt3)">경기 평택</td><td class="mono">820,000㎡</td><td class="mono" style="color:var(--green-dk)">68%</td><td><span class="chip chip-ok">정상</span></td></tr>
+                <tr><td>인천 스마트 물류</td><td style="font-size:11px;color:var(--txt3)">인천 남동</td><td class="mono">450,000㎡</td><td class="mono" style="color:var(--amber)">81%</td><td><span class="chip chip-warn">주의</span></td></tr>
+                <tr><td>부산 신항 허브</td><td style="font-size:11px;color:var(--txt3)">부산 강서</td><td class="mono">380,000㎡</td><td class="mono" style="color:var(--green-dk)">72%</td><td><span class="chip chip-ok">정상</span></td></tr>
+                <tr><td>광주 서남권 허브</td><td style="font-size:11px;color:var(--txt3)">광주 광산</td><td class="mono">180,000㎡</td><td class="mono" style="color:var(--red)">92%</td><td><span class="chip chip-err">포화</span></td></tr>
+                <tr><td>구미 제조 물류</td><td style="font-size:11px;color:var(--txt3)">경북 구미</td><td class="mono">160,000㎡</td><td class="mono" style="color:var(--amber)">78%</td><td><span class="chip chip-warn">지연</span></td></tr>
               </tbody>
             </table>
           </div>
         </div>
-
-        <div class="panel">
-          <div class="panel-head"><span class="panel-title">🌡 창고 유형별 분포</span><span class="panel-badge pb-blue">전국</span></div>
-          <div class="panel-body">
-            <div class="bar-chart" style="margin-bottom:20px">
-              <div class="bar-row"><span class="bar-label">일반 창고</span><div class="bar-track"><div class="bar-fill blue" style="width:100%"></div></div><span class="bar-val">2,241개</span></div>
-              <div class="bar-row"><span class="bar-label">냉장 창고</span><div class="bar-track"><div class="bar-fill blue" style="width:44%"></div></div><span class="bar-val">984개</span></div>
-              <div class="bar-row"><span class="bar-label">냉동 창고</span><div class="bar-track"><div class="bar-fill purple" style="width:28%"></div></div><span class="bar-val">621개</span></div>
-              <div class="bar-row"><span class="bar-label">위험물 창고</span><div class="bar-track"><div class="bar-fill red" style="width:0.4%"></div></div><span class="bar-val">1건</span></div>
-            </div>
-            <div class="notice info" style="margin-bottom:0;font-size:11px">
-              ℹ 냉장·냉동 창고 신규 수요 급증 — 농수산·바이오 물류 확대에 따라 AI가 추가 설립 지역 선정 중
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-head">
-          <span class="panel-title">🗺 전국 주요 창고 위치</span>
-          <div style="display:flex;gap:8px;align-items:center">
-            <span class="panel-badge pb-green">Kakao Maps</span>
-            <button class="pg-btn" style="padding:3px 8px;font-size:10px" onclick="toggleMapLayer()">레이어 전환</button>
-          </div>
-        </div>
-        <div style="padding:0">
-          <div id="map-warehouse" style="width:100%;height:380px;background:var(--bg3);"></div>
-          <div style="padding:10px 14px;display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--text3);border-top:1px solid var(--border)">
-            <span><span style="color:var(--brand)">■</span> 정상 가동</span>
-            <span><span style="color:var(--amber)">■</span> 주의 (80%+)</span>
-            <span><span style="color:var(--red)">■</span> 포화·이상</span>
-            <span><span style="color:var(--blue)">■</span> 냉장·냉동</span>
-            <span style="margin-left:auto;color:var(--text4)">마커 클릭 시 상세 · 우클릭 신규 창고 신청</span>
+        <div class="card">
+          <div class="card-head"><span class="ch-lbl">창고 유형별 분포</span><span class="ch-meta">전국</span></div>
+          <div class="card-body">
+            <div class="bar-row"><span class="bar-lbl">일반 창고</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">2,241개</span></div>
+            <div class="bar-row"><span class="bar-lbl">냉장 창고</span><div class="bar-track"><div class="bar-fill" style="width:44%"></div></div><span class="bar-val">984개</span></div>
+            <div class="bar-row"><span class="bar-lbl">냉동 창고</span><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div><span class="bar-val">621개</span></div>
+            <div class="bar-row"><span class="bar-lbl">위험물 창고</span><div class="bar-track"><div class="bar-fill err" style="width:2%"></div></div><span class="bar-val">41개</span></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ── P7: 이상 탐지 ── -->
+    <!-- P7: 이상 탐지 -->
     <div class="page" id="p7">
-      <div class="pg-header">
-        <div>
-          <div class="pg-title">이상 탐지 · 리스크 관리</div>
-          <div class="pg-sub">AI가 실시간 감지하는 물류 리스크 · 허위 수취 · 공급망 교란</div>
-        </div>
-        <div class="pg-actions">
-          <button class="pg-btn">이력 조회</button>
-          <button class="pg-btn primary">조치 보고서</button>
-        </div>
+      <div class="notice err">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
+        고위험 경보: 반도체 부품 재고 임계치 도달 — 창원 제조단지 72시간 내 생산 중단 위험. AI 긴급 해외 발주 자동 집행 중
       </div>
-
-      <div class="notice err">🚨 고위험 경보: 반도체 부품 재고 임계치 도달 — 창원 제조단지 72시간 내 생산 중단 위험. AI 긴급 해외 발주 자동 집행 중.</div>
-
-      <div class="stat-row">
-        <div class="stat-card red"><div class="stat-label">오늘 이상 탐지</div><div class="stat-val red">341</div><div class="stat-delta down">↑ 전일 대비 +18건</div></div>
-        <div class="stat-card amber"><div class="stat-label">처리 중 (AI)</div><div class="stat-val amber">127</div><div class="stat-delta neu">→ 자동 조치 진행</div></div>
-        <div class="stat-card green"><div class="stat-label">자동 해소 완료</div><div class="stat-val green">207</div><div class="stat-delta up">↑ 자동 해소율 60.7%</div></div>
-        <div class="stat-card purple"><div class="stat-label">OpenHash 증거 보존</div><div class="stat-val purple">341건</div><div class="stat-delta up">↑ 전건 불변 기록</div></div>
-      </div>
-
       <div class="grid-2">
-        <div class="panel">
-          <div class="panel-head"><span class="panel-title">⚠ 활성 이상 탐지 목록</span><span class="panel-badge pb-red">실시간</span></div>
-          <div class="panel-body scroll-y" style="max-height:280px">
+        <div class="card">
+          <div class="card-head"><span class="ch-lbl">활성 이상 탐지</span><span class="ch-badge">실시간</span></div>
+          <div class="card-body scroll">
             <table class="tbl">
-              <thead><tr><th>유형</th><th>발생 위치</th><th>감지 시각</th><th>위험도</th><th>조치</th></tr></thead>
+              <thead><tr><th>유형</th><th>위치</th><th>감지</th><th>위험도</th><th>조치</th></tr></thead>
               <tbody>
-                <tr><td>재고 임계치</td><td>창원 제조단지</td><td class="td-mono">13:42</td><td><span class="chip chip-err">HIGH</span></td><td class="td-amber">자동 발주 중</td></tr>
-                <tr><td>배송 경로 이탈</td><td>대전→서울 고속도로</td><td class="td-mono">14:01</td><td><span class="chip chip-warn">MED</span></td><td class="td-green">운전자 알림 발송</td></tr>
-                <tr><td>창고 포화</td><td>광주 광산구</td><td class="td-mono">13:55</td><td><span class="chip chip-err">HIGH</span></td><td class="td-amber">인근 창고 재배분 중</td></tr>
-                <tr><td>온도 이상 (냉장)</td><td>전주 냉장창고 3동</td><td class="td-mono">14:08</td><td><span class="chip chip-err">HIGH</span></td><td class="td-red">현장 점검 요청</td></tr>
-                <tr><td>허위 수취 의심</td><td>서울 강남구 일대</td><td class="td-mono">13:30</td><td><span class="chip chip-warn">MED</span></td><td class="td-amber">OpenHash 증빙 조회 중</td></tr>
-                <tr><td>수출입 서류 불일치</td><td>인천항 3부두</td><td class="td-mono">12:47</td><td><span class="chip chip-warn">MED</span></td><td class="td-green">K-Tax 연동 자동 정정</td></tr>
-                <tr><td>차량 고장 (배송 중)</td><td>경북 영천 국도</td><td class="td-mono">14:12</td><td><span class="chip chip-run">LOW</span></td><td class="td-green">대체 차량 자동 배차</td></tr>
+                <tr><td>재고 임계치</td><td style="font-size:11px">창원 제조단지</td><td class="mono">13:42</td><td><span class="chip chip-err">HIGH</span></td><td style="font-size:11px;color:var(--amber)">자동 발주 중</td></tr>
+                <tr><td>경로 이탈</td><td style="font-size:11px">대전→서울</td><td class="mono">14:01</td><td><span class="chip chip-warn">MED</span></td><td style="font-size:11px;color:var(--green-dk)">운전자 알림</td></tr>
+                <tr><td>창고 포화</td><td style="font-size:11px">광주 광산구</td><td class="mono">13:55</td><td><span class="chip chip-err">HIGH</span></td><td style="font-size:11px;color:var(--amber)">재배분 중</td></tr>
+                <tr><td>온도 이상</td><td style="font-size:11px">전주 냉장창고</td><td class="mono">14:08</td><td><span class="chip chip-err">HIGH</span></td><td style="font-size:11px;color:var(--red)">현장 점검 요청</td></tr>
+                <tr><td>허위 수취 의심</td><td style="font-size:11px">서울 강남구</td><td class="mono">13:30</td><td><span class="chip chip-warn">MED</span></td><td style="font-size:11px;color:var(--amber)">OpenHash 조회 중</td></tr>
               </tbody>
             </table>
           </div>
         </div>
-
-        <div class="panel">
-          <div class="panel-head"><span class="panel-title">📊 이상 유형 분포 (이번 달)</span><span class="panel-badge pb-amber">통계</span></div>
-          <div class="panel-body">
-            <div class="bar-chart">
-              <div class="bar-row"><span class="bar-label">배송 지연</span><div class="bar-track"><div class="bar-fill amber" style="width:100%"></div></div><span class="bar-val">1,284건</span></div>
-              <div class="bar-row"><span class="bar-label">재고 이상</span><div class="bar-track"><div class="bar-fill red" style="width:62%"></div></div><span class="bar-val">794건</span></div>
-              <div class="bar-row"><span class="bar-label">경로 이탈</span><div class="bar-track"><div class="bar-fill amber" style="width:42%"></div></div><span class="bar-val">541건</span></div>
-              <div class="bar-row"><span class="bar-label">허위 수취</span><div class="bar-track"><div class="bar-fill red" style="width:28%"></div></div><span class="bar-val">360건</span></div>
-              <div class="bar-row"><span class="bar-label">온도 이탈</span><div class="bar-track"><div class="bar-fill purple" style="width:20%"></div></div><span class="bar-val">258건</span></div>
-              <div class="bar-row"><span class="bar-label">서류 불일치</span><div class="bar-track"><div class="bar-fill blue" style="width:14%"></div></div><span class="bar-val">177건</span></div>
-            </div>
-            <div class="notice ok" style="margin-top:14px;margin-bottom:0;font-size:11px">
-              ✓ 전체 이상 중 60.7%를 AI가 인간 개입 없이 자동 해소 완료
-            </div>
+        <div class="card">
+          <div class="card-head"><span class="ch-lbl">이상 유형 분포</span><span class="ch-meta">이번 달</span></div>
+          <div class="card-body">
+            <div class="bar-row"><span class="bar-lbl">배송 지연</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">1,284건</span></div>
+            <div class="bar-row"><span class="bar-lbl">재고 이상</span><div class="bar-track"><div class="bar-fill" style="width:62%"></div></div><span class="bar-val">794건</span></div>
+            <div class="bar-row"><span class="bar-lbl">경로 이탈</span><div class="bar-track"><div class="bar-fill" style="width:42%"></div></div><span class="bar-val">541건</span></div>
+            <div class="bar-row"><span class="bar-lbl">허위 수취</span><div class="bar-track"><div class="bar-fill warn" style="width:28%"></div></div><span class="bar-val">360건</span></div>
+            <div class="bar-row"><span class="bar-lbl">온도 이탈</span><div class="bar-track"><div class="bar-fill warn" style="width:20%"></div></div><span class="bar-val">258건</span></div>
           </div>
         </div>
       </div>
-
-      <div class="panel">
-        <div class="panel-head"><span class="panel-title">🔏 OpenHash 이상 이력 · 불변 기록 조회</span><span class="panel-badge pb-blue">블록체인</span></div>
-        <div class="panel-body">
+      <div class="card">
+        <div class="card-head"><span class="ch-lbl">OpenHash 이상 이력</span><span class="ch-meta">불변 기록</span></div>
+        <div class="card-body">
           <table class="tbl">
-            <thead><tr><th>Hash ID</th><th>유형</th><th>발생</th><th>해소</th><th>조치</th><th>기록 상태</th></tr></thead>
+            <thead><tr><th>Hash ID</th><th>유형</th><th>발생</th><th>해소</th><th>조치</th><th>기록</th></tr></thead>
             <tbody>
-              <tr><td class="td-mono" style="color:var(--blue)">OH-2606-00441</td><td>재고 임계</td><td>13:42</td><td>처리 중</td><td>자동 발주</td><td class="td-green">✓ 불변 기록</td></tr>
-              <tr><td class="td-mono" style="color:var(--blue)">OH-2606-00387</td><td>허위 수취 의심</td><td>13:30</td><td>조회 중</td><td>증빙 대조</td><td class="td-green">✓ 불변 기록</td></tr>
-              <tr><td class="td-mono" style="color:var(--blue)">OH-2606-00312</td><td>온도 이탈</td><td>11:22</td><td>14:05</td><td>현장 교체</td><td class="td-green">✓ 불변 기록</td></tr>
-              <tr><td class="td-mono" style="color:var(--blue)">OH-2606-00281</td><td>배송 경로 이탈</td><td>10:55</td><td>11:03</td><td>자동 경보</td><td class="td-green">✓ 불변 기록</td></tr>
+              <tr><td class="mono" style="color:var(--green-dk)">OH-2606-00441</td><td style="font-size:11px">재고 임계</td><td class="mono">13:42</td><td style="font-size:11px;color:var(--txt3)">처리 중</td><td style="font-size:11px">자동 발주</td><td style="font-size:11px;color:var(--green-dk)">✓ 불변</td></tr>
+              <tr><td class="mono" style="color:var(--green-dk)">OH-2606-00387</td><td style="font-size:11px">허위 수취</td><td class="mono">13:30</td><td style="font-size:11px;color:var(--txt3)">조회 중</td><td style="font-size:11px">증빙 대조</td><td style="font-size:11px;color:var(--green-dk)">✓ 불변</td></tr>
+              <tr><td class="mono" style="color:var(--green-dk)">OH-2606-00312</td><td style="font-size:11px">온도 이탈</td><td class="mono">11:22</td><td class="mono">14:05</td><td style="font-size:11px">현장 교체</td><td style="font-size:11px;color:var(--green-dk)">✓ 불변</td></tr>
             </tbody>
           </table>
         </div>
@@ -1105,362 +665,46 @@ body {
 
   </div><!-- /content -->
 </div><!-- /main -->
+</div><!-- /app -->
+
+<div class="toast" id="toast"></div>
 
 <script>
-// ── 페이지 전환 ──
-const PAGE_NAMES = {
-  p1: '실시간 현황', p2: '지역별 물류량', p3: '품목·물자 현황',
-  p4: '산업별 트렌드', p5: '배송 현황', p6: '창고 네트워크', p7: '이상 탐지'
-};
+const PAGE_NAMES = {p1:'실시간 현황',p2:'지역별 물류량',p3:'품목·물자 현황',p4:'산업별 트렌드',p5:'배송 현황',p6:'창고 네트워크',p7:'이상 탐지'};
+
 function showPage(id, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   document.querySelectorAll('.sb-item').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
-  document.getElementById('hdr-page-name').textContent = PAGE_NAMES[id] || id;
-  if (id === 'p6') buildHeatmap();
+  document.getElementById('tb-page').textContent = PAGE_NAMES[id] || '';
 }
-
-// ── 시계 ──
 function tick() {
-  const now = new Date();
-  document.getElementById('clock').textContent =
-    now.toLocaleTimeString('ko-KR', { hour12: false });
+  document.getElementById('clock').textContent = new Date().toLocaleTimeString('ko-KR',{hour12:false});
 }
-tick();
-setInterval(tick, 1000);
-
-// ── 시간대별 막대 (P1) ──
-(function buildSpark() {
-  const vals = [5,4,3,3,6,14,52,74,88,72,68,75,92,100,87,79,82,88,90,74,62,48,32,18];
-  const wrap = document.getElementById('hourly-spark');
-  vals.forEach((v, i) => {
-    const bar = document.createElement('div');
-    bar.className = 'spark-bar' + (i === 13 ? ' hi' : '');
-    bar.style.height = v + '%';
-    bar.style.minWidth = '0';
-    wrap.appendChild(bar);
-  });
-})();
-
-// ── 창고 히트맵 (P6) ──
-function buildHeatmap() {
-  const c = document.getElementById('heatmap-container');
-  if (c.children.length > 0) return;
-  const baseMap = [
-    0,0,0,1,1,2,2,3,4,4,3,2,1,1,0,0,0,
-    0,0,1,2,2,3,3,4,4,4,3,2,2,1,0,0,0,
-    0,1,2,3,3,4,4,4,3,3,2,2,1,0,0,0,0,
-    0,1,2,3,4,4,3,3,3,2,2,1,1,0,0,0,0,
-    0,0,1,2,3,3,3,2,2,2,1,1,0,0,0,0,0,
-    0,0,0,1,2,2,2,2,1,1,1,0,0,0,0,0,0,
-    0,0,0,1,1,2,2,1,1,1,0,0,0,0,0,0,0,
-  ];
-  baseMap.forEach(v => {
-    const cell = document.createElement('div');
-    cell.className = `hm-cell hm-${v}`;
-    c.appendChild(cell);
-  });
-}
-
-// ── 실시간 카운터 애니메이션 ──
-function animCounter(el, target) {
-  let cur = 0;
-  const step = Math.ceil(target / 60);
-  const timer = setInterval(() => {
-    cur = Math.min(cur + step, target);
-    el.textContent = cur.toLocaleString('ko-KR');
-    if (cur >= target) clearInterval(timer);
-  }, 16);
-}
-window.addEventListener('DOMContentLoaded', () => {
-  const el1 = document.getElementById('s1-orders');
-  const el2 = document.getElementById('s1-transit');
-  if (el1) animCounter(el1, 4281992);
-  if (el2) animCounter(el2, 892441);
-});
-
-// ── 실시간 갱신 시뮬레이션 ──
+tick(); setInterval(tick, 1000);
 function refreshAll() {
-  const el1 = document.getElementById('s1-orders');
-  const el2 = document.getElementById('s1-transit');
-  if (el1) {
-    const v = 4281992 + Math.floor(Math.random() * 2000);
-    el1.textContent = v.toLocaleString('ko-KR');
-  }
-  if (el2) {
-    const v = 892441 + Math.floor(Math.random() * 500 - 250);
-    el2.textContent = Math.max(0,v).toLocaleString('ko-KR');
-  }
+  const k1 = document.getElementById('k1');
+  const k2 = document.getElementById('k2');
+  if (k1) k1.textContent = (4281992 + Math.floor(Math.random()*2000)).toLocaleString('ko-KR');
+  if (k2) k2.textContent = (892441 + Math.floor(Math.random()*500-250)).toLocaleString('ko-KR');
+  toast_show('데이터를 갱신했습니다');
 }
 setInterval(refreshAll, 15000);
-
-// ── SSO ──
-const PROXY_BASE = 'https://gopang-proxy.tensor-city.workers.dev';
-window._onGopangAuth = async function(user) {
-  const guid = user?.ipv6 || user?.guid || null;
-  if (!guid) return;
-  try {
-    const now = new Date().toISOString();
-    const res = await fetch(PROXY_BASE + '/pdv/report', {
-      method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ report: {
-        svc: 'logistics', type: 'event',
-        who: { ipv6: guid, role: 'user', level: user?.level||'L0', recipients: ['gopang-pdv'] },
-        when: { period_start: now, period_end: now },
-        where: { svc_url: 'https://logistics.gopang.net/dashboard.html' },
-        what: { summary: 'K-Logistics 상황실 접속' },
-        how: { method: '고팡 SSO 자동 인증 (경로: '+(user?.via||'session')+')' },
-        why: { goal: '전국 물류 현황 관제' },
-      }})
-    });
-    const data = await res.json();
-    console.log('[LOGISTICS PDV]', data.pdv_entry, data.message);
-  } catch(e) { console.warn('[LOGISTICS PDV]', e.message); }
+function toast_show(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+window._onGopangAuth = function(user) {
+  if (!user) return;
+  const id = user.ipv6 ? user.ipv6.slice(-4).toUpperCase() : '?';
+  document.getElementById('sb-av').textContent = id;
+  document.getElementById('sb-uname').textContent = user.ipv6 ? user.ipv6.slice(-8) : '—';
+  document.getElementById('sb-urole').textContent = 'Level ' + (user.level||0);
+  try { sessionStorage.setItem('gopang_sso_token', JSON.stringify(user)); } catch(e) {}
 };
 </script>
 <script type="module" src="https://gopang.net/auth/subsystem-auth.js"></script>
-
-<!-- ── Kakao Maps ── -->
-<script>
-// ────────────────────────────────────────────────────────────────
-//  Kakao Maps 통합
-//  Worker /kakao-map-key → JS SDK 동적 로드 → 지도 초기화
-// ────────────────────────────────────────────────────────────────
-const PROXY = 'https://gopang-proxy.tensor-city.workers.dev';
-
-// 허브 데이터 (P2 — 전국 허브 분포도)
-const HUB_DATA = [
-  { name:'평택 메가 허브',    lat:37.0028, lng:127.0817, status:'normal', desc:'일 812,341건·가동률 68%', region:'경기 평택' },
-  { name:'인천 스마트 물류', lat:37.4563, lng:126.7052, status:'warn',   desc:'가동률 81%·주의 단계',  region:'인천 남동' },
-  { name:'서울 동부 허브',   lat:37.5665, lng:127.0300, status:'normal', desc:'일 698,221건·가동률 74%', region:'서울' },
-  { name:'부산 신항 허브',   lat:35.0955, lng:128.9702, status:'normal', desc:'가동률 72%·정상',        region:'부산 강서' },
-  { name:'대구 내륙 허브',   lat:35.8714, lng:128.5020, status:'normal', desc:'가동률 65%·정상',        region:'대구 달성' },
-  { name:'광주 서남권 허브', lat:35.1595, lng:126.8526, status:'error',  desc:'가동률 92%·포화',        region:'광주 광산' },
-  { name:'구미 제조 물류',   lat:36.1195, lng:128.3445, status:'warn',   desc:'설비 오류·우회 중',      region:'경북 구미' },
-  { name:'창원 물류센터',    lat:35.2280, lng:128.6811, status:'warn',   desc:'재고 임계치 경고',        region:'경남 창원' },
-  { name:'전주 물류센터',    lat:35.8242, lng:127.1480, status:'warn',   desc:'냉장 온도 이상 감지',    region:'전북 전주' },
-  { name:'대전 허브',        lat:36.3504, lng:127.3845, status:'normal', desc:'가동률 69%·정상',        region:'대전' },
-  { name:'청주 물류센터',    lat:36.6424, lng:127.4890, status:'normal', desc:'가동률 71%·정상',        region:'충북 청주' },
-  { name:'천안 허브',        lat:36.8151, lng:127.1139, status:'normal', desc:'가동률 66%·정상',        region:'충남 천안' },
-  { name:'광양항 허브',      lat:34.9397, lng:127.6956, status:'warn',   desc:'기상 악화 지연',          region:'전남 광양' },
-  { name:'제주 물류센터',    lat:33.4996, lng:126.5312, status:'normal', desc:'가동률 58%·정상',        region:'제주 제주' },
-];
-
-// 창고 데이터 (P6 — 전국 창고 네트워크)
-const WAREHOUSE_DATA = [
-  ...HUB_DATA,
-  { name:'포항 철강 창고',   lat:36.0190, lng:129.3435, status:'normal', desc:'철강·소재 전문', region:'경북 포항', type:'일반' },
-  { name:'울산 산업 창고',   lat:35.5384, lng:129.3114, status:'normal', desc:'석유화학·부품',  region:'울산',     type:'위험물' },
-  { name:'여수 항만 창고',   lat:34.7604, lng:127.6622, status:'normal', desc:'석유화학 물류', region:'전남 여수', type:'위험물' },
-  { name:'원주 물류단지',    lat:37.3422, lng:127.9201, status:'normal', desc:'영동권 허브',   region:'강원 원주', type:'일반' },
-  { name:'춘천 냉동창고',    lat:37.8813, lng:127.7298, status:'normal', desc:'농산물 냉동',   region:'강원 춘천', type:'냉동' },
-  { name:'김해 냉장창고',    lat:35.2286, lng:128.8892, status:'normal', desc:'수산물 냉장',   region:'경남 김해', type:'냉장' },
-  { name:'나주 농산물창고',  lat:35.0160, lng:126.7109, status:'normal', desc:'농산물 집산지', region:'전남 나주', type:'냉장' },
-];
-
-const STATUS_COLOR = {
-  normal: '#3ecf8e',
-  warn:   '#e3b341',
-  error:  '#f85149',
-  blue:   '#58a6ff',
-};
-const TYPE_COLOR = {
-  '냉장': '#58a6ff', '냉동': '#bc8cff', '위험물': '#f85149', '일반': '#3ecf8e',
-};
-
-let mapHub = null, mapWarehouse = null;
-let _kakaoReady = false;
-let _pendingMaps = [];
-
-// ── 1. Worker에서 키 fetch ──────────────────────────────────────
-async function fetchKakaoKey() {
-  try {
-    const res = await fetch(PROXY + '/kakao/appkey');
-    if (!res.ok) throw new Error('key fetch failed: ' + res.status);
-    const { appkey } = await res.json();
-    return appkey;
-  } catch (e) {
-    console.error('[KakaoMap] 키 fetch 실패:', e.message);
-    showMapError('map-hub');
-    showMapError('map-warehouse');
-    return null;
-  }
-}
-
-// ── 2. SDK 동적 로드 ────────────────────────────────────────────
-function loadKakaoSDK(appKey) {
-  return new Promise((resolve, reject) => {
-    if (window.kakao && window.kakao.maps) { resolve(); return; }
-    const s = document.createElement('script');
-    // autoload=false → kakao.maps.load() 호출로 초기화 타이밍 제어
-    s.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&autoload=false`;
-    s.onload = () => {
-      window.kakao.maps.load(() => {
-        _kakaoReady = true;
-        resolve();
-      });
-    };
-    s.onerror = () => reject(new Error('SDK 로드 실패'));
-    document.head.appendChild(s);
-  });
-}
-
-// ── 3. 커스텀 마커 SVG 생성 ─────────────────────────────────────
-function makeMarkerSVG(color, size = 28) {
-  const svg = `<svg width="${size}" height="${size}" viewBox="0 0 28 36" xmlns="http://www.w3.org/2000/svg">
-    <path d="M14 0C6.268 0 0 6.268 0 14c0 9.333 14 22 14 22S28 23.333 28 14C28 6.268 21.732 0 14 0z"
-          fill="${color}" opacity="0.92"/>
-    <circle cx="14" cy="14" r="6" fill="white" opacity="0.9"/>
-  </svg>`;
-  return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
-}
-
-// ── 4. 지도 초기화 ──────────────────────────────────────────────
-function initMapHub(containerId) {
-  const container = document.getElementById(containerId);
-  if (!container || mapHub) return;
-  const center = new kakao.maps.LatLng(36.5, 127.8);
-  mapHub = new kakao.maps.Map(container, {
-    center, level: 8,
-  });
-
-  // 다크 테마 효과: 커스텀 스타일 (지도 위에 반투명 오버레이 없이 SDK 기본 지도 사용)
-  HUB_DATA.forEach(hub => addHubMarker(mapHub, hub));
-
-  // 줌 컨트롤
-  mapHub.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
-}
-
-function initMapWarehouse(containerId) {
-  const container = document.getElementById(containerId);
-  if (!container || mapWarehouse) return;
-  const center = new kakao.maps.LatLng(36.2, 127.9);
-  mapWarehouse = new kakao.maps.Map(container, {
-    center, level: 8,
-  });
-  WAREHOUSE_DATA.forEach(wh => addWarehouseMarker(mapWarehouse, wh));
-  mapWarehouse.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
-
-  // 우클릭 → 신규 창고 신청 안내
-  kakao.maps.event.addListener(mapWarehouse, 'rightclick', function(e) {
-    const pos = e.latLng;
-    const iw = new kakao.maps.InfoWindow({
-      position: pos,
-      content: `<div style="padding:8px 12px;font-size:12px;color:#1e293b;background:#fff;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15)">
-        📍 위도 ${pos.getLat().toFixed(4)}, 경도 ${pos.getLng().toFixed(4)}<br>
-        <a href="#" style="color:#3ecf8e;font-weight:600" onclick="alert('창고 신청 기능은 webapp.html에서 이용 가능합니다');return false">
-          + 이 위치에 창고 신청 →</a>
-      </div>`,
-      removable: true,
-    });
-    iw.open(mapWarehouse);
-  });
-}
-
-function addHubMarker(map, hub) {
-  const color = STATUS_COLOR[hub.status] || '#3ecf8e';
-  const imgSrc = makeMarkerSVG(color);
-  const img = new kakao.maps.MarkerImage(imgSrc,
-    new kakao.maps.Size(28, 36),
-    { offset: new kakao.maps.Point(14, 36) }
-  );
-  const marker = new kakao.maps.Marker({
-    map,
-    position: new kakao.maps.LatLng(hub.lat, hub.lng),
-    title: hub.name,
-    image: img,
-  });
-
-  const iwContent = `
-    <div style="padding:10px 14px;min-width:180px;font-family:'Noto Sans KR',sans-serif">
-      <div style="font-weight:600;font-size:13px;color:#0f172a;margin-bottom:4px">${hub.name}</div>
-      <div style="font-size:11px;color:#6b7280;margin-bottom:6px">${hub.region}</div>
-      <div style="font-size:12px;color:#374151">${hub.desc}</div>
-      <div style="margin-top:8px;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:500;display:inline-block;
-        background:${color}22;color:${color};border:1px solid ${color}44">
-        ${{ normal:'● 정상', warn:'⚠ 주의', error:'🚨 이상' }[hub.status] || hub.status}
-      </div>
-    </div>`;
-  const iw = new kakao.maps.InfoWindow({ content: iwContent, removable: true });
-
-  kakao.maps.event.addListener(marker, 'click', function() {
-    // 다른 인포윈도우 닫기 (단순화: 각 마커마다 새 iw)
-    iw.open(map, marker);
-  });
-}
-
-function addWarehouseMarker(map, wh) {
-  const color = wh.type ? (TYPE_COLOR[wh.type] || '#3ecf8e') : (STATUS_COLOR[wh.status] || '#3ecf8e');
-  const imgSrc = makeMarkerSVG(color, 24);
-  const img = new kakao.maps.MarkerImage(imgSrc,
-    new kakao.maps.Size(24, 31),
-    { offset: new kakao.maps.Point(12, 31) }
-  );
-  const marker = new kakao.maps.Marker({
-    map,
-    position: new kakao.maps.LatLng(wh.lat, wh.lng),
-    title: wh.name,
-    image: img,
-  });
-  const typeLabel = wh.type ? `<span style="font-size:10px;background:#f1f5f9;padding:2px 6px;border-radius:3px;color:#374151">${wh.type} 창고</span>` : '';
-  const iwContent = `
-    <div style="padding:10px 14px;min-width:170px;font-family:'Noto Sans KR',sans-serif">
-      <div style="font-weight:600;font-size:13px;color:#0f172a;margin-bottom:2px">${wh.name}</div>
-      <div style="font-size:11px;color:#6b7280;margin-bottom:6px">${wh.region} ${typeLabel}</div>
-      <div style="font-size:12px;color:#374151">${wh.desc}</div>
-    </div>`;
-  const iw = new kakao.maps.InfoWindow({ content: iwContent, removable: true });
-  kakao.maps.event.addListener(marker, 'click', () => iw.open(map, marker));
-}
-
-// ── 5. 에러 표시 ────────────────────────────────────────────────
-function showMapError(containerId) {
-  const el = document.getElementById(containerId);
-  if (el) el.innerHTML = `
-    <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--text3)">
-      <span style="font-size:24px">🗺</span>
-      <span style="font-size:12px">지도를 불러올 수 없습니다<br><small style="color:var(--text4)">Worker KAKAO_REST_KEY 확인 필요</small></span>
-    </div>`;
-}
-
-// ── 6. 레이어 전환 (위성/일반) ──────────────────────────────────
-let _satellite = false;
-function toggleMapLayer() {
-  if (!mapWarehouse) return;
-  _satellite = !_satellite;
-  mapWarehouse.setMapTypeId(
-    _satellite ? kakao.maps.MapTypeId.HYBRID : kakao.maps.MapTypeId.ROADMAP
-  );
-}
-
-// ── 7. 페이지 전환 시 지도 로드 ─────────────────────────────────
-// showPage()를 override하여 지도 페이지 진입 시 초기화
-const _origShowPage = window.showPage;
-window.showPage = function(id, btn) {
-  _origShowPage(id, btn);
-  if (!_kakaoReady) return; // SDK 미준비 — 준비 완료 후 자동 처리
-  if (id === 'p2') { setTimeout(() => initMapHub('map-hub'), 50); }
-  if (id === 'p6') { setTimeout(() => initMapWarehouse('map-warehouse'), 50); }
-};
-
-// ── 8. 진입점 ────────────────────────────────────────────────────
-(async function initKakao() {
-  const key = await fetchKakaoKey();
-  if (!key) return;
-  try {
-    await loadKakaoSDK(key);
-    console.log('[KakaoMap] SDK 로드 완료');
-    // SDK 준비 완료 시점에 이미 지도 페이지가 활성화됐을 경우 즉시 초기화
-    const activePage = document.querySelector('.page.active');
-    if (activePage?.id === 'p2') setTimeout(() => initMapHub('map-hub'), 50);
-    if (activePage?.id === 'p6') setTimeout(() => initMapWarehouse('map-warehouse'), 50);
-  } catch (e) {
-    console.error('[KakaoMap]', e.message);
-    showMapError('map-hub');
-    showMapError('map-warehouse');
-  }
-})();
-</script>
 </body>
 </html>
