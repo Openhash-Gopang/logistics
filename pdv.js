@@ -84,7 +84,7 @@ const PDV = {
       content_hash: await _hashReport({ id, from, to, cargo, now }),
       who:  { ipv6, role: 'shipper', recipients: ['gopang-pdv'] },
       when: { generated_at: now, period_start: now, period_end: now },
-      where: { svc_url: 'https://logistics.gopang.net', label: from },
+      where: { svc_url: 'https://logistics.hondi.net', label: from },
       what: {
         summary: `배송 요청: ${from} → ${to} | ${cargo}`,
         from, to, cargo, weight,
@@ -109,7 +109,7 @@ const PDV = {
       content_hash: await _hashReport({ id, from, to, vehicleNo, now }),
       who: { ipv6, role: 'shipper', counterparty: driverIpv6, recipients: ['gopang-pdv'] },
       when: { generated_at: now, period_start: now, period_end: now },
-      where: { svc_url: 'https://logistics.gopang.net', label: from },
+      where: { svc_url: 'https://logistics.hondi.net', label: from },
       what: {
         summary: `배송 출발: ${from} → ${to} | 차량 ${vehicleNo}`,
         from, to, cargo, vehicle_no: vehicleNo,
@@ -133,7 +133,7 @@ const PDV = {
       content_hash: await _hashReport({ id, shipId, gdc, now }),
       who: { ipv6, role: 'shipper', counterparty: driverIpv6, recipients: ['gopang-pdv'] },
       when: { generated_at: now, period_start: now, period_end: now },
-      where: { svc_url: 'https://logistics.gopang.net', label: to },
+      where: { svc_url: 'https://logistics.hondi.net', label: to },
       what: {
         summary: `배송 완료: ${from} → ${to} | ${gdc} GDC 결제`,
         from, to, cargo, vehicle_no: vehicleNo,
@@ -158,7 +158,7 @@ const PDV = {
       content_hash: await _hashReport({ id, location, fromDriver, toDriver, now }),
       who: { ipv6, role: 'shipper', recipients: ['gopang-pdv'] },
       when: { generated_at: now, period_start: now, period_end: now },
-      where: { svc_url: 'https://logistics.gopang.net', label: location },
+      where: { svc_url: 'https://logistics.hondi.net', label: location },
       what: {
         summary: `릴레이 인수인계: ${location} | ${cargo}`,
         location, from_driver: fromDriver, to_driver: toDriver,
@@ -182,7 +182,7 @@ const PDV = {
       content_hash: await _hashReport({ id, vehicleNo, shipId, now }),
       who: { ipv6, role: 'system', recipients: ['gopang-pdv', 'logistics-ops'] },
       when: { generated_at: now, period_start: now, period_end: now },
-      where: { svc_url: 'https://logistics.gopang.net', label: location },
+      where: { svc_url: 'https://logistics.hondi.net', label: location },
       what: {
         summary: `⚠ 온도 이탈: ${cargo} | 요구 ${tempRequired}℃ → 실제 ${tempActual}℃`,
         vehicle_no: vehicleNo, cargo, location,
@@ -207,7 +207,7 @@ const PDV = {
       content_hash: await _hashReport({ id, shipId, receiverIpv6, now }),
       who: { ipv6: receiverIpv6 || ipv6, role: 'receiver', counterparty: driverIpv6, recipients: ['gopang-pdv'] },
       when: { generated_at: now, period_start: now, period_end: now },
-      where: { svc_url: 'https://logistics.gopang.net', label: location },
+      where: { svc_url: 'https://logistics.hondi.net', label: location },
       what: {
         summary: `수령 확인: ${cargo} | ${location}`,
         location, cargo, ship_id: shipId,
@@ -231,7 +231,7 @@ const PDV = {
       content_hash: await _hashReport({ id, targetIpv6, score, shipId, now }),
       who: { ipv6, role: 'rater', counterparty: targetIpv6, recipients: ['gopang-pdv'] },
       when: { generated_at: now, period_start: now, period_end: now },
-      where: { svc_url: 'https://logistics.gopang.net', label: 'K-Logistics 평가' },
+      where: { svc_url: 'https://logistics.hondi.net', label: 'K-Logistics 평가' },
       what: {
         summary: `${targetRole} 평가: ${score}점 — ${comment.slice(0,50)}`,
         target_ipv6: targetIpv6, target_role: targetRole,
@@ -255,7 +255,7 @@ const PDV = {
       content_hash: await _hashReport({ id, location, vehicleNo, now }),
       who: { ipv6, role: 'shipper', counterparty: driverIpv6, recipients: ['gopang-pdv', 'logistics-ops'] },
       when: { generated_at: now, period_start: now, period_end: now },
-      where: { svc_url: 'https://logistics.gopang.net', label: location },
+      where: { svc_url: 'https://logistics.hondi.net', label: location },
       what: {
         summary: `화물 이상 신고: ${description}`,
         location, vehicle_no: vehicleNo, driver_ipv6: driverIpv6,
@@ -280,7 +280,7 @@ const PDV = {
       content_hash: await _hashReport({ id, userMsg, now }),
       who: { ipv6, role: 'user', recipients: ['gopang-pdv'] },
       when: { generated_at: now, period_start: now, period_end: now },
-      where: { svc_url: `https://${svc}.gopang.net`, label: 'AI 상담' },
+      where: { svc_url: `https://${svc}.hondi.net`, label: 'AI 상담' },
       what: {
         summary: `AI 상담 (${category}): ${userMsg.slice(0,60)}`,
         user_msg: userMsg, ai_msg: aiMsg, category,

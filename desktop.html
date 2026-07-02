@@ -4,7 +4,7 @@
     <script src="/gopang-wallet.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K-Logistics — AI 물류 시스템 · logistics.gopang.net</title>
+<title>K-Logistics — AI 물류 시스템 · logistics.hondi.net</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;600;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -521,7 +521,7 @@ footer {
 
 <!-- ── SIDEBAR NAV ── -->
 <nav id="sidenav" style="position:fixed;left:0;top:0;bottom:0;width:52px;z-index:200;background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;transition:width 0.22s cubic-bezier(0.4,0,0.2,1);overflow:hidden;" onmouseenter="this.style.width='200px'" onmouseleave="this.style.width='52px'">
-  <a href="https://gopang.net" class="snav-logo">G</a>
+  <a href="https://hondi.net" class="snav-logo">G</a>
   <a href="#top" class="snav-item active" onclick="scrollToSection('top')">
     <div class="snav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="snav-label">홈</span>
   </a>
@@ -541,10 +541,10 @@ footer {
     <div class="snav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div><span class="snav-label">활용 사례</span>
   </a>
   <div class="snav-sep"></div>
-  <a href="https://logistics.gopang.net/dashboard.html" class="snav-item">
+  <a href="https://logistics.hondi.net/dashboard.html" class="snav-item">
     <div class="snav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></div><span class="snav-label">대시보드</span>
   </a>
-  <a href="https://logistics.gopang.net/webapp.html" class="snav-item">
+  <a href="https://logistics.hondi.net/webapp.html" class="snav-item">
     <div class="snav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div><span class="snav-label">웹앱</span>
   </a>
 </nav>
@@ -552,7 +552,7 @@ footer {
 <!-- ── TOP NAV ── -->
 <nav>
   <div class="nav-left">
-    <a class="nav-logo" href="https://gopang.net">
+    <a class="nav-logo" href="https://hondi.net">
       <div class="nav-logo-icon">G</div>
       gopang
     </a>
@@ -567,7 +567,7 @@ footer {
     <li><a href="#difference">차별점</a></li>
     <li><a href="#flow">동작 원리</a></li>
     <li><a href="#usecases">활용 사례</a></li>
-    <li><a href="https://logistics.gopang.net/whitepaper.html" target="_blank" style="color:var(--brand-dk);font-weight:500">기술 백서</a></li>
+    <li><a href="https://logistics.hondi.net/whitepaper.html" target="_blank" style="color:var(--brand-dk);font-weight:500">기술 백서</a></li>
   </ul>
   <button class="nav-cta" onclick="openWebApp()">
     <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a.5.5 0 01.5.5v11.793l3.146-3.147a.5.5 0 01.708.708l-4 4a.5.5 0 01-.708 0l-4-4a.5.5 0 01.708-.708L7.5 13.293V1.5A.5.5 0 018 1z"/></svg>
@@ -615,8 +615,8 @@ footer {
     </p>
     <div class="hero-actions">
       <button onclick="openWebApp()" class="btn-lg btn-green"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg> 웹앱 열기</button>
-      <a href="https://logistics.gopang.net/dashboard.html" class="btn-lg btn-outline"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg> 대시보드 →</a>
-      <a href="https://logistics.gopang.net/whitepaper.html" target="_blank" class="btn-lg btn-outline"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 기술 백서 →</a>
+      <a href="https://logistics.hondi.net/dashboard.html" class="btn-lg btn-outline"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg> 대시보드 →</a>
+      <a href="https://logistics.hondi.net/whitepaper.html" target="_blank" class="btn-lg btn-outline"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 기술 백서 →</a>
       <a href="https://github.com/Openhash-Gopang/logistics" target="_blank" class="btn-lg btn-outline"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg> GitHub</a>
     </div>
   </div>
@@ -875,19 +875,19 @@ footer {
     <div class="section-tag reveal">Resources</div>
     <h2 class="section-title reveal">바로가기 <strong>링크</strong></h2>
     <div class="links-grid">
-      <a href="https://logistics.gopang.net/webapp.html" class="link-card reveal" onclick="event.preventDefault();openWebApp()">
+      <a href="https://logistics.hondi.net/webapp.html" class="link-card reveal" onclick="event.preventDefault();openWebApp()">
         <div class="link-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
         <div class="link-card-title">웹앱 (모바일)</div>
         <div class="link-card-sub">AI 물류 채팅 인터페이스</div>
         <div class="link-card-arrow">→</div>
       </a>
-      <a href="https://logistics.gopang.net/dashboard.html" class="link-card reveal" style="transition-delay:.07s">
+      <a href="https://logistics.hondi.net/dashboard.html" class="link-card reveal" style="transition-delay:.07s">
         <div class="link-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></div>
         <div class="link-card-title">대시보드</div>
         <div class="link-card-sub">전국 물류 현황 관제</div>
         <div class="link-card-arrow">→</div>
       </a>
-      <a href="https://logistics.gopang.net/whitepaper.html" target="_blank" class="link-card reveal" style="transition-delay:.14s">
+      <a href="https://logistics.hondi.net/whitepaper.html" target="_blank" class="link-card reveal" style="transition-delay:.14s">
         <div class="link-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
         <div class="link-card-title">기술 백서</div>
         <div class="link-card-sub">K-Logistics 아키텍처 상세</div>
@@ -911,11 +911,11 @@ footer {
       gopang / K-Logistics
     </div>
     <div class="footer-links">
-      <a href="https://gopang.net">고팡 홈</a>
-      <a href="https://logistics.gopang.net/dashboard.html">대시보드</a>
+      <a href="https://hondi.net">고팡 홈</a>
+      <a href="https://logistics.hondi.net/dashboard.html">대시보드</a>
       <a href="https://github.com/Openhash-Gopang/logistics" target="_blank">GitHub</a>
-      <a href="https://klaw.gopang.net" target="_blank">K-Law</a>
-      <a href="https://traffic.gopang.net" target="_blank">K-Traffic</a>
+      <a href="https://klaw.hondi.net" target="_blank">K-Law</a>
+      <a href="https://traffic.hondi.net" target="_blank">K-Traffic</a>
     </div>
     <div class="footer-copy">© 2026 AI City Inc. · Jeju, Korea</div>
   </div>
@@ -968,7 +968,7 @@ function openWebApp() {
   document.body.style.overflow = 'hidden';
   if (!iframe.src) {
     loading.style.display = 'flex';
-    iframe.src = 'https://logistics.gopang.net/webapp.html';
+    iframe.src = 'https://logistics.hondi.net/webapp.html';
     iframe.addEventListener('load', () => { loading.style.display = 'none'; }, { once: true });
   }
 }
@@ -1007,7 +1007,7 @@ async function sendLogisticsPDV(ipv6, user) {
         svc: 'logistics', type: 'event',
         who: { ipv6, role: 'user', level: user?.level || 'L0', recipients: ['gopang-pdv'] },
         when: { period_start: now, period_end: now },
-        where: { svc_url: 'https://logistics.gopang.net/desktop.html' },
+        where: { svc_url: 'https://logistics.hondi.net/desktop.html' },
         what: { summary: 'K-Logistics 데스크탑 접속' },
         how: { method: '고팡 SSO 자동 인증 (경로: ' + (user?.via || 'session') + ')' },
         why: { goal: 'K-Logistics 서비스 안내 페이지 열람' },
@@ -1019,7 +1019,7 @@ async function sendLogisticsPDV(ipv6, user) {
 }
 </script>
 
-<script type="module" src="https://gopang.net/auth/subsystem-auth.js"></script>
+<script type="module" src="https://hondi.net/auth/subsystem-auth.js"></script>
 </body>
 </html>
 

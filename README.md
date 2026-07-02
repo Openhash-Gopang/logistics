@@ -4,9 +4,9 @@
 > 이미 이동 중인 차량의 동선에 화물을 끼워 넣어 최적의 물류 경로를 구성합니다.  
 > 1·2·3차 산업 전 영역(농수산물, 제조 부품, 소비재, 의료품)을 단일 플랫폼으로 통합합니다.
 
-🌐 **배포 주소**: [logistics.gopang.net](https://logistics.gopang.net)  
+🌐 **배포 주소**: [logistics.hondi.net](https://logistics.hondi.net)  
 📄 **백서**: [docs/k-logistics-whitepaper.md](docs/k-logistics-whitepaper.md)  
-📱 **참조 시스템**: [traffic.gopang.net](https://traffic.gopang.net) (동일 아키텍처)
+📱 **참조 시스템**: [traffic.hondi.net](https://traffic.hondi.net) (동일 아키텍처)
 
 ---
 
@@ -18,7 +18,7 @@ logistics/
 │   ─── 진입점 & GitHub Pages 설정 ───
 │   index.html                  화면 크기 감지 → desktop/webapp 라우팅
 │   .nojekyll                   Jekyll 비활성화
-│   CNAME                       logistics.gopang.net
+│   CNAME                       logistics.hondi.net
 │
 │   ─── 클라이언트 앱 ───
 │   desktop.html                데스크톱 서비스 소개 랜딩 (whitepaper·dashboard 링크)
@@ -131,7 +131,7 @@ if (url.pathname === '/ai/chat')      return handleAIChat(request, env);
 
 ### 3. Kakao Developers 플랫폼 등록
 
-> 앱 → 플랫폼 → Web → `https://logistics.gopang.net` 추가
+> 앱 → 플랫폼 → Web → `https://logistics.hondi.net` 추가
 
 ### 4. 배포
 
@@ -161,12 +161,12 @@ git push origin main
 
 | 시스템 | 도메인 | 상태 |
 |--------|--------|------|
-| K-Logistics | logistics.gopang.net | ✅ 운영 중 |
-| K-Traffic | traffic.gopang.net | ✅ 운영 중 |
-| K-Tax | tax.gopang.net | ✅ 운영 중 (통관 연동) |
-| K-Health | health.gopang.net | ✅ 운영 중 (의료 물류 연동) |
-| K-Market | market.gopang.net | ✅ 운영 중 |
-| K-Police | police.gopang.net | ✅ 운영 중 |
+| K-Logistics | logistics.hondi.net | ✅ 운영 중 |
+| K-Traffic | traffic.hondi.net | ✅ 운영 중 |
+| K-Tax | tax.hondi.net | ✅ 운영 중 (통관 연동) |
+| K-Health | health.hondi.net | ✅ 운영 중 (의료 물류 연동) |
+| K-Market | market.hondi.net | ✅ 운영 중 |
+| K-Police | police.hondi.net | ✅ 운영 중 |
 
 ---
 

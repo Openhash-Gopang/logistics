@@ -423,7 +423,7 @@ body {
 
 <!-- ──────────── SIDEBAR ──────────── -->
 <nav id="sidebar" onmouseenter="this.style.width='192px'" onmouseleave="this.style.width='52px'">
-  <a href="https://logistics.gopang.net/desktop.html" class="sb-logo">G</a>
+  <a href="https://logistics.hondi.net/desktop.html" class="sb-logo">G</a>
   <button class="sb-item active" onclick="showPage('p1',this)">
     <div class="sb-icon">📡</div><span class="sb-label">실시간 현황</span>
   </button>
@@ -446,10 +446,10 @@ body {
     <div class="sb-icon">⚠️</div><span class="sb-label">이상 탐지</span>
   </button>
   <div class="sb-sep"></div>
-  <button class="sb-item" onclick="window.open('https://logistics.gopang.net/desktop.html','_self')">
+  <button class="sb-item" onclick="window.open('https://logistics.hondi.net/desktop.html','_self')">
     <div class="sb-icon">🏠</div><span class="sb-label">서비스 안내</span>
   </button>
-  <button class="sb-item" onclick="window.open('https://logistics.gopang.net/webapp.html','_blank')">
+  <button class="sb-item" onclick="window.open('https://logistics.hondi.net/webapp.html','_blank')">
     <div class="sb-icon">📱</div><span class="sb-label">웹앱</span>
   </button>
 </nav>
@@ -470,7 +470,7 @@ body {
     <span class="hdr-badge hdr-badge-live">● LIVE</span>
     <span class="hdr-clock" id="clock">--:--:--</span>
     <button class="hdr-btn" onclick="refreshAll()">↺ 갱신</button>
-    <button class="hdr-btn" onclick="window.open('https://logistics.gopang.net/desktop.html','_self')">← 안내 페이지</button>
+    <button class="hdr-btn" onclick="window.open('https://logistics.hondi.net/desktop.html','_self')">← 안내 페이지</button>
   </div>
 
   <!-- CONTENT -->
@@ -1169,7 +1169,7 @@ window._onGopangAuth = async function(user) {
         svc: 'logistics', type: 'event',
         who: { ipv6: guid, role: 'user', level: user?.level||'L0', recipients: ['gopang-pdv'] },
         when: { period_start: now, period_end: now },
-        where: { svc_url: 'https://logistics.gopang.net/dashboard.html' },
+        where: { svc_url: 'https://logistics.hondi.net/dashboard.html' },
         what: { summary: 'K-Logistics 상황실 접속' },
         how: { method: '고팡 SSO 자동 인증 (경로: '+(user?.via||'session')+')' },
         why: { goal: '전국 물류 현황 관제' },
@@ -1180,7 +1180,7 @@ window._onGopangAuth = async function(user) {
   } catch(e) { console.warn('[LOGISTICS PDV]', e.message); }
 };
 </script>
-<script type="module" src="https://gopang.net/auth/subsystem-auth.js"></script>
+<script type="module" src="https://hondi.net/auth/subsystem-auth.js"></script>
 
 <!-- ── Kakao Maps ── -->
 <script>
