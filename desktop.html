@@ -992,7 +992,7 @@ window.addEventListener('scroll', () => {
 });
 
 // ── SSO ──
-const PROXY_BASE = 'https://gopang-proxy.tensor-city.workers.dev';
+const PROXY_BASE = 'https://hondi-proxy.tensor-city.workers.dev';
 window._onGopangAuth = async function(user) {
   const guid = user?.ipv6 || user?.guid || null;
   if (!guid) return;

@@ -4,7 +4,7 @@
  * traffic/pdv.js 패턴 준수 — 물류 이벤트 특화
  */
 
-const PROXY   = 'https://gopang-proxy.tensor-city.workers.dev';
+const PROXY   = 'https://hondi-proxy.tensor-city.workers.dev';
 const SVC_ID  = 'logistics';
 const PDV_VER = '1.0';
 

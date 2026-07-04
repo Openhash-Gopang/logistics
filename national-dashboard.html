@@ -1157,7 +1157,7 @@ function refreshAll() {
 setInterval(refreshAll, 15000);
 
 // ── SSO ──
-const PROXY_BASE = 'https://gopang-proxy.tensor-city.workers.dev';
+const PROXY_BASE = 'https://hondi-proxy.tensor-city.workers.dev';
 window._onGopangAuth = async function(user) {
   const guid = user?.ipv6 || user?.guid || null;
   if (!guid) return;
@@ -1188,7 +1188,7 @@ window._onGopangAuth = async function(user) {
 //  Kakao Maps 통합
 //  Worker /kakao-map-key → JS SDK 동적 로드 → 지도 초기화
 // ────────────────────────────────────────────────────────────────
-const PROXY = 'https://gopang-proxy.tensor-city.workers.dev';
+const PROXY = 'https://hondi-proxy.tensor-city.workers.dev';
 
 // 허브 데이터 (P2 — 전국 허브 분포도)
 const HUB_DATA = [
