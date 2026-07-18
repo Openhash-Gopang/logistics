@@ -1186,7 +1186,7 @@ window._onGopangAuth = async function(user) {
 <script>
 // ────────────────────────────────────────────────────────────────
 //  Kakao Maps 통합
-//  Worker /kakao-map-key → JS SDK 동적 로드 → 지도 초기화
+//  Worker /kakao/appkey → JS SDK 동적 로드 → 지도 초기화
 // ────────────────────────────────────────────────────────────────
 const PROXY = 'https://hondi-proxy.tensor-city.workers.dev';
 
@@ -1235,12 +1235,17 @@ let _kakaoReady = false;
 let _pendingMaps = [];
 
 // ── 1. Worker에서 키 fetch ──────────────────────────────────────
+// 2026-07-18 수정 — HONDI_GAP_REMEDIATION_DIRECTIVE v1.0 §2.9 재검토 중 발견:
+// 엔드포인트 경로가 '/kakao-map-key'로 잘못돼 있었고(실제 worker.js 라우트는
+// '/kakao/appkey'), 응답 필드도 'key'가 아니라 'appkey'라 destructuring이
+// 항상 undefined를 반환했다 — 지도가 조용히 실패하고 있었을 것이다.
+// realtime-board.html의 initKakao()가 쓰는 정상 패턴을 그대로 따른다.
 async function fetchKakaoKey() {
   try {
-    const res = await fetch(PROXY + '/kakao-map-key');
+    const res = await fetch(PROXY + '/kakao/appkey');
     if (!res.ok) throw new Error('key fetch failed: ' + res.status);
-    const { key } = await res.json();
-    return key;
+    const { appkey } = await res.json();
+    return appkey;
   } catch (e) {
     console.error('[KakaoMap] 키 fetch 실패:', e.message);
     showMapError('map-hub');
