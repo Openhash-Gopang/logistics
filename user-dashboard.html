@@ -251,19 +251,19 @@ button{font-family:'Inter',sans-serif;cursor:pointer;border:none;background:none
         </div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:11px">
-        <div class="sum-row"><span class="sum-lbl">완료율</span><span class="sum-val" style="color:var(--green-dk)">96.2%</span></div>
-        <div class="sum-row"><span class="sum-lbl">평균 소요</span><span class="sum-val">1.8시간</span></div>
-        <div class="sum-row"><span class="sum-lbl">평균 요금</span><span class="sum-val">12.4 GDC</span></div>
+        <div class="sum-row"><span class="sum-lbl">완료율</span><span class="sum-val" style="color:var(--txt3)">집계 없음</span></div>
+        <div class="sum-row"><span class="sum-lbl">평균 소요</span><span class="sum-val" style="color:var(--txt3)">집계 없음</span></div>
+        <div class="sum-row"><span class="sum-lbl">평균 요금</span><span class="sum-val" style="color:var(--txt3)">집계 없음</span></div>
       </div>
     </div>
 
     <!-- KPI -->
     <div class="kpi-grid">
-      <div class="kpi"><div class="kpi-lbl">이번 달 배송</div><div class="kpi-val">23건</div><div class="kpi-sub" style="color:var(--green-dk)">↑ 전달 +5</div></div>
-      <div class="kpi"><div class="kpi-lbl">GDC 결제</div><div class="kpi-val">285</div><div class="kpi-sub">이번 달</div></div>
-      <div class="kpi"><div class="kpi-lbl">평균 배송 시간</div><div class="kpi-val">1.8h</div><div class="kpi-sub" style="color:var(--green-dk)">↓ 0.3h 개선</div></div>
-      <div class="kpi"><div class="kpi-lbl">완료율</div><div class="kpi-val">96.2%</div><div class="kpi-sub">이번 달</div></div>
-      <div class="kpi"><div class="kpi-lbl">릴레이 배송</div><div class="kpi-val">4건</div><div class="kpi-sub">장거리 이용</div></div>
+      <div class="kpi"><div class="kpi-lbl">이번 달 배송</div><div class="kpi-val" style="font-size:13px;color:var(--txt3)">집계 없음</div><div class="kpi-sub">배송 이력 집계 기능 개발 중</div></div>
+      <div class="kpi"><div class="kpi-lbl">GDC 결제</div><div class="kpi-val" style="font-size:13px;color:var(--txt3)">집계 없음</div><div class="kpi-sub">결제 내역 집계 기능 개발 중</div></div>
+      <div class="kpi"><div class="kpi-lbl">평균 배송 시간</div><div class="kpi-val" style="font-size:13px;color:var(--txt3)">집계 없음</div><div class="kpi-sub">해당 기능 미개발</div></div>
+      <div class="kpi"><div class="kpi-lbl">완료율</div><div class="kpi-val" style="font-size:13px;color:var(--txt3)">집계 없음</div><div class="kpi-sub">해당 기능 미개발</div></div>
+      <div class="kpi"><div class="kpi-lbl">릴레이 배송</div><div class="kpi-val" style="font-size:13px;color:var(--txt3)">집계 없음</div><div class="kpi-sub">해당 기능 미개발</div></div>
     </div>
 
     <div class="row2">
@@ -271,86 +271,44 @@ button{font-family:'Inter',sans-serif;cursor:pointer;border:none;background:none
       <div class="card">
         <div class="card-head">
           <span class="ch-label">진행 중 배송</span>
-          <span class="ch-badge">2건 진행 중</span>
+          <span class="ch-meta">시안</span>
         </div>
-        <div class="cargo-item">
-          <div class="cargo-icon">🦑</div>
-          <div style="flex:1">
-            <div class="cargo-name">냉동 오징어 10kg</div>
-            <div class="cargo-sub">부산 해운대 → 서울 강남 · 릴레이 2대</div>
-            <div style="margin-top:4px;font-size:10px;color:var(--txt3)">경부고속도로 천안 구간 이동 중 · 잔여 2시간</div>
-          </div>
-          <span class="status-ing">배송 중</span>
-        </div>
-        <div class="cargo-item">
-          <div class="cargo-icon">📦</div>
-          <div style="flex:1">
-            <div class="cargo-name">전자부품 박스 3개</div>
-            <div class="cargo-sub">인천 → 창원 · 5톤 화물차</div>
-            <div style="margin-top:4px;font-size:10px;color:var(--txt3)">경남 진입 · 잔여 40분</div>
-          </div>
-          <span class="status-ing">배송 중</span>
+        <div style="padding:4px 0;color:var(--txt3);font-size:12px;line-height:1.6">
+          이전 버전에는 "냉동 오징어 10kg", "전자부품 박스 3개" 등 구체적인 배송 건이 실제 진행 중인 것처럼 표시되어 있었습니다 — 전부 화면 시안용으로 지어낸 예시였습니다. 로그인 계정의 실제 배송 이력을 보여주는 기능은 아직 개발되지 않았습니다.
         </div>
       </div>
 
       <!-- 품목별 배송 분포 -->
       <div class="card">
-        <div class="card-head"><span class="ch-label">품목별 배송 분포</span><span class="ch-meta">30일</span></div>
-        <div class="dist-row"><div class="dist-head"><span class="dist-lbl">농수산물</span><span class="dist-ct">8건 (34.8%)</span></div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div></div>
-        <div class="dist-row"><div class="dist-head"><span class="dist-lbl">제조·부품</span><span class="dist-ct">6건 (26.1%)</span></div><div class="bar-track"><div class="bar-fill" style="width:75%;background:var(--blue)"></div></div></div>
-        <div class="dist-row"><div class="dist-head"><span class="dist-lbl">소비재</span><span class="dist-ct">5건 (21.7%)</span></div><div class="bar-track"><div class="bar-fill" style="width:63%;background:var(--amber)"></div></div></div>
-        <div class="dist-row"><div class="dist-head"><span class="dist-lbl">의료·방역</span><span class="dist-ct">2건 (8.7%)</span></div><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--purple)"></div></div></div>
-        <div class="dist-row"><div class="dist-head"><span class="dist-lbl">기타</span><span class="dist-ct">2건 (8.7%)</span></div><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--txt3)"></div></div></div>
+        <div class="card-head"><span class="ch-label">품목별 배송 분포</span><span class="ch-meta">시안</span></div>
+        <div style="padding:4px 0;color:var(--txt3);font-size:12px;line-height:1.6">
+          품목별 비중(농수산물 34.8% 등) 집계 기능은 아직 개발되지 않았습니다 — 이전 버전의 수치는 지어낸 예시였습니다.
+        </div>
       </div>
     </div>
 
     <!-- GDC 지출 내역 -->
     <div class="card">
-      <div class="card-head"><span class="ch-label">GDC 지출 내역</span><span class="ch-meta">이번 달 285 GDC</span></div>
-      <div class="gdc-row"><div class="gdc-head"><span class="gdc-lbl">농수산물 운송</span><span class="gdc-amt">82 GDC</span></div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div></div>
-      <div class="gdc-row"><div class="gdc-head"><span class="gdc-lbl">제조·부품 운송</span><span class="gdc-amt">74 GDC</span></div><div class="bar-track"><div class="bar-fill" style="width:90%;background:var(--blue)"></div></div></div>
-      <div class="gdc-row"><div class="gdc-head"><span class="gdc-lbl">소비재 배송</span><span class="gdc-amt">58 GDC</span></div><div class="bar-track"><div class="bar-fill" style="width:71%;background:var(--amber)"></div></div></div>
-      <div class="gdc-row"><div class="gdc-head"><span class="gdc-lbl">냉장·냉동 추가</span><span class="gdc-amt">45 GDC</span></div><div class="bar-track"><div class="bar-fill" style="width:55%;background:var(--purple)"></div></div></div>
-      <div class="gdc-row"><div class="gdc-head"><span class="gdc-lbl">기타</span><span class="gdc-amt">26 GDC</span></div><div class="bar-track"><div class="bar-fill" style="width:32%;background:var(--txt3)"></div></div></div>
+      <div class="card-head"><span class="ch-label">GDC 지출 내역</span><span class="ch-meta">시안</span></div>
+      <div style="padding:4px 0;color:var(--txt3);font-size:12px;line-height:1.6">
+        카테고리별 GDC 지출 집계(농수산물 운송 82 GDC 등) 기능은 아직 개발되지 않았습니다 — 이전 버전의 수치는 지어낸 예시였습니다. 실제 GDC 결제는 매칭 성사 시 개별 건별로 처리됩니다.
+      </div>
     </div>
 
     <!-- 배송 이력 -->
     <div class="card">
-      <div class="card-head"><span class="ch-label">배송 이력</span><span class="ch-meta">최근 10건</span></div>
-      <div class="scroll-x">
-        <table class="tbl" style="min-width:640px">
-          <thead>
-            <tr>
-              <th>날짜</th><th>출발 → 도착</th><th>품목</th><th>운송사</th><th>GDC</th><th>소요</th><th>상태</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>06-04</td><td>부산 해운대 → 서울 강남</td><td>냉동 오징어 10kg</td><td>릴레이 2대</td><td>52</td><td>—</td><td><span class="status-ing">진행 중</span></td></tr>
-            <tr><td>06-04</td><td>인천 → 창원</td><td>전자부품 박스 3개</td><td>5톤 화물차</td><td>38</td><td>—</td><td><span class="status-ing">진행 중</span></td></tr>
-            <tr><td>06-03</td><td>제주 한림읍 → 제주시</td><td>감귤 5박스</td><td>다마스 (김○○)</td><td>8</td><td>45분</td><td><span class="status-done">완료</span></td></tr>
-            <tr><td>06-02</td><td>서울 → 대구</td><td>의류 박스 5개</td><td>5톤 화물차 (박○○)</td><td>28</td><td>3.2h</td><td><span class="status-done">완료</span></td></tr>
-            <tr><td>06-01</td><td>광주 → 전주</td><td>농산물 30kg</td><td>1톤 트럭 (이○○)</td><td>12</td><td>1.1h</td><td><span class="status-done">완료</span></td></tr>
-            <tr><td>05-30</td><td>대전 → 서울</td><td>의약품 박스</td><td>냉장 탑차 (최○○)</td><td>22</td><td>1.8h</td><td><span class="status-done">완료</span></td></tr>
-            <tr><td>05-28</td><td>인천 → 부산</td><td>수입 가전 4박스</td><td>5톤 화물차</td><td>45</td><td>5.5h</td><td><span class="status-done">완료</span></td></tr>
-            <tr><td>05-25</td><td>제주 → 서울 (항공)</td><td>옥돔 2상자</td><td>항공 특송</td><td>35</td><td>3.0h</td><td><span class="status-done">완료</span></td></tr>
-            <tr><td>05-22</td><td>강릉 → 서울</td><td>수산물 20kg</td><td>냉장 탑차 (정○○)</td><td>18</td><td>2.2h</td><td><span class="status-done">완료</span></td></tr>
-            <tr><td>05-20</td><td>서울 → 제주 (해운)</td><td>화장품 박스 10개</td><td>해운 화물</td><td>32</td><td>1일</td><td><span class="status-done">완료</span></td></tr>
-          </tbody>
-        </table>
+      <div class="card-head"><span class="ch-label">배송 이력</span><span class="ch-meta">시안</span></div>
+      <div style="padding:4px 0;color:var(--txt3);font-size:12px;line-height:1.6">
+        이전 버전에는 실제 배송 기록처럼 보이는 10건의 이력(날짜, 기사 이름 이니셜, GDC 금액 포함)이 표시되어 있었습니다 — 전부 화면 시안용으로 지어낸 예시였고, 실제로 등록된 배송 이력이 아닙니다. 로그인 계정의 실제 배송 이력을 조회하는 기능은 아직 개발되지 않았습니다.
       </div>
     </div>
 
     <!-- OpenHash 증빙 -->
     <div class="card">
-      <div class="card-head"><span class="ch-label">OpenHash 배송 증빙</span><span class="ch-badge">불변 기록</span></div>
-      <table class="tbl">
-        <thead><tr><th>Hash ID</th><th>배송 구간</th><th>기록 유형</th><th>날짜</th><th>검증</th></tr></thead>
-        <tbody>
-          <tr><td style="font-family:monospace;font-size:10px;color:var(--blue)">OH-2606-04412</td><td>제주→서울</td><td>수령 확인</td><td>06-03</td><td style="color:var(--green-dk);font-size:11px">✓ 유효</td></tr>
-          <tr><td style="font-family:monospace;font-size:10px;color:var(--blue)">OH-2606-03891</td><td>서울→대구</td><td>배달 완료</td><td>06-02</td><td style="color:var(--green-dk);font-size:11px">✓ 유효</td></tr>
-          <tr><td style="font-family:monospace;font-size:10px;color:var(--blue)">OH-2606-03201</td><td>광주→전주</td><td>릴레이 인수인계</td><td>06-01</td><td style="color:var(--green-dk);font-size:11px">✓ 유효</td></tr>
-        </tbody>
-      </table>
+      <div class="card-head"><span class="ch-label">OpenHash 배송 증빙</span><span class="ch-meta">시안</span></div>
+      <div style="padding:4px 0;color:var(--txt3);font-size:12px;line-height:1.6">
+        이전 버전에는 존재하지 않는 해시 ID(OH-2606-04412 등)가 실제 검증된 기록인 것처럼 표시되어 있었습니다 — 지어낸 예시였습니다. OpenHash 자체는 실재하는 기술이지만, 여기 표시됐던 기록들은 실제 발급된 증빙이 아닙니다.
+      </div>
     </div>
 
   </div>
