@@ -96,8 +96,8 @@ button{font-family:'Inter',sans-serif;cursor:pointer;border:none;background:none
 .tb-sep{width:1px;height:16px;background:var(--border2)}
 .tb-sub{font-size:12px;color:var(--txt3)}
 .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
-.badge-live{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:var(--green-dk);background:var(--green-bg);border:1px solid var(--green-bd);border-radius:4px;padding:2px 8px}
-.badge-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 1.4s infinite}
+.badge-live{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:var(--amber);background:#fffbeb;border:1px solid #fde68a;border-radius:4px;padding:2px 8px}
+.badge-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--amber)}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 .clock{font-family:var(--mono);font-size:12px;color:var(--txt2);background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:3px 9px}
 .btn-sm{display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:5px;font-size:12px;font-weight:500;border:1px solid var(--border2);color:var(--txt2);background:var(--bg);cursor:pointer;transition:background .12s}
@@ -238,7 +238,7 @@ button{font-family:'Inter',sans-serif;cursor:pointer;border:none;background:none
   <div class="sb-sec">관제</div>
   <div class="sb-item active" onclick="showPage('p1',this)">
     <span class="sb-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-    <span class="sb-lbl">실시간 현황</span>
+    <span class="sb-lbl">현황(시안)</span>
   </div>
   <div class="sb-item" onclick="showPage('p2',this)">
     <span class="sb-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
@@ -313,9 +313,9 @@ button{font-family:'Inter',sans-serif;cursor:pointer;border:none;background:none
   <div class="topbar">
     <span class="tb-title">K-Logistics</span>
     <span class="tb-sep"></span>
-    <span class="tb-sub" id="tb-page">실시간 현황</span>
+    <span class="tb-sub" id="tb-page">현황(시안)</span>
     <div class="tb-right">
-      <span class="badge-live">LIVE</span>
+      <span class="badge-live">시안 (실데이터 아님)</span>
       <span class="clock" id="clock">--:--:--</span>
       <button class="btn-sm" onclick="refreshAll()">
         <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
@@ -332,285 +332,115 @@ button{font-family:'Inter',sans-serif;cursor:pointer;border:none;background:none
   <div class="kpi-bar">
     <div class="kpi-cell">
       <div class="kpi-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-      <div><div class="kpi-lbl">오늘 처리 건수</div><div class="kpi-val" id="k1">4,281,992</div><div class="kpi-delta up">↑ 전일 대비 +6.3%</div></div>
+      <div><div class="kpi-lbl">오늘 처리 건수</div><div class="kpi-val" id="k1" style="font-size:14px">집계 준비 중</div><div class="kpi-delta">전국 집계 백엔드 미개발</div></div>
     </div>
     <div class="kpi-cell">
       <div class="kpi-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
-      <div><div class="kpi-lbl">현재 배송 중</div><div class="kpi-val" id="k2">892,441</div><div class="kpi-delta up">↑ 1시간 전 대비 +2.1%</div></div>
+      <div><div class="kpi-lbl">현재 배송 중</div><div class="kpi-val" id="k2" style="font-size:14px">집계 준비 중</div><div class="kpi-delta">전국 집계 백엔드 미개발</div></div>
     </div>
     <div class="kpi-cell">
       <div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-      <div><div class="kpi-lbl">창고 재고 활용률</div><div class="kpi-val">73.2%</div><div class="kpi-delta">→ 전주 대비 ±0.4%</div></div>
+      <div><div class="kpi-lbl">창고 재고 활용률</div><div class="kpi-val" style="font-size:14px">해당 없음</div><div class="kpi-delta">창고 관리 기능 자체가 없음</div></div>
     </div>
     <div class="kpi-cell">
       <div class="kpi-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div><div class="kpi-lbl">당일 배송 완료율</div><div class="kpi-val">94.7%</div><div class="kpi-delta up">↑ 전월 대비 +2.3%p</div></div>
+      <div><div class="kpi-lbl">당일 배송 완료율</div><div class="kpi-val" style="font-size:14px">집계 준비 중</div><div class="kpi-delta">완료율 집계 기능 미개발</div></div>
     </div>
     <div class="kpi-cell">
       <div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
-      <div><div class="kpi-lbl">지연·이상 발생</div><div class="kpi-val" style="color:var(--red)">127</div><div class="kpi-delta dn">↑ 전일 대비 +18건</div></div>
+      <div><div class="kpi-lbl">지연·이상 발생</div><div class="kpi-val" style="font-size:14px">집계 준비 중</div><div class="kpi-delta">이상 탐지 기능 미개발</div></div>
     </div>
     <div class="kpi-cell">
       <div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-      <div><div class="kpi-lbl">OpenHash 증빙</div><div class="kpi-val">4.28M</div><div class="kpi-delta up">↑ 실시간 기록 중</div></div>
+      <div><div class="kpi-lbl">OpenHash 증빙</div><div class="kpi-val" style="font-size:14px">실제 기록됨</div><div class="kpi-delta">건수 집계는 준비 중, 기록 자체는 실재</div></div>
     </div>
   </div>
 
   <!-- CONTENT -->
   <div class="content">
 
-    <!-- P1: 실시간 현황 -->
+    <!-- P1: 현황(시안) -->
     <div class="page active" id="p1">
       <div class="notice warn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
-        경북 구미 물류센터 처리 지연 감지 — 예상 복구 14:35 · AI 우회 경로 자동 적용 중
+        이 대시보드는 개발 중입니다 — 아래 수치·지역 데이터는 실제 집계가 아니라 화면 레이아웃 시안입니다.
       </div>
       <div class="grid-2">
         <div class="card">
-          <div class="card-head"><span class="ch-lbl">광역시도별 처리량</span><span class="ch-meta">오늘</span></div>
-          <div class="card-body">
-            <div class="bar-row"><span class="bar-lbl">경기도</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">812,341</span></div>
-            <div class="bar-row"><span class="bar-lbl">서울</span><div class="bar-track"><div class="bar-fill" style="width:86%"></div></div><span class="bar-val">698,221</span></div>
-            <div class="bar-row"><span class="bar-lbl">경남</span><div class="bar-track"><div class="bar-fill" style="width:54%"></div></div><span class="bar-val">437,112</span></div>
-            <div class="bar-row"><span class="bar-lbl">인천</span><div class="bar-track"><div class="bar-fill" style="width:48%"></div></div><span class="bar-val">392,008</span></div>
-            <div class="bar-row"><span class="bar-lbl">충남</span><div class="bar-track"><div class="bar-fill" style="width:38%"></div></div><span class="bar-val">311,450</span></div>
-            <div class="bar-row"><span class="bar-lbl">부산</span><div class="bar-track"><div class="bar-fill" style="width:35%"></div></div><span class="bar-val">284,792</span></div>
-            <div class="bar-row"><span class="bar-lbl">경북</span><div class="bar-track"><div class="bar-fill warn" style="width:28%"></div></div><span class="bar-val" style="color:var(--amber)">227,443</span></div>
+          <div class="card-head"><span class="ch-lbl">광역시도별 처리량</span><span class="ch-meta">집계 준비 중</span></div>
+          <div class="card-body" style="padding-top:2px;color:var(--txt3);font-size:12px;padding-bottom:14px">
+            지역별 처리량 집계 기능은 아직 개발되지 않았습니다. 이전 버전에는 경기 812,341건·서울 698,221건 등 구체적 지역별 수치가 표시되어 있었는데, 전부 화면 시안용으로 지어낸 예시였습니다(실제 집계 데이터가 아닙니다).
           </div>
         </div>
         <div class="card">
-          <div class="card-head"><span class="ch-lbl">최근 이벤트</span><span class="ch-badge">실시간</span></div>
-          <div class="card-body scroll" style="padding-top:10px">
-            <div class="tl-item"><div class="tl-dot warn"></div><div><div class="tl-time">방금 전</div><div class="tl-msg">구미 물류센터 처리 지연 — AI 우회 경로 자동 적용</div><div class="tl-loc">경북 구미시 산동면</div></div></div>
-            <div class="tl-item"><div class="tl-dot ok"></div><div><div class="tl-time">3분 전</div><div class="tl-msg">인천항 수출 컨테이너 2,341개 통관 완료</div><div class="tl-loc">인천 남동구</div></div></div>
-            <div class="tl-item"><div class="tl-dot ok"></div><div><div class="tl-time">7분 전</div><div class="tl-msg">냉장 물류 배분 완료 — 제주 농산물 육지 출하 3.8톤</div><div class="tl-loc">제주 한림읍</div></div></div>
-            <div class="tl-item"><div class="tl-dot ok"></div><div><div class="tl-time">12분 전</div><div class="tl-msg">부산신항 수입 의약품 K-Health 연동 배분 완료</div><div class="tl-loc">부산 강서구</div></div></div>
-            <div class="tl-item"><div class="tl-dot err"></div><div><div class="tl-time">18분 전</div><div class="tl-msg">창원 제조단지 부품 재고 임계치 도달 — 긴급 발주 자동 집행</div><div class="tl-loc">경남 창원시</div></div></div>
-            <div class="tl-item"><div class="tl-dot ok"></div><div><div class="tl-time">24분 전</div><div class="tl-msg">평택 허브 일일 처리량 신기록 — 812,000건</div><div class="tl-loc">경기 평택시</div></div></div>
+          <div class="card-head"><span class="ch-lbl">최근 이벤트</span><span class="ch-meta">시안(가상 데이터)</span></div>
+          <div class="card-body" style="padding-top:2px;color:var(--txt3);font-size:12px;padding-bottom:14px">
+            실시간 이벤트 피드 기능은 아직 개발되지 않았습니다. 이전 버전에 표시되던 "구미 물류센터 지연", "인천항 통관 완료" 등의 항목은 실제 발생한 사건이 아니라 화면 시안용으로 지어낸 예시였습니다 — 실제 이벤트 로그가 준비되면 이 자리에 연동할 예정입니다.
           </div>
         </div>
       </div>
       <div class="card">
         <div class="card-head"><span class="ch-lbl">시간대별 처리량</span><span class="ch-meta">15분 단위</span></div>
-        <div class="card-body">
-          <svg class="trend-svg" viewBox="0 0 800 80" style="height:80px">
-            <line x1="0" y1="20" x2="800" y2="20" stroke="#e5e7eb" stroke-width="0.5"/>
-            <line x1="0" y1="40" x2="800" y2="40" stroke="#e5e7eb" stroke-width="0.5"/>
-            <line x1="0" y1="60" x2="800" y2="60" stroke="#e5e7eb" stroke-width="0.5"/>
-            <polyline fill="none" stroke="#3ecf8e" stroke-width="2"
-              points="0,72 33,70 66,68 100,65 133,60 166,50 200,38 233,28 266,22 300,18 333,20 366,16 400,12 433,15 466,18 500,22 533,26 566,30 600,35 633,40 666,48 700,55 733,62 766,68 800,70"/>
-            <text x="0" y="79" fill="#9ca3af" font-size="8" font-family="JetBrains Mono">00:00</text>
-            <text x="163" y="79" fill="#9ca3af" font-size="8" font-family="JetBrains Mono">06:00</text>
-            <text x="330" y="79" fill="#9ca3af" font-size="8" font-family="JetBrains Mono">12:00</text>
-            <text x="496" y="79" fill="#9ca3af" font-size="8" font-family="JetBrains Mono">18:00</text>
-            <text x="763" y="79" fill="#9ca3af" font-size="8" font-family="JetBrains Mono">24:00</text>
-          </svg>
-        </div>
+        <div class="card-body" style="color:var(--txt3);font-size:12px;padding-top:8px;padding-bottom:14px">시간대별 집계 기능 개발 중 — 이전엔 24시간 가짜 추이 그래프가 그려져 있었습니다.</div>
       </div>
     </div>
 
     <!-- P2: 지역별 물류량 -->
     <div class="page" id="p2">
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-head"><span class="ch-lbl">광역시도 물류량 순위</span><span class="ch-meta">오늘 기준</span></div>
-          <div class="card-body">
-            <div class="region-row"><span class="rr-name">경기도</span><div class="rr-track"><div class="rr-fill" style="width:100%"></div></div><span class="rr-val">812,341건</span></div>
-            <div class="region-row"><span class="rr-name">서울</span><div class="rr-track"><div class="rr-fill" style="width:86%"></div></div><span class="rr-val">698,221건</span></div>
-            <div class="region-row"><span class="rr-name">경남</span><div class="rr-track"><div class="rr-fill" style="width:54%"></div></div><span class="rr-val">437,112건</span></div>
-            <div class="region-row"><span class="rr-name">인천</span><div class="rr-track"><div class="rr-fill" style="width:48%"></div></div><span class="rr-val">392,008건</span></div>
-            <div class="region-row"><span class="rr-name">충남</span><div class="rr-track"><div class="rr-fill" style="width:38%"></div></div><span class="rr-val">311,450건</span></div>
-            <div class="region-row"><span class="rr-name">부산</span><div class="rr-track"><div class="rr-fill" style="width:35%"></div></div><span class="rr-val">284,792건</span></div>
-            <div class="region-row"><span class="rr-name">경북</span><div class="rr-track"><div class="rr-fill warn" style="width:28%"></div></div><span class="rr-val">227,443건</span></div>
-            <div class="region-row"><span class="rr-name">전남</span><div class="rr-track"><div class="rr-fill" style="width:22%"></div></div><span class="rr-val">178,900건</span></div>
-            <div class="region-row"><span class="rr-name">전북</span><div class="rr-track"><div class="rr-fill" style="width:18%"></div></div><span class="rr-val">149,220건</span></div>
-            <div class="region-row"><span class="rr-name">제주</span><div class="rr-track"><div class="rr-fill" style="width:8%"></div></div><span class="rr-val">65,445건</span></div>
-          </div>
+      <div class="card">
+        <div class="card-head"><span class="ch-lbl">광역시도 물류량 순위</span><span class="ch-meta">시안(가상 데이터)</span></div>
+        <div class="card-body" style="color:var(--txt3);font-size:12px;padding-top:2px;padding-bottom:14px">
+          지역별 순위 집계 기능은 아직 개발되지 않았습니다. 실제 있는 기능은 개인간 화물 매칭(traffic.hondi.net 공유 백엔드)뿐이며, 지역별 집계는 준비 중입니다.
         </div>
-        <div class="card">
-          <div class="card-head"><span class="ch-lbl">물류 공백 지역</span><span class="ch-meta">AI 인프라 확충 권고</span></div>
-          <div class="card-body">
-            <table class="tbl">
-              <thead><tr><th>지역</th><th>배송 도달</th><th>인접 창고</th><th>AI 권고</th></tr></thead>
-              <tbody>
-                <tr><td>강원 정선군</td><td style="color:var(--amber)">6.2시간</td><td>원주 82km</td><td style="color:var(--txt2);font-size:11px">마이크로 허브 신설</td></tr>
-                <tr><td>전남 신안군</td><td style="color:var(--red)">8.4시간</td><td>목포 도선포함</td><td style="color:var(--txt2);font-size:11px">드론 배송 도입</td></tr>
-                <tr><td>경북 울릉군</td><td style="color:var(--red)">12시간+</td><td>포항 선박</td><td style="color:var(--txt2);font-size:11px">항공 물류 보조금</td></tr>
-                <tr><td>충북 단양군</td><td style="color:var(--amber)">4.8시간</td><td>충주 51km</td><td style="color:var(--txt2);font-size:11px">공유 창고 유치</td></tr>
-              </tbody>
-            </table>
-          </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="ch-lbl">물류 인프라 현황</span><span class="ch-meta">시안</span></div>
+        <div class="card-body" style="color:var(--txt3);font-size:12px;padding-top:2px;padding-bottom:14px">
+          이전 버전에는 "강원 정선군 마이크로 허브 신설 권고" 등 특정 지역에 대한 AI 정책 제언이 표시됐습니다 — 이는 실제 분석 결과가 아니라 화면 시안용으로 지어낸 예시였습니다. 정책 제언에 쓰일 만한 실제 데이터·분석 기능은 없습니다. 이 표는 혼동을 막기 위해 제거했습니다.
         </div>
       </div>
     </div>
 
     <!-- P3: 품목·물자 현황 -->
     <div class="page" id="p3">
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-head"><span class="ch-lbl">품목 대분류별 물량 비중</span><span class="ch-meta">오늘</span></div>
-          <div class="card-body">
-            <div class="bar-row"><span class="bar-lbl">식품·신선류</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">38.2%</span></div>
-            <div class="bar-row"><span class="bar-lbl">전자·기계부품</span><div class="bar-track"><div class="bar-fill" style="width:62%"></div></div><span class="bar-val">23.7%</span></div>
-            <div class="bar-row"><span class="bar-lbl">생활·소비재</span><div class="bar-track"><div class="bar-fill" style="width:44%"></div></div><span class="bar-val">16.9%</span></div>
-            <div class="bar-row"><span class="bar-lbl">건자재·철강</span><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div><span class="bar-val">10.8%</span></div>
-            <div class="bar-row"><span class="bar-lbl">의약·의료</span><div class="bar-track"><div class="bar-fill" style="width:18%"></div></div><span class="bar-val">6.9%</span></div>
-            <div class="bar-row"><span class="bar-lbl">기타</span><div class="bar-track"><div class="bar-fill" style="width:9%"></div></div><span class="bar-val">3.5%</span></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="ch-lbl">긴급 처리 필요 품목</span><span class="ch-meta">24h 내</span></div>
-          <div class="card-body">
-            <table class="tbl">
-              <thead><tr><th>품목</th><th>수량</th><th>위치</th><th>기한</th><th>상태</th></tr></thead>
-              <tbody>
-                <tr><td>제주 감귤 (신선)</td><td class="mono">48톤</td><td style="font-size:11px">한림 창고</td><td style="color:var(--amber);font-size:11px">14시간</td><td><span class="chip chip-warn">출하 중</span></td></tr>
-                <tr><td>고흥 굴 (냉장)</td><td class="mono">12톤</td><td style="font-size:11px">고흥 항구</td><td style="color:var(--red);font-size:11px">8시간</td><td><span class="chip chip-err">긴급</span></td></tr>
-                <tr><td>백신 원료 (냉동)</td><td class="mono">2,100바이알</td><td style="font-size:11px">인천 바이오단지</td><td style="color:var(--green-dk);font-size:11px">36시간</td><td><span class="chip chip-ok">정상</span></td></tr>
-                <tr><td>딸기 (상온 한계)</td><td class="mono">23톤</td><td style="font-size:11px">진주 창고</td><td style="color:var(--amber);font-size:11px">18시간</td><td><span class="chip chip-warn">주의</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <div class="notice err">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
+        이전 버전에는 이 페이지에 "혈액(O형) 재고 위기", "반도체 웨이퍼 재고 부족" 등 구체적인 국가 물자 위기 상황이 실시간 데이터인 것처럼 표시되어 있었습니다. 전부 화면 시안용으로 지어낸 예시였고, 실제로 그런 재고 관리·조달 기능은 존재하지 않습니다(K-Health 연동도 실재하지 않음). 정책 판단에 참고하지 마십시오.
       </div>
       <div class="card">
-        <div class="card-head"><span class="ch-lbl">주요 품목 재고 현황</span><span class="ch-badge">전국 집계</span></div>
-        <div class="card-body">
-          <table class="tbl">
-            <thead><tr><th>품목</th><th>총 재고</th><th>가용 재고</th><th>예측 소진</th><th>조달 상태</th><th>비고</th></tr></thead>
-            <tbody>
-              <tr><td>쌀 (일반미)</td><td class="mono">824,200톤</td><td class="mono" style="color:var(--green-dk)">822,100톤</td><td>D+184</td><td><span class="chip chip-ok">정상</span></td><td></td></tr>
-              <tr><td>반도체 웨이퍼</td><td class="mono">4,821,000장</td><td class="mono" style="color:var(--amber)">1,230,400장</td><td>D+12</td><td><span class="chip chip-warn">주의</span></td><td style="font-size:11px;color:var(--txt3)">긴급 발주 중</td></tr>
-              <tr><td>요소수</td><td class="mono">28,400kL</td><td class="mono" style="color:var(--green-dk)">27,900kL</td><td>D+90</td><td><span class="chip chip-ok">정상</span></td><td></td></tr>
-              <tr><td>혈액 (O형)</td><td class="mono">12,400유닛</td><td class="mono" style="color:var(--red)">4,100유닛</td><td>D+3</td><td><span class="chip chip-err">긴급</span></td><td style="font-size:11px;color:var(--txt3)">K-Health 연동</td></tr>
-            </tbody>
-          </table>
+        <div class="card-body" style="padding:14px;color:var(--txt3);font-size:12px">
+          품목별 물량 비중, 긴급 처리 품목, 전국 재고 현황 — 전부 실제 집계 기능이 개발되지 않았습니다. K-Logistics가 실제로 하는 일은 개인간 화물 운송 매칭뿐이며, 창고 재고 관리 시스템 자체가 없습니다.
         </div>
       </div>
     </div>
 
     <!-- P4: 산업별 트렌드 -->
     <div class="page" id="p4">
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-head"><span class="ch-lbl">산업군별 물류 수요 변화</span><span class="ch-meta">전년 대비</span></div>
-          <div class="card-body">
-            <div class="bar-row"><span class="bar-lbl">이커머스</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">+32.1%</span></div>
-            <div class="bar-row"><span class="bar-lbl">냉동·신선</span><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div><span class="bar-val">+25.6%</span></div>
-            <div class="bar-row"><span class="bar-lbl">의료·방역</span><div class="bar-track"><div class="bar-fill" style="width:52%"></div></div><span class="bar-val">+16.7%</span></div>
-            <div class="bar-row"><span class="bar-lbl">전기차 부품</span><div class="bar-track"><div class="bar-fill" style="width:48%"></div></div><span class="bar-val">+15.2%</span></div>
-            <div class="bar-row"><span class="bar-lbl">건설자재</span><div class="bar-track"><div class="bar-fill" style="width:26%"></div></div><span class="bar-val">+8.3%</span></div>
-            <div class="bar-row"><span class="bar-lbl">인쇄·출판</span><div class="bar-track"><div class="bar-fill err" style="width:16%"></div></div><span class="bar-val" style="color:var(--red)">-5.1%</span></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="ch-lbl">AI 수요 예측 (향후 3개월)</span><span class="ch-meta">예측</span></div>
-          <div class="card-body">
-            <table class="tbl">
-              <thead><tr><th>산업</th><th>7월</th><th>8월</th><th>9월</th><th>신뢰도</th></tr></thead>
-              <tbody>
-                <tr><td>이커머스 (3차)</td><td style="color:var(--green-dk)">+18%</td><td style="color:var(--green-dk)">+22%</td><td style="color:var(--amber)">+8%</td><td class="mono" style="color:var(--green-dk)">94.2%</td></tr>
-                <tr><td>농수산 (1차)</td><td style="color:var(--green-dk)">+12%</td><td style="color:var(--amber)">+4%</td><td style="color:var(--green-dk)">+28%</td><td class="mono" style="color:var(--amber)">78.6%</td></tr>
-                <tr><td>반도체 부품 (2차)</td><td>±2%</td><td style="color:var(--green-dk)">+7%</td><td style="color:var(--green-dk)">+11%</td><td class="mono" style="color:var(--green-dk)">88.4%</td></tr>
-                <tr><td>의료·방역</td><td style="color:var(--green-dk)">+6%</td><td style="color:var(--green-dk)">+8%</td><td style="color:var(--green-dk)">+9%</td><td class="mono" style="color:var(--green-dk)">91.7%</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
       <div class="card">
-        <div class="card-head"><span class="ch-lbl">월별 1·2·3차 산업 트렌드 (최근 12개월)</span></div>
-        <div class="card-body">
-          <svg viewBox="0 0 800 100" style="width:100%;height:100px">
-            <line x1="0" y1="25" x2="800" y2="25" stroke="#e5e7eb" stroke-width="0.5"/>
-            <line x1="0" y1="50" x2="800" y2="50" stroke="#e5e7eb" stroke-width="0.5"/>
-            <line x1="0" y1="75" x2="800" y2="75" stroke="#e5e7eb" stroke-width="0.5"/>
-            <polyline fill="none" stroke="#3ecf8e" stroke-width="2" opacity="0.9"
-              points="0,80 73,76 145,72 218,68 291,63 364,57 436,50 509,43 582,37 655,30 727,24 800,18"/>
-            <polyline fill="none" stroke="#9ca3af" stroke-width="1.5" opacity="0.7"
-              points="0,72 73,70 145,69 218,67 291,68 364,66 436,65 509,64 582,62 655,60 727,58 800,55"/>
-            <polyline fill="none" stroke="#6b7280" stroke-width="1.5" opacity="0.5" stroke-dasharray="4,3"
-              points="0,85 73,82 145,78 218,72 291,66 364,60 436,53 509,46 582,40 655,35 727,29 800,22"/>
-            <text x="10" y="95" fill="#9ca3af" font-size="9" font-family="JetBrains Mono">25.07</text>
-            <text x="220" y="95" fill="#9ca3af" font-size="9" font-family="JetBrains Mono">25.11</text>
-            <text x="440" y="95" fill="#9ca3af" font-size="9" font-family="JetBrains Mono">26.03</text>
-            <text x="730" y="95" fill="#9ca3af" font-size="9" font-family="JetBrains Mono">26.07</text>
-          </svg>
-          <div style="display:flex;gap:16px;font-size:11px;color:var(--txt3);margin-top:6px">
-            <span><span style="display:inline-block;width:20px;height:2px;background:var(--green);vertical-align:middle;margin-right:4px"></span>3차 산업</span>
-            <span><span style="display:inline-block;width:20px;height:2px;background:#9ca3af;vertical-align:middle;margin-right:4px"></span>2차 산업</span>
-            <span><span style="display:inline-block;width:20px;height:2px;background:#6b7280;border-top:2px dashed #6b7280;vertical-align:middle;margin-right:4px"></span>1차 산업</span>
-          </div>
+        <div class="card-body" style="padding:14px;color:var(--txt3);font-size:12px">
+          이전 버전에는 "1차 산업 +8.4%", "AI 수요 예측(향후 3개월)" 등 구체적인 트렌드·예측 수치가 표시되어 있었습니다 — 실제 분석 결과가 아니라 지어낸 예시였습니다. 이런 수요 예측 기능은 개발되지 않았습니다.
         </div>
       </div>
     </div>
 
     <!-- P5: 배송 현황 -->
     <div class="page" id="p5">
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-head"><span class="ch-lbl">수단별 배송 현황</span><span class="ch-badge">실시간</span></div>
-          <div class="card-body">
-            <div class="bar-row"><span class="bar-lbl">5톤 트럭</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">248,441대</span></div>
-            <div class="bar-row"><span class="bar-lbl">1톤 트럭</span><div class="bar-track"><div class="bar-fill" style="width:76%"></div></div><span class="bar-val">189,332대</span></div>
-            <div class="bar-row"><span class="bar-lbl">오토바이</span><div class="bar-track"><div class="bar-fill" style="width:66%"></div></div><span class="bar-val">412,001대</span></div>
-            <div class="bar-row"><span class="bar-lbl">드론</span><div class="bar-track"><div class="bar-fill" style="width:17%"></div></div><span class="bar-val">42,667대</span></div>
-            <div class="bar-row"><span class="bar-lbl">선박 (연안)</span><div class="bar-track"><div class="bar-fill" style="width:0.5%"></div></div><span class="bar-val">221척</span></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="ch-lbl">SLA 준수율</span><span class="ch-meta">이번 달</span></div>
-          <div class="card-body">
-            <div class="bar-row"><span class="bar-lbl">당일 배송</span><div class="bar-track"><div class="bar-fill" style="width:94.7%"></div></div><span class="bar-val">94.7%</span></div>
-            <div class="bar-row"><span class="bar-lbl">익일 배송</span><div class="bar-track"><div class="bar-fill" style="width:99.1%"></div></div><span class="bar-val">99.1%</span></div>
-            <div class="bar-row"><span class="bar-lbl">2일 내</span><div class="bar-track"><div class="bar-fill" style="width:99.8%"></div></div><span class="bar-val">99.8%</span></div>
-            <div class="bar-row"><span class="bar-lbl">냉장 온도</span><div class="bar-track"><div class="bar-fill" style="width:98.4%"></div></div><span class="bar-val">98.4%</span></div>
-            <div class="bar-row"><span class="bar-lbl">파손율</span><div class="bar-track"><div class="bar-fill err" style="width:0.2%"></div></div><span class="bar-val" style="color:var(--red)">0.2%</span></div>
-          </div>
-        </div>
-      </div>
       <div class="card">
-        <div class="card-head"><span class="ch-lbl">주요 배송 이슈</span><span class="ch-badge">실시간</span></div>
-        <div class="card-body">
-          <table class="tbl">
-            <thead><tr><th>구분</th><th>건수</th><th>원인</th><th>조치</th></tr></thead>
-            <tbody>
-              <tr><td>수취인 부재</td><td class="mono" style="color:var(--amber)">1,421건</td><td style="font-size:11px;color:var(--txt3)">부재 시 알림 미수신</td><td style="font-size:11px">재배송 자동 예약</td></tr>
-              <tr><td>주소 오류</td><td class="mono" style="color:var(--amber)">224건</td><td style="font-size:11px;color:var(--txt3)">구 주소 사용</td><td style="font-size:11px">AI 주소 교정 중</td></tr>
-              <tr><td>물류 센터 지연</td><td class="mono" style="color:var(--red)">127건</td><td style="font-size:11px;color:var(--txt3)">구미 설비 오류</td><td style="font-size:11px">우회 경로 적용</td></tr>
-              <tr><td>파손 의심</td><td class="mono" style="color:var(--red)">50건</td><td style="font-size:11px;color:var(--txt3)">충격 감지 센서</td><td style="font-size:11px">교체 발송 준비</td></tr>
-            </tbody>
-          </table>
+        <div class="card-body" style="padding:14px;color:var(--txt3);font-size:12px">
+          이전 버전에는 수단별 배송 현황(트럭·드론·선박), 배송 이슈, SLA 준수율이 실시간 데이터인 것처럼 표시되어 있었습니다 — 전부 지어낸 예시였습니다. K-Logistics에는 배송 수단 추적, 실시간 위치 파악, SLA 관리 기능이 없습니다. 실제로 되는 것은 개인간 화물 매칭과 매칭 성사 후 GDC 결제뿐입니다.
         </div>
       </div>
     </div>
 
     <!-- P6: 창고 네트워크 -->
     <div class="page" id="p6">
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-head"><span class="ch-lbl">주요 허브 창고 현황</span><span class="ch-badge">실시간</span></div>
-          <div class="card-body">
-            <table class="tbl">
-              <thead><tr><th>창고명</th><th>지역</th><th>면적</th><th>가동률</th><th>상태</th></tr></thead>
-              <tbody>
-                <tr><td>평택 메가 허브</td><td style="font-size:11px;color:var(--txt3)">경기 평택</td><td class="mono">820,000㎡</td><td class="mono" style="color:var(--green-dk)">68%</td><td><span class="chip chip-ok">정상</span></td></tr>
-                <tr><td>인천 스마트 물류</td><td style="font-size:11px;color:var(--txt3)">인천 남동</td><td class="mono">450,000㎡</td><td class="mono" style="color:var(--amber)">81%</td><td><span class="chip chip-warn">주의</span></td></tr>
-                <tr><td>부산 신항 허브</td><td style="font-size:11px;color:var(--txt3)">부산 강서</td><td class="mono">380,000㎡</td><td class="mono" style="color:var(--green-dk)">72%</td><td><span class="chip chip-ok">정상</span></td></tr>
-                <tr><td>광주 서남권 허브</td><td style="font-size:11px;color:var(--txt3)">광주 광산</td><td class="mono">180,000㎡</td><td class="mono" style="color:var(--red)">92%</td><td><span class="chip chip-err">포화</span></td></tr>
-                <tr><td>구미 제조 물류</td><td style="font-size:11px;color:var(--txt3)">경북 구미</td><td class="mono">160,000㎡</td><td class="mono" style="color:var(--amber)">78%</td><td><span class="chip chip-warn">지연</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="ch-lbl">창고 유형별 분포</span><span class="ch-meta">전국</span></div>
-          <div class="card-body">
-            <div class="bar-row"><span class="bar-lbl">일반 창고</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">2,241개</span></div>
-            <div class="bar-row"><span class="bar-lbl">냉장 창고</span><div class="bar-track"><div class="bar-fill" style="width:44%"></div></div><span class="bar-val">984개</span></div>
-            <div class="bar-row"><span class="bar-lbl">냉동 창고</span><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div><span class="bar-val">621개</span></div>
-            <div class="bar-row"><span class="bar-lbl">위험물 창고</span><div class="bar-track"><div class="bar-fill err" style="width:2%"></div></div><span class="bar-val">41개</span></div>
-          </div>
+      <div class="notice err">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
+        이전 버전에는 "평택 메가 허브", "구미 제조 물류" 등 실존하지 않는 창고·물류센터를 실제 지명 좌표에 배치해 마치 전국 창고 네트워크가 있는 것처럼 표시했습니다. 전부 지어낸 예시였습니다 — K-Logistics는 창고를 운영하거나 관리하지 않습니다.
+      </div>
+      <div class="card">
+        <div class="card-body" style="padding:14px;color:var(--txt3);font-size:12px">
+          창고 관리 기능 자체가 없습니다. K-Logistics가 실제로 하는 일은 개인간 화물 운송 매칭뿐입니다.
         </div>
       </div>
     </div>
@@ -619,47 +449,7 @@ button{font-family:'Inter',sans-serif;cursor:pointer;border:none;background:none
     <div class="page" id="p7">
       <div class="notice err">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
-        고위험 경보: 반도체 부품 재고 임계치 도달 — 창원 제조단지 72시간 내 생산 중단 위험. AI 긴급 해외 발주 자동 집행 중
-      </div>
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-head"><span class="ch-lbl">활성 이상 탐지</span><span class="ch-badge">실시간</span></div>
-          <div class="card-body scroll">
-            <table class="tbl">
-              <thead><tr><th>유형</th><th>위치</th><th>감지</th><th>위험도</th><th>조치</th></tr></thead>
-              <tbody>
-                <tr><td>재고 임계치</td><td style="font-size:11px">창원 제조단지</td><td class="mono">13:42</td><td><span class="chip chip-err">HIGH</span></td><td style="font-size:11px;color:var(--amber)">자동 발주 중</td></tr>
-                <tr><td>경로 이탈</td><td style="font-size:11px">대전→서울</td><td class="mono">14:01</td><td><span class="chip chip-warn">MED</span></td><td style="font-size:11px;color:var(--green-dk)">운전자 알림</td></tr>
-                <tr><td>창고 포화</td><td style="font-size:11px">광주 광산구</td><td class="mono">13:55</td><td><span class="chip chip-err">HIGH</span></td><td style="font-size:11px;color:var(--amber)">재배분 중</td></tr>
-                <tr><td>온도 이상</td><td style="font-size:11px">전주 냉장창고</td><td class="mono">14:08</td><td><span class="chip chip-err">HIGH</span></td><td style="font-size:11px;color:var(--red)">현장 점검 요청</td></tr>
-                <tr><td>허위 수취 의심</td><td style="font-size:11px">서울 강남구</td><td class="mono">13:30</td><td><span class="chip chip-warn">MED</span></td><td style="font-size:11px;color:var(--amber)">OpenHash 조회 중</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="ch-lbl">이상 유형 분포</span><span class="ch-meta">이번 달</span></div>
-          <div class="card-body">
-            <div class="bar-row"><span class="bar-lbl">배송 지연</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">1,284건</span></div>
-            <div class="bar-row"><span class="bar-lbl">재고 이상</span><div class="bar-track"><div class="bar-fill" style="width:62%"></div></div><span class="bar-val">794건</span></div>
-            <div class="bar-row"><span class="bar-lbl">경로 이탈</span><div class="bar-track"><div class="bar-fill" style="width:42%"></div></div><span class="bar-val">541건</span></div>
-            <div class="bar-row"><span class="bar-lbl">허위 수취</span><div class="bar-track"><div class="bar-fill warn" style="width:28%"></div></div><span class="bar-val">360건</span></div>
-            <div class="bar-row"><span class="bar-lbl">온도 이탈</span><div class="bar-track"><div class="bar-fill warn" style="width:20%"></div></div><span class="bar-val">258건</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-head"><span class="ch-lbl">OpenHash 이상 이력</span><span class="ch-meta">불변 기록</span></div>
-        <div class="card-body">
-          <table class="tbl">
-            <thead><tr><th>Hash ID</th><th>유형</th><th>발생</th><th>해소</th><th>조치</th><th>기록</th></tr></thead>
-            <tbody>
-              <tr><td class="mono" style="color:var(--green-dk)">OH-2606-00441</td><td style="font-size:11px">재고 임계</td><td class="mono">13:42</td><td style="font-size:11px;color:var(--txt3)">처리 중</td><td style="font-size:11px">자동 발주</td><td style="font-size:11px;color:var(--green-dk)">✓ 불변</td></tr>
-              <tr><td class="mono" style="color:var(--green-dk)">OH-2606-00387</td><td style="font-size:11px">허위 수취</td><td class="mono">13:30</td><td style="font-size:11px;color:var(--txt3)">조회 중</td><td style="font-size:11px">증빙 대조</td><td style="font-size:11px;color:var(--green-dk)">✓ 불변</td></tr>
-              <tr><td class="mono" style="color:var(--green-dk)">OH-2606-00312</td><td style="font-size:11px">온도 이탈</td><td class="mono">11:22</td><td class="mono">14:05</td><td style="font-size:11px">현장 교체</td><td style="font-size:11px;color:var(--green-dk)">✓ 불변</td></tr>
-            </tbody>
-          </table>
-        </div>
+        이전 버전에는 이 페이지 전체가 가짜 데이터였습니다 — 존재하지 않는 "OpenHash 불변 기록"(OH-2606-00441 등 가짜 해시 ID 포함), 가짜 이상 탐지 목록, 가짜 부정거래("허위 수취 의심") 통계가 실시간인 것처럼 표시되어 있었습니다. OpenHash 자체는 실재하는 기술이지만, 여기 표시됐던 기록들은 전부 지어낸 예시였습니다. 이상 탐지·부정거래 방지 기능은 K-Logistics에 없습니다.
       </div>
     </div>
 
@@ -670,7 +460,7 @@ button{font-family:'Inter',sans-serif;cursor:pointer;border:none;background:none
 <div class="toast" id="toast"></div>
 
 <script>
-const PAGE_NAMES = {p1:'실시간 현황',p2:'지역별 물류량',p3:'품목·물자 현황',p4:'산업별 트렌드',p5:'배송 현황',p6:'창고 네트워크',p7:'이상 탐지'};
+const PAGE_NAMES = {p1:'현황(시안)',p2:'지역별 물류량',p3:'품목·물자 현황',p4:'산업별 트렌드',p5:'배송 현황',p6:'창고 네트워크',p7:'이상 탐지'};
 
 function showPage(id, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -684,13 +474,10 @@ function tick() {
 }
 tick(); setInterval(tick, 1000);
 function refreshAll() {
-  const k1 = document.getElementById('k1');
-  const k2 = document.getElementById('k2');
-  if (k1) k1.textContent = (4281992 + Math.floor(Math.random()*2000)).toLocaleString('ko-KR');
-  if (k2) k2.textContent = (892441 + Math.floor(Math.random()*500-250)).toLocaleString('ko-KR');
-  toast_show('데이터를 갱신했습니다');
+  // 실제 전국 집계 기능이 개발되면 여기서 진짜 API를 호출하도록 교체할 것.
+  toast_show('집계 기능이 아직 없어 갱신할 데이터가 없습니다');
 }
-setInterval(refreshAll, 15000);
+// setInterval(refreshAll, 15000); // 가짜 데이터 흔들기 비활성화(2026-07-26)
 function toast_show(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
