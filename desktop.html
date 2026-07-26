@@ -6,7 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>K-Logistics — AI 물류 시스템 · logistics.hondi.net</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;600;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
 <style>
 /* ── RESET ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -19,8 +20,8 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
   --bg-subtle: #f1f3f5;
   --surface:   #ffffff;
 
-  --border:    #e5e7eb;
-  --border2:   #d1d5db;
+  --border:    #dfdfdf;
+  --border2:   #c4c4c4;
 
   --brand:     #3ecf8e;
   --brand-dk:  #1a9e6a;
@@ -52,7 +53,7 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Sora','Noto Sans KR',-apple-system,sans-serif;
+  font-family: 'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
   font-size: 14px;
   line-height: 1.6;
   overflow-x: hidden;
@@ -610,8 +611,8 @@ footer {
     <h1>K-<span class="brand">Logistics</span></h1>
 
     <p class="hero-tagline">
-      주문부터 반품까지 전 과정을 AI가 자동 처리합니다.<br>
-      종래 물류 네트워크 대비 비용 <strong>34%↓</strong>，지연 <strong>0.8ms</strong>，정확도 <strong>99.97%</strong>.
+      화물차·창고 운영 관련 행정 민원을 AI가 안내하고,<br>
+      개인간 화물 운송 매칭(카풀형)을 실시간으로 지원합니다.
     </p>
     <div class="hero-actions">
       <button onclick="openWebApp()" class="btn-lg btn-green"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg> 웹앱 열기</button>
@@ -630,33 +631,32 @@ footer {
     <div class="section-tag reveal">Platform Overview</div>
     <h2 class="section-title reveal"><strong>K-Logistics</strong>란?</h2>
     <div class="section-body reveal">
-      <p>K-Logistics는 고팡(Gopang) 생태계의 물류 전담 AI 에이전트입니다. 산업 공급망(Supply Chain)과 소비재 배송망(Last-Mile Delivery) 전체를 하나의 AI 두뇌로 통합 관리합니다.</p>
+      <p>K-Logistics는 고팡(Gopang) 생태계의 물류 담당 AI 서비스입니다. 현재는 (1) 화물차 등록·운송업 허가·물류센터 인허가 등 행정 민원 안내와, (2) 개인간 화물 운송 카풀형 매칭 두 가지 기능을 실제로 제공합니다.</p>
       <ul class="overview-list">
-        <li>1차 산업(농수산축산물) → 수확 예측 기반 선제적 냉동·냉장 배분</li>
-        <li>2차 산업(제조업) → 부품 조달·출고·품질 검사·재고 자동 최적화</li>
-        <li>3차 산업(유통·소비재) → 주문-출고-배송-반품 전 과정 자동화</li>
+        <li>행정 민원 안내 → 화물차 등록, 운송업 허가, 물류센터 인허가 절차를 AI가 안내</li>
+        <li>화물 운송 매칭 → 수거지·배송지를 게시하면 인근에서 활동 중인 기사에게 실시간 알림, 응답·수락·GDC 결제까지 지원(traffic.hondi.net과 매칭 인프라 공유)</li>
       </ul>
-      <p>고팡의 <strong>PDV(Private Data Vault)</strong>와 <strong>OpenHash</strong>를 통해 모든 배송 증빙은 불변 기록으로 저장되며, 위·변조가 불가능합니다.</p>
+      <p>고팡의 <strong>PDV(Private Data Vault)</strong>와 <strong>OpenHash</strong>를 통해 결제 기록은 위·변조 불가능하게 저장됩니다. 대규모 창고 자동 배분, 실시간 재고 관리, 산업 공급망 통합 같은 기능은 아직 개발되지 않았습니다.</p>
     </div>
 
     <div class="steps-grid">
       <div class="step-card reveal">
         <div class="step-num">STEP 01</div>
-        <h3>주문 수신 · 재고 확인</h3>
-        <p>고팡 SSO로 인증된 주문이 들어오면 AI가 0.8ms 이내에 최적 창고와 재고를 확인합니다.</p>
-        <span class="step-tag">ORDER INTAKE</span>
+        <h3>수요 게시</h3>
+        <p>수거지·배송지·화물 정보를 등록하면 시스템이 게시합니다.</p>
+        <span class="step-tag">DEMAND POSTED</span>
       </div>
       <div class="step-card reveal" style="transition-delay:.08s">
         <div class="step-num">STEP 02</div>
-        <h3>경로 · 운송사 자동 배분</h3>
-        <p>전국 창고·차량·노선을 실시간 분석해 최단·최저비용 경로와 운송사를 자동 선택합니다.</p>
-        <span class="step-tag">ROUTE OPTIMIZATION</span>
+        <h3>인근 기사 실시간 알림</h3>
+        <p>등록된 기사 중 인근에 있는 사람에게 실시간으로 알림이 갑니다.</p>
+        <span class="step-tag">REAL-TIME NOTIFY</span>
       </div>
       <div class="step-card reveal" style="transition-delay:.16s">
         <div class="step-num">STEP 03</div>
-        <h3>배송 추적 · PDV 기록</h3>
-        <p>출고부터 수령까지 모든 단계가 OpenHash에 불변 기록되고, PDV로 수신인에게 공유됩니다.</p>
-        <span class="step-tag">IMMUTABLE PROOF</span>
+        <h3>매칭 확정 · GDC 결제</h3>
+        <p>기사가 응답하고 화주가 수락하면, 완료 후 GDC로 직접 결제합니다.</p>
+        <span class="step-tag">GDC SETTLEMENT</span>
       </div>
     </div>
   </div>
@@ -668,54 +668,46 @@ footer {
 <section class="section dot-bg-light" id="difference">
   <div class="section-inner">
     <div class="section-tag reveal">Why K-Logistics</div>
-    <h2 class="section-title reveal">종래 물류망과의 <strong>결정적 차이</strong></h2>
+    <h2 class="section-title reveal">현재 <strong>제공하는 것과 제공하지 않는 것</strong></h2>
     <div class="section-body reveal">
-      <p>기존 물류 플랫폼은 수십 개의 개별 시스템이 분산 운영되어 정보 단절·중복 비용이 발생합니다. K-Logistics는 <strong>단일 AI 두뇌</strong>가 전체 공급망을 실시간으로 조율합니다.</p>
+      <p>과장된 비교표 대신, 지금 실제로 되는 것과 안 되는 것을 정직하게 정리합니다.</p>
     </div>
     <div class="tbl-wrap reveal">
       <table>
         <thead>
           <tr>
             <th>항목</th>
-            <th>종래 물류 네트워크</th>
-            <th>K-Logistics (고팡)</th>
+            <th>현재 상태</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>주문-출고 응답</td>
-            <td class="td-bad">수 분~수 시간<small>ERP 배치 처리</small></td>
-            <td class="td-good">0.8ms 이내 ✓</td>
+            <td>화물차 등록·운송업 허가 안내</td>
+            <td class="td-good">제공 중 ✓ (webapp.html)</td>
           </tr>
           <tr>
-            <td>재고 정확도</td>
-            <td class="td-bad">82~91%<small>수동 입력 오류</small></td>
-            <td class="td-good">99.97% ✓</td>
+            <td>개인간 화물 매칭(카풀형)</td>
+            <td class="td-good">제공 중 ✓ (실시간 알림·GDC 결제 포함)</td>
           </tr>
           <tr>
-            <td>배송 증빙</td>
-            <td class="td-bad">종이·PDF·이메일<small>위·변조 가능</small></td>
-            <td class="td-good">OpenHash 불변 기록 ✓</td>
+            <td>결제 기록 위변조 방지</td>
+            <td class="td-good">제공 중 ✓ (PDV·OpenHash)</td>
           </tr>
           <tr>
-            <td>운임 최적화</td>
-            <td class="td-bad">수동 협상·경험치<small>비용 비효율</small></td>
-            <td class="td-good">AI 실시간 경매 ✓</td>
+            <td>창고·재고 자동 관리</td>
+            <td class="td-bad">미제공 — 개발 계획 없음</td>
           </tr>
           <tr>
-            <td>이상 탐지</td>
-            <td class="td-bad">사후 감사<small>최대 수 일 소요</small></td>
-            <td class="td-good">0.8ms 실시간 감지 ✓</td>
+            <td>운임 자동 경매·협상</td>
+            <td class="td-bad">미제공 — 화주·기사가 직접 협의</td>
           </tr>
           <tr>
-            <td>1·2·3차 산업 통합</td>
-            <td class="td-bad">각 산업별 별도 시스템</td>
-            <td class="td-good">단일 AI 플랫폼 ✓</td>
+            <td>이상거래·부정 탐지</td>
+            <td class="td-bad">미제공</td>
           </tr>
           <tr>
-            <td>운영 인력</td>
-            <td class="td-bad">대규모 물류 운영 팀</td>
-            <td class="td-good">AI 자동화 (감독만 필요) ✓</td>
+            <td>대중교통(버스)·화물 전용 배차 연동</td>
+            <td class="td-bad">미제공 — 개인 화물차주가 앱을 직접 활성화하는 방식만 지원</td>
           </tr>
         </tbody>
       </table>
@@ -729,43 +721,43 @@ footer {
 <section class="section" id="flow">
   <div class="section-inner">
     <div class="section-tag reveal">How It Works</div>
-    <h2 class="section-title reveal">AI 물류의 <strong>동작 원리</strong></h2>
+    <h2 class="section-title reveal">화물 매칭의 <strong>실제 동작 방식</strong></h2>
     <div class="section-body reveal">
-      <p>K-Logistics는 고팡의 <strong>GWP(Gopang Widget Portal)</strong> 프로토콜을 통해 하위 시스템들과 실시간 연동하며, 모든 데이터는 PDV와 OpenHash에 6하원칙 기반으로 기록됩니다.</p>
+      <p>고팡의 <strong>match_ 백엔드</strong>(traffic.hondi.net과 공유)를 통해 처리되며, 결제 기록은 PDV와 OpenHash에 기록됩니다.</p>
     </div>
     <div class="flow-wrap reveal">
       <div class="flow-grid">
         <div class="flow-node">
           <div class="flow-node-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
-          <div class="flow-node-title">주문 발생</div>
-          <div class="flow-node-sub">소비자 / 기업</div>
-          <span class="flow-tag">SSO 인증</span>
+          <div class="flow-node-title">수요 게시</div>
+          <div class="flow-node-sub">화주</div>
+          <span class="flow-tag">고팡 인증</span>
         </div>
         <div class="flow-arrow">→</div>
         <div class="flow-node">
           <div class="flow-node-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
-          <div class="flow-node-title">AI 분석</div>
-          <div class="flow-node-sub">재고·경로·비용</div>
-          <span class="flow-tag">0.8ms</span>
+          <div class="flow-node-title">인근 기사 알림</div>
+          <div class="flow-node-sub">실시간 채널 구독</div>
+          <span class="flow-tag">Durable Objects</span>
         </div>
         <div class="flow-arrow">→</div>
         <div class="flow-node">
           <div class="flow-node-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-          <div class="flow-node-title">창고·차량 배분</div>
-          <div class="flow-node-sub">최적 출고 지점</div>
-          <span class="flow-tag">자동 배분</span>
+          <div class="flow-node-title">기사 응답·화주 수락</div>
+          <div class="flow-node-sub">직접 협의</div>
+          <span class="flow-tag">수동 확정</span>
         </div>
         <div class="flow-arrow">→</div>
         <div class="flow-node">
           <div class="flow-node-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
           <div class="flow-node-title">배송 실행</div>
-          <div class="flow-node-sub">실시간 추적</div>
-          <span class="flow-tag">GPS 연동</span>
+          <div class="flow-node-sub">당사자 간 진행</div>
+          <span class="flow-tag">추적 기능 없음</span>
         </div>
         <div class="flow-arrow">→</div>
         <div class="flow-node">
           <div class="flow-node-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-          <div class="flow-node-title">PDV 기록</div>
+          <div class="flow-node-title">GDC 결제·PDV 기록</div>
           <div class="flow-node-sub">OpenHash 증빙</div>
           <span class="flow-tag">불변 저장</span>
         </div>
@@ -776,41 +768,29 @@ footer {
 
 <hr class="sep">
 
-<!-- ── SECTION 4: 성능 지표 ── -->
+<!-- ── SECTION 4: 현재 상태 ── -->
 <section class="section dot-bg-light" id="metrics">
   <div class="section-inner">
-    <div class="section-tag reveal">Performance</div>
-    <h2 class="section-title reveal">핵심 <strong>성능 지표</strong></h2>
+    <div class="section-tag reveal">Status</div>
+    <h2 class="section-title reveal">현재 <strong>개발 단계</strong></h2>
+    <div class="section-body reveal">
+      <p>실제 운영 지표(처리 건수, 성공률 등)는 아직 축적되지 않았습니다 — 집계 기능 자체가 개발 중입니다. 확인되지 않은 수치를 표시하는 대신, 있는 그대로 알려드립니다.</p>
+    </div>
     <div class="metrics-grid">
-      <div class="metric-card reveal" data-label="RESPONSE">
-        <div class="metric-big green">0.8ms</div>
-        <div class="metric-title">주문-배분 응답 시간</div>
-        <div class="metric-sub">주문 접수부터 최적 창고·차량 배분 완료까지</div>
+      <div class="metric-card reveal" data-label="STATUS">
+        <div class="metric-big blue">Phase 1</div>
+        <div class="metric-title">화물 매칭 개발 단계</div>
+        <div class="metric-sub">개인간 카풀형 매칭 — 실사용 가능, 집계 통계는 준비 중</div>
       </div>
-      <div class="metric-card reveal" data-label="ACCURACY" style="transition-delay:.06s">
-        <div class="metric-big blue">99.97%</div>
-        <div class="metric-title">재고 정확도</div>
-        <div class="metric-sub">AI 실시간 입출고 추적으로 달성한 재고 일치율</div>
+      <div class="metric-card reveal" data-label="COVERAGE" style="transition-delay:.06s">
+        <div class="metric-big green">제주</div>
+        <div class="metric-title">현재 서비스 지역</div>
+        <div class="metric-sub">전국 확장은 계획 단계</div>
       </div>
-      <div class="metric-card reveal" data-label="COST" style="transition-delay:.12s">
-        <div class="metric-big amber">34%↓</div>
-        <div class="metric-title">물류비 절감률</div>
-        <div class="metric-sub">경로 최적화·운임 자동 협상·재고 감축 효과 합산</div>
-      </div>
-      <div class="metric-card reveal" data-label="DELIVERY" style="transition-delay:.18s">
-        <div class="metric-big green">+18%</div>
-        <div class="metric-title">당일 배송 완료율 향상</div>
-        <div class="metric-sub">AI 예측 배치로 허브 출발 전 사전 분류 완료</div>
-      </div>
-      <div class="metric-card reveal" data-label="FRAUD" style="transition-delay:.24s">
-        <div class="metric-big red">0.8ms</div>
-        <div class="metric-title">이상 거래 탐지 속도</div>
-        <div class="metric-sub">허위 수취·경로 이탈·위조 증빙 실시간 감지</div>
-      </div>
-      <div class="metric-card reveal" data-label="COVERAGE" style="transition-delay:.30s">
-        <div class="metric-big purple">229</div>
-        <div class="metric-title">연동 시·군·구 수</div>
-        <div class="metric-sub">전국 광역·기초 자치단체 물류 데이터 실시간 수집</div>
+      <div class="metric-card reveal" data-label="PRICING" style="transition-delay:.12s">
+        <div class="metric-big amber">협의제</div>
+        <div class="metric-title">운임 산정 방식</div>
+        <div class="metric-sub">자동 산정 없음 — 화주·기사가 직접 협의 후 결제</div>
       </div>
     </div>
   </div>
@@ -822,46 +802,28 @@ footer {
 <section class="section" id="usecases">
   <div class="section-inner">
     <div class="section-tag reveal">Use Cases</div>
-    <h2 class="section-title reveal">산업별 <strong>활용 사례</strong></h2>
+    <h2 class="section-title reveal">활용 <strong>시나리오</strong> (개발 목표)</h2>
     <div class="section-body reveal">
-      <p>K-Logistics는 1~3차 산업 전 영역을 단일 플랫폼으로 통합합니다. 아래는 대표적인 정책 결정자·물류 운영자를 위한 활용 사례입니다.</p>
+      <p>아래는 측정된 실적이 아니라, 현재 매칭 인프라를 바탕으로 앞으로 확장하려는 방향입니다.</p>
     </div>
     <div class="cases-grid">
       <div class="case-card reveal">
         <div class="case-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg></div>
-        <div class="case-title">농수산물 신선 물류</div>
-        <div class="case-desc">수확 예측 AI가 출하 2주 전 냉동·냉장 창고를 예약하고, 도매시장과 소매점 배분을 자동 조율합니다. 폐기율 최대 62% 절감.</div>
-        <span class="case-tag">1차 산업</span>
+        <div class="case-title">농수산물 개인간 운송</div>
+        <div class="case-desc">소규모 농가가 인근 화물차주와 카풀형으로 매칭해 직접 운송을 협의하는 시나리오. 냉동·냉장 창고 자동 예약 기능은 없습니다.</div>
+        <span class="case-tag">구상 단계</span>
       </div>
       <div class="case-card reveal" style="transition-delay:.07s">
         <div class="case-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></div>
-        <div class="case-title">제조업 부품 공급망</div>
-        <div class="case-desc">생산 계획 연동으로 부품 재고를 JIT(Just-In-Time) 기반 자동 보충. 단납기 주문 돌발 시 대체 공급사 0.8ms 내 탐색.</div>
-        <span class="case-tag">2차 산업</span>
+        <div class="case-title">소규모 사업자 긴급 운송</div>
+        <div class="case-desc">급한 소량 화물을 근처 화물차주와 실시간으로 연결. 자동 대체 공급사 탐색 같은 기능은 없고, 매칭만 지원합니다.</div>
+        <span class="case-tag">현재 가능</span>
       </div>
       <div class="case-card reveal" style="transition-delay:.14s">
         <div class="case-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-        <div class="case-title">이커머스 라스트마일</div>
-        <div class="case-desc">주문 폭증 시 AI가 인근 마이크로 창고를 실시간 활성화, 동일 권역 내 평균 배송 시간 4시간 단축.</div>
-        <span class="case-tag">3차 산업</span>
-      </div>
-      <div class="case-card reveal" style="transition-delay:.21s">
-        <div class="case-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-        <div class="case-title">의료·방역 긴급 물류</div>
-        <div class="case-desc">K-911·K-Health 연동으로 재난·방역 상황 시 의약품·장비를 우선 경로로 30분 내 병원 도착. 국가 비축물자 실시간 현황 제공.</div>
-        <span class="case-tag">공공 물류</span>
-      </div>
-      <div class="case-card reveal" style="transition-delay:.28s">
-        <div class="case-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-        <div class="case-title">수출입 관세 자동화</div>
-        <div class="case-desc">K-Tax 연동으로 수출입 신고서 자동 작성·제출. HS코드 자동 분류, 관세 계산, FTA 혜택 자동 적용. 통관 대기 시간 82% 단축.</div>
-        <span class="case-tag">무역 물류</span>
-      </div>
-      <div class="case-card reveal" style="transition-delay:.35s">
-        <div class="case-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
-        <div class="case-title">정책 결정자 물류 인텔리전스</div>
-        <div class="case-desc">전국 읍·면·동 단위 물류 수요·공급 격차 실시간 시각화. 물류 인프라 투자 우선순위 AI 제안, 트렌드 예측 리포트 자동 생성.</div>
-        <span class="case-tag">정책 지원</span>
+        <div class="case-title">개인간 소포·물품 배송</div>
+        <div class="case-desc">이커머스 라스트마일 자동화는 없지만, 개인이 근처 이동 중인 화물차주에게 소포 운송을 요청하는 용도로 지금 사용할 수 있습니다.</div>
+        <span class="case-tag">현재 가능</span>
       </div>
     </div>
   </div>
